@@ -1,0 +1,19 @@
+
+[sssd]
+domains = ciclos.valledeljerte3
+config_file_version = 2
+services = nss, pam
+
+[domain/ciclos.valledeljerte3]
+default_shell = /bin/bash
+krb5_store_password_if_offline = True
+cache_credentials = True
+krb5_realm = CICLOS.VALLEDELJERTE3
+realmd_tags = manages-system joined-with-adcli
+id_provider = ad
+fallback_homedir = /home/%u@%d
+ad_domain = ciclos.valledeljerte3
+use_fully_qualified_names = False
+ldap_id_mapping = True
+access_provider = ad
+

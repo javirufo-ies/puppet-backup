@@ -1,0 +1,58 @@
+node default {
+	include chocolatey
+#Incluimos el módulo de los instaladores de Windows propio
+#	include instaladores
+
+
+	if $::kernel == 'windows' {
+		Package { provider => chocolatey, }
+	}
+
+	package { 'winrar':
+		ensure => latest,
+	}
+	
+	package { 'putty':
+		ensure => latest,
+	}
+
+	package { 'winscp':
+		ensure => latest,
+	}
+
+	package { 'gpg4win':
+		ensure => latest,
+	}
+	
+	package { 'wireshark':
+		ensure => latest,
+	}
+	
+	package { 'brackets':
+		ensure => latest,
+	}
+	
+	package { 'google-drive-file-stream':
+		ensure => latest,
+	}
+
+	package { 'bluej':
+		ensure => latest,
+	}
+	package { 'virtualbox':
+		ensure => latest,
+	}
+
+	package { 'ChocolateyGUI':
+		ensure => latest,
+	}
+    
+	package { 'libreoffice':
+		ensure => latest,
+	}
+
+#	package { 'Office365ProPlus':
+#	    ensure => latest,
+#	}
+
+}

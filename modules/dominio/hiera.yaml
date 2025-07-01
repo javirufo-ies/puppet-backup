@@ -1,0 +1,14 @@
+---
+version: 5
+
+defaults:
+  datadir: data
+  data_hash: yaml_data
+
+hierarchy:
+  - name: "Encrypted data"
+    path: "common.eyaml"
+    lookup_key: eyaml_lookup_key
+    options:
+      pkcs7_private_key: /etc/puppetlabs/eyaml/keys/private_key.pkcs7.pem
+      pkcs7_public_key:  /etc/puppetlabs/eyaml/keys/public_key.pkcs7.pem

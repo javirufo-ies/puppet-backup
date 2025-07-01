@@ -1,0 +1,40 @@
+# @summary A short summary of the purpose of this class
+#
+# A description of what this class does
+#
+# @example
+#   include instaladores
+class instaladores {
+	file { 'c:\\tmp':
+	    ensure => 'directory',
+	}
+
+	file { "c:\\tmp\SQLServer2017-SSEI-Dev.exe":
+		ensure => "file",
+            owner => 'Administrador',
+            group => 'Administradores',
+            mode => '0777',
+            source => "puppet:///modules/instaladores/SQLServer2017-SSEI-Dev.exe",
+#            notify => Package["SQLServer2017"],
+         }
+
+        file { "c:\\tmp\SSMS-Setup-ESN.exe":
+                ensure => "file",
+            owner => 'Administrador',
+            group => 'Administradores',
+            mode => '0777',
+            source => "puppet:///modules/instaladores/SSMS-Setup-ESN.exe",
+#            notify => Package["SQLManager"],
+         }
+
+#    package { "SQLServer2017":
+#            ensure => installed,
+#            source => "c:\\tmp\SQLServer2017-SSEI-Dev.exe",
+#            require => File["c:\\tmp\SQLServer2017-SSEI-Dev.exe"],
+#            }
+#    package { "SQLManager":
+#            ensure => installed,
+#            source => "c:\\tmp\SSMS-Setup-ESN.exe",
+#            require => File["c:\\tmp\SSMS-Setup-ESN.exe"],
+#           }
+}

@@ -13,7 +13,7 @@ class instalacionapps::vmware_linux {
 
   # Copiar el instalador desde el NAS usando SCP
   exec { 'copiar_instalador_vmware':
-    command => 'scp nasuser@192.168.1.100:/export/software/VMware-Workstation-FULL.bundle /tmp/VMware.bundle',
+    command => 'scp admin@10.0.0.21:/share/Repositorio/Instaladores/VMware-Workstation-Full-17.6.3-24583834.x86_64.bundle /tmp/VMware.bundle',
     creates => '/tmp/VMware.bundle',
     path    => ['/bin', '/usr/bin'],
   }

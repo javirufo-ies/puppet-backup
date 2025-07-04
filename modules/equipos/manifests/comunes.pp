@@ -134,6 +134,7 @@ else{
 	include dominio::unirdominio
 	include instalacionapps::virtualbox_linux
 	include instalacionapps::chrome
+	include instalacionapps::vmware_linux
 # VEYON
 	package { 'veyon-service':
 		ensure => installed,

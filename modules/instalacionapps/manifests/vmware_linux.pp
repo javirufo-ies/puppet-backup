@@ -6,27 +6,42 @@
 #   include instalacionapps::vmware_linux
 class instalacionapps::vmware_linux {
 
-  # Asegura dependencias para compilar módulos kernel
-  package { ['gcc', 'make', "linux-headers-${facts['kernelrelease']}"]:
+
+  package { 'nfs-common':
     ensure => installed,
   }
 
-  # Copiar el instalador desde el NAS usando SCP
-  exec { 'copiar_instalador_vmware':
-    command => 'scp admin@10.0.0.21:/share/Repositorio/Instaladores/VMware-Workstation-Full-17.6.3-24583834.x86_64.bundle /tmp/VMware.bundle',
-    creates => '/tmp/VMware.bundle',
-    path    => ['/bin', '/usr/bin'],
-  }
 
-  # Instalar VMware (solo si no está instalado ya)
-  exec { 'instalar_vmware':
-    command => '/tmp/VMware.bundle --eulas-agreed --required --console',
-    path    => ['/bin', '/usr/bin'],
-    creates => '/usr/bin/vmware',
-    require => [
-      Package['gcc'],
-      Exec['copiar_instalador_vmware'],
-    ],
-  }
+# 1. Crea directorio de montaje temporal
+file { '/tmp/nas_instaladores':
+  ensure => 'directory',
+}
+
+# 2. Monta el recurso NFS temporalmente
+mount { '/tmp/nas_instaladores':
+  ensure  => 'mounted',
+  device  => '10.0.0.21:/Repositorio/Instaladores',
+  fstype  => 'nfs',
+  options => 'ro',
+  atboot  => false,
+  require => File['/tmp/nas_instaladores'],
+}
+
+# 3. Copia el instalador, solo si no existe
+exec { 'copiar_vmware_desde_nfs':
+  command => '/usr/bin/cp /mnt/VMware-Workstation-Full-17.6.3-24583834.x86_64.bundle /tmp/VMware.bundle',
+  creates => '/tmp/VMware.bundle',
+  require => Mount['/tmp/nas_instaladores'],
+}
+
+# 4. Desmonta NFS solo si se montó antes
+exec { 'desmontar_nas':
+  command     => '/usr/bin/umount /tmp/nas_instaladores',
+  onlyif      => '/usr/bin/mount | /usr/bin/grep /tmp/nas_instaladores',
+  require     => Exec['copiar_vmware_desde_nfs'],
+  path        => ['/bin', '/usr/bin'],
+}
+
+
 
 }

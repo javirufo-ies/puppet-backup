@@ -29,7 +29,7 @@ mount { '/tmp/nas_instaladores':
 
 # 3. Copia el instalador, solo si no existe
 exec { 'copiar_vmware_desde_nfs':
-  command => '/usr/bin/cp /mnt/VMware-Workstation-Full-17.6.3-24583834.x86_64.bundle /tmp/VMware.bundle',
+  command => '/usr/bin/cp /tmp/nas_instaladores/VMware-Workstation-Full-17.6.3-24583834.x86_64.bundle /tmp/VMware.bundle',
   creates => '/tmp/VMware.bundle',
   require => Mount['/tmp/nas_instaladores'],
 }

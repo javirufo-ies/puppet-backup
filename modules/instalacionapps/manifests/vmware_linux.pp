@@ -34,6 +34,14 @@ exec { 'copiar_vmware_desde_nfs':
   require => Mount['/tmp/nas_instaladores'],
 }
 
+exec { 'instalar_vmware':
+  command => 'sh /tmp/VMware.bundle --eulas-agreed --console --required && rm /tmp/VMware.bundle',
+  creates => '/usr/bin/vmware',
+  path    => ['/bin', '/usr/bin'],
+  require => Exec['copiar_vmware_desde_nfs'],
+}
+
+
 # 4. Desmonta NFS solo si se montó antes
 exec { 'desmontar_nas':
   command     => '/usr/bin/umount /tmp/nas_instaladores',

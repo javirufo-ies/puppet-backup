@@ -6,24 +6,27 @@
 #   include instalacionapps::vmware_linux
 class instalacionapps::vmware_linux {
 
+  # Asegura dependencias para compilar módulos kernel
   package { ['gcc', 'make', "linux-headers-${facts['kernelrelease']}"]:
     ensure => installed,
   }
 
-  $bundle_path = '/tmp/VMware.bundle'
-
-  file { $bundle_path:
-    source => 'puppet:///modules/instalacionapps/VMware-Workstation-FULL.bundle',
-    mode   => '0755',
+  # Copiar el instalador desde el NAS usando SCP
+  exec { 'copiar_instalador_vmware':
+    command => 'scp nasuser@192.168.1.100:/export/software/VMware-Workstation-FULL.bundle /tmp/VMware.bundle',
+    creates => '/tmp/VMware.bundle',
+    path    => ['/bin', '/usr/bin'],
   }
 
+  # Instalar VMware (solo si no está instalado ya)
   exec { 'instalar_vmware':
-    command => "$bundle_path --eulas-agreed --required --console",
+    command => '/tmp/VMware.bundle --eulas-agreed --required --console',
     path    => ['/bin', '/usr/bin'],
     creates => '/usr/bin/vmware',
     require => [
       Package['gcc'],
-      File[$bundle_path],
+      Exec['copiar_instalador_vmware'],
     ],
   }
+
 }

@@ -18,7 +18,7 @@ exec { 'instalar_vmware':
   command => 'sh /tmp/VMware.bundle --eulas-agreed --console --required && rm /tmp/VMware.bundle',
   creates => '/usr/bin/vmware',
   path    => ['/bin', '/usr/bin'],
-  require => Exec['copiar_vmware_desde_nfs'],
+  require => Exec['copiar_vmware'],
 }
 
 

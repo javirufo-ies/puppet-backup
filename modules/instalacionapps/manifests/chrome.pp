@@ -29,7 +29,7 @@ apt::source { 'google-chrome':
     id     => '',  # No hace falta si usas signed-by manual
     source => '',  # Idem
   },
-  options  => ["signed-by=${file_keyring}"],
+#  options  => ["signed-by=${file_keyring}"],
   require  => Exec['add_google_key'],
 }
 

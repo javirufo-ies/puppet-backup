@@ -9,7 +9,7 @@ class equipos::aula115 {
 	include chocolatey
         if $::kernel == 'windows' {
                 PAckage { provider => chocolatey,}
-        }
+        
 
         package { '7zip':
                 ensure => present,
@@ -30,4 +30,7 @@ class equipos::aula115 {
                 command => 'T:/PacketTracer80.bat',
                 provider => windows,
         }
+	} else {
+		include instalacionapps::packettracer_linux
+	}
 }

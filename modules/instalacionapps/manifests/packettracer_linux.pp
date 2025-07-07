@@ -6,23 +6,18 @@
 #   include instalacionapps::packettracer_linux
 class instalacionapps::packettracer_linux {
 
-
-
-
 exec { 'copiar_packet':
-  command => "smbclient //10.0.0.21/Repositorio -N -c 'cd Instaladores; get Packet_Tracer822_amd64_signed.deb /tmp/packettracer.deb'",
-  creates => '/tmp/packet.deb',
+	command => "smbclient //10.0.0.21/Repositorio -N -c 'cd Instaladores; get Packet_Tracer822_amd64_signed.deb /tmp/packettracer.deb'",
+	creates => '/tmp/packet.deb',
 	path =>	['/usr/bin', '/bin'],
-  require => Mount['/tmp/nas_instaladores'],
 }
+
 
 exec { 'instalar_packet':
   command => 'dpkg -i /tmp/packet.deb && rm /tmp/packet.deb',
   path    => ['/bin', '/usr/bin', '/usr/local/sbin', '/usr/local/bin', '/sbin', '/usr/sbin'],
   require => Exec['copiar_packet'],
 }
-
-
 
 
 }

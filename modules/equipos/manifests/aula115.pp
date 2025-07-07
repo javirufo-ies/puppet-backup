@@ -31,6 +31,6 @@ class equipos::aula115 {
                 provider => windows,
         }
 	} else {
-		include instalacionapps::packettracer_linux
+#		include instalacionapps::packettracer_linux
 	}
 }

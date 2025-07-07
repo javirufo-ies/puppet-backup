@@ -61,7 +61,7 @@ node /^aula115-pro/ {
         }
 
         include equipos::comunes
-#       include equipos::smr1d
+       include equipos::smr1d
 #	include equipos::smr1v
 
 }
@@ -122,7 +122,7 @@ node /^aula115-\d+/ {
 
         include equipos::comunes
 #	include equipos::comunes_alumnado
-#       include equipos::smr1d
+        include equipos::smr1d
 #	include equipos::smr1v
 }
 

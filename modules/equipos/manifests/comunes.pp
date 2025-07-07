@@ -129,6 +129,9 @@ else{
                 source => 'puppet:///modules/equipos/puppet.conf',
                 replace => true,
         }
+	package {'nfs-common':
+		ensure => latest,
+	}
 	include dominio::nombre
 	include dominio::ssh
 	include dominio::unirdominio

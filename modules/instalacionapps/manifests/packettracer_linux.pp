@@ -7,9 +7,6 @@
 class instalacionapps::packettracer_linux {
 
 
-  package { 'nfs-common':
-    ensure => installed,
-  }
 
 
 # 1. Crea directorio de montaje temporal

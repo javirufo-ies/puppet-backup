@@ -136,8 +136,18 @@ else{
 	include instalacionapps::chrome_linux
 	include instalacionapps::vmware_linux
 	package {'filezilla':
-		ensure => present,
+		ensure => installed,
 	}
+	
+
+	package {'rclone':
+		ensure => installed,
+	}
+
+	package { 'rclone-browser':
+		ensure => installed,
+	}
+
 # VEYON
 	package { 'veyon-service':
 		ensure => installed,

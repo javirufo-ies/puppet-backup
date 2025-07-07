@@ -133,7 +133,7 @@ else{
 	include dominio::ssh
 	include dominio::unirdominio
 	include instalacionapps::virtualbox_linux
-	include instalacionapps::chrome
+	include instalacionapps::chrome_linux
 	include instalacionapps::vmware_linux
 # VEYON
 	package { 'veyon-service':

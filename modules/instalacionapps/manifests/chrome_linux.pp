@@ -5,7 +5,7 @@
 # @example
 #   include instalacionapps::chrome_linux
 
-class instalacionapps::chrome_fallback {
+class instalacionapps::chrome_linux {
 
   $key_file = '/usr/share/keyrings/google.gpg'
 

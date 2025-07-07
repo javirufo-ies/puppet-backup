@@ -17,7 +17,7 @@ exec { 'copiar_packet':
 }
 
 exec { 'instalar_packet':
-  command => 'dpkg -i /tmp/packet.deb && rm /tmp/packet.deb',
+  command => 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin dpkg -i /tmp/packet.deb && rm /tmp/packet.deb',
   path    => ['/bin', '/usr/bin'],
   require => Exec['copiar_packet'],
 }

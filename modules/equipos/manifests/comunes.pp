@@ -135,6 +135,9 @@ else{
 	include instalacionapps::virtualbox_linux
 	include instalacionapps::chrome_linux
 	include instalacionapps::vmware_linux
+	package {'filezilla':
+		ensure => present,
+	}
 # VEYON
 	package { 'veyon-service':
 		ensure => installed,

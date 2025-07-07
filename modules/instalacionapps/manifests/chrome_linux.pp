@@ -7,27 +7,36 @@
 
 class instalacionapps::chrome_linux {
 
-  # Asegura que el módulo puppetlabs-apt está cargado
   include apt
 
-  # Añadir el repositorio oficial de Google Chrome
+  $keyring_path = '/usr/share/keyrings/google-linux-signing-keyring.gpg'
+
+  # Descargar y almacenar la clave GPG sin apt-key
+  exec { 'add_google_key':
+    command => "/usr/bin/wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > ${keyring_path}",
+    creates => $keyring_path,
+  }
+
   apt::source { 'google-chrome':
-    location => 'https://dl.google.com/linux/chrome/deb/',
+    location => 'http://dl.google.com/linux/chrome/deb/',
     repos    => 'stable main',
-    key      => {
-      'id'     => '4CCA1EAF950CEE4AB83976DCA040830F7FAC5991',
-      'source' => 'https://dl.google.com/linux/linux_signing_key.pub',
-    },
+    release  => '',  # Deja vacío para evitar errores con jammy, etc.
     include  => {
       src => false,
     },
+    options => ["signed-by=${keyring_path}"],
+    require => Exec['add_google_key'],
   }
 
-  # Instalar Google Chrome estable
+  exec { 'apt_update_google_chrome':
+    command     => '/usr/bin/apt-get update',
+    refreshonly => true,
+    subscribe   => Apt::Source['google-chrome'],
+  }
+
   package { 'google-chrome-stable':
     ensure  => installed,
-    require => Apt::Source['google-chrome'],
+    require => Exec['apt_update_google_chrome'],
   }
-
 
 }

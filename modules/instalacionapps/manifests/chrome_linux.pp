@@ -5,38 +5,33 @@
 # @example
 #   include instalacionapps::chrome_linux
 
-class instalacionapps::chrome_linux {
+class instalacionapps::chrome_fallback {
 
-  include apt
+  $key_file = '/usr/share/keyrings/google.gpg'
 
-  $keyring_path = '/usr/share/keyrings/google-linux-signing-keyring.gpg'
-
-  # Descargar y almacenar la clave GPG sin apt-key
+  # Descargar y almacenar la clave
   exec { 'add_google_key':
-    command => "/usr/bin/wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > ${keyring_path}",
-    creates => $keyring_path,
+    command => "/usr/bin/wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > ${key_file}",
+    creates => $key_file,
   }
 
-  apt::source { 'google-chrome':
-    location => 'http://dl.google.com/linux/chrome/deb/',
-    repos    => 'stable main',
-    release  => '',  # Deja vacío para evitar errores con jammy, etc.
-    include  => {
-      src => false,
-    },
-    options => ["signed-by=${keyring_path}"],
+  # Añadir repo manualmente a sources.list.d
+  file { '/etc/apt/sources.list.d/google-chrome.list':
+    ensure  => file,
+    content => "deb [signed-by=${key_file}] http://dl.google.com/linux/chrome/deb/ stable main\n",
     require => Exec['add_google_key'],
   }
 
-  exec { 'apt_update_google_chrome':
+  # Actualizar índices
+  exec { 'apt_update_chrome':
     command     => '/usr/bin/apt-get update',
     refreshonly => true,
-    subscribe   => Apt::Source['google-chrome'],
+    subscribe   => File['/etc/apt/sources.list.d/google-chrome.list'],
   }
 
+  # Instalar el paquete
   package { 'google-chrome-stable':
     ensure  => installed,
-    require => Exec['apt_update_google_chrome'],
+    require => Exec['apt_update_chrome'],
   }
-
 }

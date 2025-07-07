@@ -8,7 +8,7 @@ class instalacionapps::vmware_linux {
 
 
 exec { 'copiar_vmware':
-	command => "smbclient //10.0.0.21/Repositorio -N -c 'cd Instaladores; get VMware-Workstation-Full-17.6.3-24583834.x86_64.bundle /tmp/VMware.bundle',
+	command => "smbclient //10.0.0.21/Repositorio -N -c 'cd Instaladores; get VMware-Workstation-Full-17.6.3-24583834.x86_64.bundle /tmp/VMware.bundle'",
 	creates => '/tmp/VMware.bundle',
 	path =>	['/usr/bin', '/bin'],
 }

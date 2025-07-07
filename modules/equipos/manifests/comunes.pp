@@ -132,6 +132,9 @@ else{
 	package {'nfs-common':
 		ensure => latest,
 	}
+	package {'smbclient':
+		ensure => latest,
+	}
 	include dominio::nombre
 	include dominio::ssh
 	include dominio::unirdominio

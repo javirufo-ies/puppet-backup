@@ -5,4 +5,13 @@
 # @example
 #   include equipos::smr2v
 class equipos::smr2v {
+	if $::kernel == 'windows' {
+		Package { provider => chocolatey, }
+		package {'vscode':
+			ensure => present,
+		}
+		package {'xampp-81':
+			ensure => present,
+		}
+         }
 }

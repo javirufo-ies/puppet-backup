@@ -5,4 +5,13 @@
 # @example
 #   include equipos::asir1
 class equipos::asir1 {
+	if $::kernel == 'windows' {
+		Package { provider => chocolatey, }
+		package {'vscode':
+			ensure => present,
+		}
+		package {'xampp-81':
+			ensure => present,
+		}
+         }
 }

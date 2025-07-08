@@ -1,7 +1,5 @@
 class instalacionapps::virtualbox_linux {
 
-  # Dependencias necesarias
-  package { ['wget', 'gnupg']: ensure => installed }
 
   # Añadir la clave pública de Oracle para VirtualBox → usando keyring
   exec { 'add_virtualbox_key':

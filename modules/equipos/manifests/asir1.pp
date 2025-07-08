@@ -7,11 +7,14 @@
 class equipos::asir1 {
 	if $::kernel == 'windows' {
 		Package { provider => chocolatey, }
+		include instalacionapps::packettracer_linux
 		package {'vscode':
 			ensure => present,
 		}
-		package {'xampp-81':
+
+		package {'python':
 			ensure => present,
 		}
+
          }
 }

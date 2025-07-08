@@ -7,6 +7,8 @@
 class equipos::asir1 {
 	if $::kernel == 'windows' {
 		Package { provider => chocolatey, }
+
+	} else {
 		include instalacionapps::packettracer_linux
 		package {'vscode':
 			ensure => present,

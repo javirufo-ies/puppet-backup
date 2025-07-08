@@ -136,7 +136,7 @@ node /^aula114-\d+/ {
 
         include equipos::comunes
 #	include equipos::comunes_alumnado
-#       include equipos::smr2d
+       include equipos::smr2d
 
 }
 

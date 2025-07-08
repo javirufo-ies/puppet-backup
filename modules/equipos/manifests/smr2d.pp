@@ -5,4 +5,5 @@
 # @example
 #   include equipos::smr2d
 class equipos::smr2d {
+	
 }

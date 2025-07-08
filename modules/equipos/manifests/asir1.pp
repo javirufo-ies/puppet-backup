@@ -15,6 +15,12 @@ class equipos::asir1 {
 		package {'python':
 			ensure => present,
 		}
+                package {'mysql':
+                        ensure => present,
+                }
+                package {'mysql.workbench':
+                        ensure => present,
+                }		
 
          }
 }

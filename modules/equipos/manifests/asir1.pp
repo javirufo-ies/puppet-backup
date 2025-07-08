@@ -10,19 +10,13 @@ class equipos::asir1 {
 
 	} else {
 		include instalacionapps::packettracer_linux
-		package {'vscode':
-			ensure => present,
-		}
 
-		package {'python':
-			ensure => present,
+		package {'python3':
+			ensure => installed,
 		}
-                package {'mysql':
-                        ensure => present,
+                package {'default-mysql-server':
+                        ensure => installed,
                 }
-                package {'mysql.workbench':
-                        ensure => present,
-                }		
 
          }
 }

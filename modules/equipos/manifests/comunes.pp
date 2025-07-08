@@ -135,6 +135,15 @@ else{
 	package {'smbclient':
 		ensure => latest,
 	}
+
+	package {'wget':
+		ensure => latest,
+	}
+
+	package {'gpg':
+		ensure => latest,
+	}
+
 	include dominio::nombre
 	include dominio::ssh
 	include dominio::unirdominio

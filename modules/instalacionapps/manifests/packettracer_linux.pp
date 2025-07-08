@@ -6,7 +6,7 @@
 #   include instalacionapps::packettracer_linux
 class instalacionapps::packettracer_linux {
 
-package {['sudo','dialog','xdg-utils','gtk-update-icon-cache','libgl1-mesa-glx','libpulse0','libnss3','libxss1','libasound2','libxslt1.1','libxkbcommon-x11-0','libxcb-xinerama0-dev','libfreetype6','libc6','libstdc++6'],
+package {['sudo','dialog','xdg-utils','gtk-update-icon-cache','libgl1-mesa-glx','libpulse0','libnss3','libxss1','libasound2','libxslt1.1','libxkbcommon-x11-0','libxcb-xinerama0-dev','libfreetype6','libc6','libstdc++6']:
 	ensure => installed,
 	}
 

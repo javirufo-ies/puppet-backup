@@ -22,7 +22,7 @@ class instalacionapps::vscode_linux {
     include  => {
       src => false,
     },
-    key      => 'microsoft',
+    key      => 'BC528686B50D79E339D3721CEB3E94ADBE1229CF',
     require  => Apt::Key['microsoft'],
   }
 

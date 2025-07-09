@@ -10,7 +10,7 @@ class equipos::asir1 {
 
 	} else {
 		include instalacionapps::packettracer_linux
-
+		include instalacionapps::vscode_linux
 		package {'python3':
 			ensure => installed,
 		}

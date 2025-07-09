@@ -9,7 +9,7 @@ class instalacionapps::mysqlworkbench_linux {
 
   # Descargar el paquete del repositorio oficial de MySQL
   exec { 'descargar_mysql_apt_config':
-    command => 'wget -O /tmp/mysql-apt-config.deb https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb',
+    command => '/usr/bin/wget -O /tmp/mysql-apt-config.deb https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb',
     creates => '/tmp/mysql-apt-config.deb',
     require => Package['wget'],
   }
@@ -17,7 +17,7 @@ class instalacionapps::mysqlworkbench_linux {
   # Instalar el repositorio .deb (modo no interactivo con debconf)
   exec { 'instalar_mysql_apt_config':
     command => 'DEBIAN_FRONTEND=noninteractive dpkg -i /tmp/mysql-apt-config.deb',
-    unless  => 'test -f /etc/apt/sources.list.d/mysql.list',
+    unless  => '/usr/bin/test -f /etc/apt/sources.list.d/mysql.list',
     require => Exec['descargar_mysql_apt_config'],
   }
 

@@ -16,9 +16,16 @@ class instalacionapps::mysqlworkbench_linux {
   # Instalar el repositorio .deb (modo no interactivo con debconf)
   exec { 'instalar_mysql_apt_config':
 	command => '/usr/bin/env DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i /tmp/mysql-apt-config.deb',
-    unless  => '/usr/bin/test -f /etc/apt/sources.list.d/mysql.list',
-    require => Exec['descargar_mysql_apt_config'],
+	unless  => '/usr/bin/test -f /etc/apt/sources.list.d/mysql.list',
+	require => Exec['descargar_mysql_apt_config'],
   }
+
+
+exec { 'seleccionar_mysql_tools':
+  command => '/usr/bin/echo "mysql-apt-config mysql-apt-config/select-tools select Enabled" | /usr/bin/debconf-set-selections',
+  unless  => '/usr/bin/test -f /etc/apt/sources.list.d/mysql.list',
+}
+
 
   # Actualizar APT tras añadir el repositorio
   exec { 'apt_update_mysql_repo':

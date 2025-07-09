@@ -17,6 +17,9 @@ class equipos::asir1 {
                 package {'default-mysql-server':
                         ensure => installed,
                 }
+		package {'mysql-workbench':
+			ensure => installed,
+		}
 
          }
 }

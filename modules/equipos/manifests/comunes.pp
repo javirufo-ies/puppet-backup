@@ -143,6 +143,9 @@ else{
 	package {'gpg':
 		ensure => latest,
 	}
+	package {'lsb-release':
+		ensure => installed,
+	}
 
 	include dominio::nombre
 	include dominio::ssh
@@ -150,6 +153,7 @@ else{
 	include instalacionapps::virtualbox_linux
 	include instalacionapps::chrome_linux
 	include instalacionapps::vmware_linux
+	include instalacionapps::mysqlworkbench_linux
 	package {'filezilla':
 		ensure => installed,
 	}

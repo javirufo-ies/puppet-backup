@@ -6,31 +6,37 @@
 #   include instalacionapps::vscode_linux
 class instalacionapps::vscode_linux {
 
-  include apt
-
-  # Añadir la clave GPG de Microsoft
-  apt::key { 'microsoft':
-    id     => 'BC528686B50D79E339D3721CEB3E94ADBE1229CF',
-    source => 'https://packages.microsoft.com/keys/microsoft.asc',
+  # Asegurarse de que los paquetes necesarios estén instalados
+  package { ['apt-transport-https']:
+    ensure => installed,
   }
 
-  # Añadir el repositorio APT
-  apt::source { 'vscode':
-    location => 'https://packages.microsoft.com/repos/code',
-    repos    => 'main',
-    release  => 'stable',
-    include  => {
-      src => false,
-    },
-    key      => 'BC528686B50D79E339D3721CEB3E94ADBE1229CF',
-    require  => Apt::Key['microsoft'],
+  # Crear el directorio para llaveros si no existe
+  file { '/usr/share/keyrings':
+    ensure => directory,
+    mode   => '0755',
   }
 
-  # Actualizar solo si cambia el repo
+  # Descargar y desarmar la clave GPG de Microsoft
+  exec { 'descargar_clave_microsoft':
+    command => 'wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft.gpg',
+    creates => '/usr/share/keyrings/microsoft.gpg',
+    require => Package['wget'],
+  }
+
+  # Crear el archivo de repositorio APT con signed-by
+  file { '/etc/apt/sources.list.d/vscode.list':
+    ensure  => file,
+    content => 'deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main',
+    mode    => '0644',
+    require => Exec['descargar_clave_microsoft'],
+  }
+
+  # Ejecutar apt-get update si cambia el archivo de repositorio
   exec { 'apt_update_vscode':
     command     => '/usr/bin/apt-get update',
     refreshonly => true,
-    subscribe   => Apt::Source['vscode'],
+    subscribe   => File['/etc/apt/sources.list.d/vscode.list'],
   }
 
   # Instalar Visual Studio Code
@@ -38,5 +44,4 @@ class instalacionapps::vscode_linux {
     ensure  => installed,
     require => Exec['apt_update_vscode'],
   }
-
 }

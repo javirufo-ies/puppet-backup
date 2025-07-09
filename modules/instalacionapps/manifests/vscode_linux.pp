@@ -21,6 +21,7 @@ class instalacionapps::vscode_linux {
   exec { 'descargar_clave_microsoft':
     command => 'wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft.gpg',
     creates => '/usr/share/keyrings/microsoft.gpg',
+	path => ['/bin', '/usr/bin'],
     require => Package['wget'],
   }
 

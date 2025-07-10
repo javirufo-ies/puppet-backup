@@ -19,7 +19,7 @@ exec { 'copiar_packet':
 
 
 exec { 'instalar_packet':
-  command => 'echo s | gdebi /tmp/libegl1-mesa_23.0.4-0ubuntu1.22.04.1_amd64.deb /tmp/libgl1-mesa-glx_23.0.4-0ubuntu1.22.04.1_amd64.deb && gdebi /tmp/packet.deb && rm /tmp/*.deb ',
+  command => 'echo s | apt install -y /tmp/libegl1-mesa_23.0.4-0ubuntu1.22.04.1_amd64.deb /tmp/libgl1-mesa-glx_23.0.4-0ubuntu1.22.04.1_amd64.deb /tmp/packet.deb && rm /tmp/*.deb ',
   environment => ['DEBIAN_FRONTEND=noninteractive'],
   path    => ['/usr/bin', '/bin' , '/usr/sbin'],
 #  unless  => '/usr/bin/dpkg -l | grep -qw packettracer',

@@ -9,17 +9,14 @@ class equipos::asir1 {
 		Package { provider => chocolatey, }
 
 	} else {
+#		package {'python3':
+#			ensure => installed,
+#		}
+#                package {'default-mysql-server':
+#                        ensure => installed,
+#                }
 		include instalacionapps::packettracer_linux
-		include instalacionapps::vscode_linux
-		package {'python3':
-			ensure => installed,
-		}
-                package {'default-mysql-server':
-                        ensure => installed,
-                }
-		package {'mysql-workbench':
-			ensure => installed,
-		}
+#		include instalacionapps::vscode_linux
 
          }
 }

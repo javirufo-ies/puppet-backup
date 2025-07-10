@@ -18,10 +18,13 @@ exec { 'copiar_packet':
 
 
 exec { 'instalar_packet':
-  command => 'dpkg -i /tmp/packet.deb && rm /tmp/packet.deb',
-environment => ['DEBIAN_FRONTEND=noninteractive'],
-  path    => ['/bin', '/usr/bin', '/usr/local/sbin', '/usr/local/bin', '/sbin', '/usr/sbin'],
-  require => Exec['copiar_packet'],
+  command => '/usr/bin/apt install -y /tmp/packet.deb && rm /tmp/packet.deb',
+  environment => ['DEBIAN_FRONTEND=noninteractive'],
+  path    => ['/usr/bin', '/bin'],
+  unless  => '/usr/bin/dpkg -l | grep -qw packettracer',
+  require => [ 
+	Package['libgl1'], Exec['copiar_packet']
+	],
 }
 
 

@@ -1,5 +1,8 @@
 class instalacionapps::mysqlworkbench_linux {
 
+package {['libmysqlclient24', 'libodbc2', 'libproj25', 'libpython3.13', 'libzip5']:
+	ensure => installed,
+	}
 
 exec { 'copiar_mysqlwb':
 	command => "smbclient //10.0.0.21/Repositorio -N -c 'cd Instaladores; get mysql-workbench-community_8.0.42-1ubuntu24.10_amd64.deb /tmp/mysqlwb.deb'",

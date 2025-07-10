@@ -1,20 +1,25 @@
 class instalacionapps::mysqlworkbench_linux {
 
-package {['libmysqlclient24', 'libodbc2', 'libproj25', 'libpython3.13', 'libzip5']:
-	ensure => installed,
-	}
+class instalacionapps::mysqlworkbench_flatpak {
 
-exec { 'copiar_mysqlwb':
-	command => "smbclient //10.0.0.21/Repositorio -N -c 'cd Instaladores; get mysql-workbench-community_8.0.42-1ubuntu24.10_amd64.deb /tmp/mysqlwb.deb'",
-	creates => '/tmp/mysqlwb.deb',
-	path =>	['/usr/bin', '/bin'],
-}
+  # Asegurar que Flatpak está instalado
+  package { 'flatpak':
+    ensure => installed,
+  }
 
+  # Agregar el repositorio Flathub si no está
+  exec { 'agregar_flathub':
+    command => '/usr/bin/flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo',
+    unless  => '/usr/bin/flatpak remotes | /bin/grep -q flathub',
+    require => Package['flatpak'],
+  }
 
-exec { 'instalar_mysqlwb':
-  command => '/usr/bin/dpkg -i /tmp/mysqlwb.deb && rm /tmp/mysqlwb.deb',
-  path    => ['/bin', '/usr/bin', '/usr/sbin'],
-  require => Exec['copiar_mysqlwb'],
+  # Instalar MySQL Workbench desde Flathub
+  exec { 'instalar_mysqlwb_flatpak':
+    command => '/usr/bin/flatpak install -y flathub com.mysql.workbench',
+    unless  => '/usr/bin/flatpak list | grep -q com.mysql.workbench',
+    require => Exec['agregar_flathub'],
+  }
 }
 
 

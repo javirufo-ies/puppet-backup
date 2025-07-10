@@ -6,7 +6,7 @@
 #   include instalacionapps::packettracer_linux
 class instalacionapps::packettracer_linux {
 
-package {['gedbi', 'libegl1-mesa','libgl1','sudo','dialog','xdg-utils','gtk-update-icon-cache','libglx-mesa0','libpulse0','libnss3','libxss1','libasound2t64','libxslt1.1','libxkbcommon-x11-0','libxcb-xinerama0-dev','libfreetype6','libc6','libstdc++6']:
+package {['gdebi', 'libgl1-mesa-dri','libgl1','sudo','dialog','xdg-utils','gtk-update-icon-cache','libglx-mesa0','libpulse0','libnss3','libxss1','libasound2t64','libxslt1.1','libxkbcommon-x11-0','libxcb-xinerama0-dev','libfreetype6','libc6','libstdc++6']:
 	ensure => installed,
 	}
 

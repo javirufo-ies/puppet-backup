@@ -10,7 +10,7 @@ exec { 'copiar_mysqlwb':
 
 exec { 'instalar_mysqlwb':
   command => '/usr/bin/dpkg -i /tmp/mysqlwb.deb && rm /tmp/mysqlwb.deb',
-  path    => ['/bin', '/usr/bin'],
+  path    => ['/bin', '/usr/bin', '/usr/sbin'],
   require => Exec['copiar_mysqlwb'],
 }
 

@@ -7,37 +7,21 @@
 class instalacionapps::mysqlworkbench_linux {
 
 
-  # Descargar el paquete del repositorio oficial de MySQL
-  exec { 'descargar_mysql_apt_config':
-    command => '/usr/bin/wget -O /tmp/mysql-apt-config.deb https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb',
-    creates => '/tmp/mysql-apt-config.deb',
-  }
-
-  # Instalar el repositorio .deb (modo no interactivo con debconf)
-  exec { 'instalar_mysql_apt_config':
-	command => '/usr/bin/env DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i /tmp/mysql-apt-config.deb',
-	unless  => '/usr/bin/test -f /etc/apt/sources.list.d/mysql.list',
-	require => Exec['descargar_mysql_apt_config'],
-  }
-
-
-exec { 'seleccionar_mysql_tools':
-  command => '/usr/bin/echo "mysql-apt-config mysql-apt-config/select-tools select Enabled" | /usr/bin/debconf-set-selections',
-  unless  => '/usr/bin/test -f /etc/apt/sources.list.d/mysql.list',
+exec { 'copiar_mysqlwb':
+	command => "smbclient //10.0.0.21/Repositorio -N -c 'cd Instaladores; get mysql-workbench-community_8.0.42-1ubuntu24.10_amd64.deb /tmp/mysqlwb.deb'",
+	creates => '/tmp/mysqlwb.deb',
+	path =>	['/usr/bin', '/bin'],
 }
 
 
-  # Actualizar APT tras añadir el repositorio
-  exec { 'apt_update_mysql_repo':
-    command     => '/usr/bin/apt-get update',
-    refreshonly => true,
-    subscribe   => Exec['instalar_mysql_apt_config'],
-  }
-
-  # Instalar MySQL Workbench
-  package { 'mysql-workbench-community':
-    ensure  => installed,
-    require => Exec['apt_update_mysql_repo'],
-  }
+exec { 'instalar_mysqlwb':
+  command => 'sh /tmp/mysqlwb.deb && rm /tmp/mysqlwb.deb',
+  path    => ['/bin', '/usr/bin'],
+  require => Exec['copiar_mysqlwb'],
 }
 
+
+
+
+
+}

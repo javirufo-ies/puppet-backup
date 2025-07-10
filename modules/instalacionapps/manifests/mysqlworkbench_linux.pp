@@ -1,9 +1,3 @@
-# @summary A short summary of the purpose of this class
-#
-# A description of what this class does
-#
-# @example
-#   include instalacionapps::mysqlworkbench_linux
 class instalacionapps::mysqlworkbench_linux {
 
 
@@ -15,7 +9,7 @@ exec { 'copiar_mysqlwb':
 
 
 exec { 'instalar_mysqlwb':
-  command => 'sh /tmp/mysqlwb.deb && rm /tmp/mysqlwb.deb',
+  command => '/usr/bin/dpkg -i /tmp/mysqlwb.deb && rm /tmp/mysqlwb.deb',
   path    => ['/bin', '/usr/bin'],
   require => Exec['copiar_mysqlwb'],
 }

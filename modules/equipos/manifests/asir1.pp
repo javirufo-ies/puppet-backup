@@ -17,6 +17,6 @@ class equipos::asir1 {
                 }
 		include instalacionapps::packettracer_linux
 		include instalacionapps::vscode_linux
-
+		include instalacionapps::phoronix
          }
 }

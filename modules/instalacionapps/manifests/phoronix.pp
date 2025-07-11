@@ -14,7 +14,7 @@ class instalacionapps::phoronix {
 
   # Descargar el .deb de Phoronix Test Suite
   exec { 'descargar_phoronix':
-    command => 'wget -O /tmp/install.sh https://raw.githubusercontent.com/phoronix-test-suite/phoronix-test-suite/master/install-sh',
+    command => 'wget -O /tmp/install.sh https://raw.githubusercontent.com/phoronix-test-suite/phoronix-test-suite/refs/heads/master/install-sh',
     creates => '/tmp/install.sh',
     path    => ['/usr/bin', '/bin'],
   }

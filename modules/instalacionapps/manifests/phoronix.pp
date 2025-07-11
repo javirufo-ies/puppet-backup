@@ -19,7 +19,7 @@ class instalacionapps::phoronix {
   }
 
   exec { 'descomprimir_phoronix':
-    command     => 'unzip /tmp/master.zip',
+    command     => 'unzip -o /tmp/master.zip -d  /tmp/',
     creates     => '/tmp/phoronix-test-suite-master',
     path        => ['/usr/bin', '/bin'],
     require     => Exec['descargar_phoronix'],

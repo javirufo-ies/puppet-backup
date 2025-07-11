@@ -8,7 +8,7 @@
 class instalacionapps::phoronix {
 
   # Asegura las dependencias necesarias
-  package { ['php-cli', 'wget', 'gzip', 'bzip2']:
+  package { ['php-cli', 'gzip', 'bzip2']:
     ensure => installed,
   }
 

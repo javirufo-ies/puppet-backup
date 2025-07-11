@@ -14,25 +14,19 @@ class instalacionapps::phoronix {
 
   # Descargar el .deb de Phoronix Test Suite
   exec { 'descargar_phoronix':
-    command => 'wget -O /tmp/phoronix-test-suite.deb https://phoronix-test-suite.com/releases/phoronix-test-suite_10.8.4_all.deb',
-    creates => '/tmp/phoronix-test-suite.deb',
+    command => 'wget -O /tmp/install.sh https://github.com/phoronix-test-suite/phoronix-test-suite/blob/master/install-sh
+    creates => '/tmp/install.sh',
     path    => ['/usr/bin', '/bin'],
   }
 
   # Instalar el paquete .deb (con fallback a apt -f install para dependencias)
   exec { 'instalar_phoronix':
-    command     => 'dpkg -i /tmp/phoronix-test-suite.deb || apt -f install -y',
+    command     => 'bash /tmp/install.sh && rm /tmp/install.sh',
     path        => ['/usr/bin', '/bin'],
     refreshonly => true,
     subscribe   => Exec['descargar_phoronix'],
   }
 
-  # Verificar instalación
-  exec { 'comprobar_phoronix':
-    command => 'phoronix-test-suite version',
-    path    => ['/usr/bin', '/bin'],
-    unless  => 'which phoronix-test-suite',
-  }
 
 }
 

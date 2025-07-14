@@ -26,7 +26,8 @@ class instalacionapps::phoronix {
 
   # Instalar el paquete .deb (con fallback a apt -f install para dependencias)
   exec { 'instalar_phoronix':
-    command     => 'cd /tmp/phoronix-test-suite-master; bash ./install-sh',
+    command     => 'bash ./install-sh',
+	cwd => '/tmp/phoronix-test-suite-master',
 # && rm /tmp/install.sh',
     path        => ['/usr/bin', '/bin'],
     refreshonly => true,

@@ -16,17 +16,18 @@ class instalacionapps::phoronix {
   exec { 'descargar_phoronix':
     command => 'wget -O /tmp/master.zip https://github.com/phoronix-test-suite/phoronix-test-suite/archive/refs/heads/master.zip',
     path    => ['/usr/bin', '/bin'],
+	unless => 'test -d /usr/share/phoronix-test-suite/',
   }
 
   exec { 'descomprimir_phoronix':
-    command     => 'unzip -o /tmp/master.zip -d  /tmp/',
+    command     => 'unzip -o /tmp/master.zip -d  /tmp/ && rm /tmp/master.zip',
     path        => ['/usr/bin', '/bin'],
     require     => Exec['descargar_phoronix'],
   }
 
   # Instalar el paquete .deb (con fallback a apt -f install para dependencias)
   exec { 'instalar_phoronix':
-    command     => 'bash ./install-sh',
+    command     => 'bash ./install-sh && rm -Rf /tmp/phoronix*',
 	cwd => '/tmp/phoronix-test-suite-master',
 # && rm /tmp/install.sh',
     path        => ['/usr/bin', '/bin'],

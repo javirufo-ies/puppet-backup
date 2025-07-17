@@ -5,4 +5,21 @@
 # @example
 #   include equipos::asir2
 class equipos::asir2 {
+	if $::kernel == 'windows' {
+		Package { provider => chocolatey, }
+		package {'vscode':
+			ensure => present,
+		}
+		package {'mysql':
+			ensure => present,
+		}
+
+		package {'mysql.workbench':
+			ensure => present,
+		}
+
+		package {'oracle-sql-developer':
+			ensure => present,
+		}
+         }
 }

@@ -76,6 +76,7 @@ node /^aula114-pro\.ciclos\.valledeljerte3/ {
 
         include equipos::comunes
         include equipos::smr2d
+	include equipos::asir2
 	include instalacionapps::veyonmaster
 }
 
@@ -138,6 +139,7 @@ node /^aula114-\d+/ {
         include equipos::comunes
 #	include equipos::comunes_alumnado
        include equipos::smr2d
+	include equipos::asir2
 
 }
 

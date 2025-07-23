@@ -7,9 +7,10 @@
 class equipos::asir2 {
 	if $::kernel == 'windows' {
 		Package { provider => chocolatey, }
-		package {'vscode':
-			ensure => present,
-		}
+#Este paquete ya está en smr2d, que está en el mismo aula
+#		package {'vscode':
+#			ensure => present,
+#		}
 		package {'mysql':
 			ensure => present,
 		}

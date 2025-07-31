@@ -7,6 +7,9 @@
 class equipos::asir2 {
 	if $::kernel == 'windows' {
 		Package { provider => chocolatey, }
+
+		include instalacionapps::sqldeveloper
+
 #Este paquete ya está en smr2d, que está en el mismo aula
 #		package {'vscode':
 #			ensure => present,
@@ -19,8 +22,6 @@ class equipos::asir2 {
 			ensure => present,
 		}
 
-		package {'oracle-sql-developer':
-			ensure => present,
-		}
+
          }
 }

@@ -18,7 +18,7 @@ class instalacionapps::sqldeveloper {
 		if (!(Test-Path -Path \"${directory_path}\")) {
 			Copy-Item -Path \"${source_file}\" -Destination \"${destination_file}\"
 			Expand-Archive \"$destination_file\" -DestinationPath \"${directory_path}\"
-#			Remove-Item -Path \"${destination_file}\"
+			Remove-Item -Path \"${destination_file}\"
 		}
 #		Remove-Item -Path \$MyInvocation.MyCommand.Path"
 

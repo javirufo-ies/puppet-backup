@@ -20,7 +20,7 @@ class instalacionapps::sqldeveloper {
 			Expand-Archive \"$destination_file\" -DestinationPath \"${directory_path}\"
 			Remove-Item -Path \"${destination_file}\"
 		}
-#		Remove-Item -Path \$MyInvocation.MyCommand.Path"
+		Remove-Item -Path \$MyInvocation.MyCommand.Path"
 
 
 # Crear el archivo de script con el contenido definido

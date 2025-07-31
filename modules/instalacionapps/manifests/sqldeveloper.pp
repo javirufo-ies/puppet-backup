@@ -6,7 +6,8 @@
 #   include instalacionapps::sqldeveloper
 class instalacionapps::sqldeveloper {
 	$nombreScript = 'c:\\tmp\scriptSQLDeveloper.ps1'
-	$directory_path = 'C:\\Program Files\\SQLDeveloper'
+#	$directory_path = 'C:\\Program Files\\SQLDeveloper'
+	$directory_path = 'C:\\PRogram Files'
 	$source_file = '\\\10.0.0.21\Instaladores\sqldeveloper-23.1.1.345.2114-x64.zip'
 	$destination_file = 'C:\\tmp\\sqldeveloper-23.1.1.345.2114-x64.zip'
 	$powershell_path = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'

@@ -31,6 +31,9 @@ class equipos::aula114 {
 #        package { 'mysql.workbench':
 #                ensure => present,
 #        }
+	package {'mariadb':
+		ensure => present,
+	}
         package { 'mysql':
                 ensure => present,
                   install_options => [
@@ -38,9 +41,6 @@ class equipos::aula114 {
                  ],
         }
 
-	package {'mariadb':
-		ensure => present,
-	}
 #        package { 'oracle-sql-developer':
 #               ensure => present,
 #      }

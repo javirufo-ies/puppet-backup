@@ -34,6 +34,10 @@ class equipos::aula114 {
         package { 'mysql':
                 ensure => present,
         }
+
+	package {'mariadb':
+		ensure => present,
+	}
 #        package { 'oracle-sql-developer':
 #               ensure => present,
 #      }

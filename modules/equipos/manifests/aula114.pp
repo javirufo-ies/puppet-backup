@@ -33,6 +33,9 @@ class equipos::aula114 {
 #        }
         package { 'mysql':
                 ensure => present,
+                  install_options => [
+                      '--ignore-checksums',
+                 ],
         }
 
 	package {'mariadb':

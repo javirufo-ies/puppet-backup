@@ -21,7 +21,10 @@ class equipos::asir2 {
 		package {'mysql.workbench':
 			ensure => present,
 		}
-
+		
+		package {'mariadb':
+			ensure => present,
+		}
 
          }
 }

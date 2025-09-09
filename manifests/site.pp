@@ -233,7 +233,7 @@ node /^portatil*\.ciclos\.valledeljerte3/ {
 }
 
 node /^taller1-\d+\.ciclos\.valledeljerte3/ {
-	notify {"Equipo de Taller1":}
+	notify {"Equipo de Taller1 alumno":}
         if $::kernel == 'windows' {
                 Package { provider => chocolatey, }
         }
@@ -244,7 +244,7 @@ node /^taller1-\d+\.ciclos\.valledeljerte3/ {
 }
 
 node /^taller2-.*\.ciclos\.valledeljerte3/ {
-	notify {"Equipo de Taller2":}
+	notify {"Equipo de Taller2 alumno":}
         if $::kernel == 'windows' {
                 Package { provider => chocolatey, }
         }

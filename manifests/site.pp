@@ -65,59 +65,43 @@ node /^aula115-pro/ {
 	include equipos::smr1v
 
 #### CLONAR IMAGEN
-  # Asegurar directorio de configuración de Xorg
-  file { '/etc/X11/xorg.conf.d':
-    ensure => directory,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
-  }
+file { '/etc/X11/xorg.conf.d/10-monitor.conf':
+  ensure  => file,
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0644',
+  content => "
+Section \"Device\"
+    Identifier \"AMD Graphics\"
+    Driver \"amdgpu\"
+EndSection
 
-  # Configuración de monitores en espejo
-  file { '/etc/X11/xorg.conf.d/10-monitor.conf':
-    ensure  => file,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => @(EOF)
-      Section "Device"
-          Identifier "AMD Graphics"
-          Driver "amdgpu"
-      EndSection
+Section \"Monitor\"
+    Identifier \"DisplayPort-6\"
+    Option \"Primary\" \"true\"
+EndSection
 
-      Section "Monitor"
-          Identifier "DisplayPort-6"
-          Option "Primary" "true"
-      EndSection
+Section \"Monitor\"
+    Identifier \"HDMI-A-0\"
+    Option \"Clone\" \"true\"
+EndSection
 
-      Section "Monitor"
-          Identifier "HDMI-A-0"
-          Option "Clone" "true"
-      EndSection
+Section \"Screen\"
+    Identifier \"Screen0\"
+    Device \"AMD Graphics\"
+    Monitor \"DisplayPort-6\"
+    DefaultDepth 24
+    SubSection \"Display\"
+        Depth 24
+        Modes \"1920x1080\"
+    EndSubSection
+EndSection
+",
+  require => File['/etc/X11/xorg.conf.d'],
+  notify  => Service['gdm3'],
+}
 
-      Section "Screen"
-          Identifier "Screen0"
-          Device "AMD Graphics"
-          Monitor "DisplayPort-6"
-          DefaultDepth 24
-          SubSection "Display"
-              Depth 24
-              Modes "1920x1080"
-          EndSubSection
-      EndSection
-      EOF,
-    require => File['/etc/X11/xorg.conf.d'],
-    notify  => Service['gdm3'],
-  }
-
-  # Asegurar que el servicio del display manager está habilitado y corriendo
-  service { 'gdm3':
-    ensure     => running,
-    enable     => true,
-    hasrestart => true,
-    hasstatus  => true,
-  }
-
+#### FIN CLONAR IMAGEN
 
 
 }

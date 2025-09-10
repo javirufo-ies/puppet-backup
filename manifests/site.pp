@@ -66,6 +66,13 @@ node /^aula115-pro/ {
 
 #### CLONAR IMAGEN
 
+service { 'gdm3':
+  ensure     => running,
+  enable     => true,
+  hasrestart => true,
+  hasstatus  => true,
+}
+
 file { '/etc/X11/xorg.conf.d':
   ensure => directory,
   owner  => 'root',

@@ -65,6 +65,14 @@ node /^aula115-pro/ {
 	include equipos::smr1v
 
 #### CLONAR IMAGEN
+
+file { '/etc/X11/xorg.conf.d':
+  ensure => directory,
+  owner  => 'root',
+  group  => 'root',
+  mode   => '0755',
+}
+
 file { '/etc/X11/xorg.conf.d/10-monitor.conf':
   ensure  => file,
   owner   => 'root',

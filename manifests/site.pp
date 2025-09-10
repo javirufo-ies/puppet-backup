@@ -105,7 +105,7 @@ node /^aula115-pro/ {
               Modes "1920x1080"
           EndSubSection
       EndSection
-      | EOF,
+      EOF,
     require => File['/etc/X11/xorg.conf.d'],
     notify  => Service['gdm3'],
   }

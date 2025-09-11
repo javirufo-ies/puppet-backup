@@ -113,7 +113,7 @@ Section \"Screen\"
 EndSection
 ",
   require => File['/etc/X11/xorg.conf.d'],
-  notify  => Service['gdm3'],
+  notify  => Service['lightdm'],
 }
 
 #### FIN CLONAR IMAGEN

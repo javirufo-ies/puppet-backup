@@ -16,7 +16,7 @@ node /^dam1-pro/{
         }
         include equipos::comunes
         include equipos::dam1
-	include instalacionapps::veyonmaster
+#	include instalacionapps::veyonmaster
 }
 
 
@@ -30,7 +30,7 @@ node /^daw1-pro/{
          }
          include equipos::comunes
          include equipos::daw1
-         include instalacionapps::veyonmaster
+#         include instalacionapps::veyonmaster
 }
 
 
@@ -45,7 +45,7 @@ node /^daw1-pro/{
 
          include equipos::comunes
          include equipos::smr2v
-         include instalacionapps::veyonmaster
+#         include instalacionapps::veyonmaster
  
   }
 
@@ -132,7 +132,7 @@ node /^aula114-pro\.ciclos\.valledeljerte3/ {
         include equipos::comunes
         include equipos::smr2d
 	include equipos::asir2
-	include instalacionapps::veyonmaster
+#	include instalacionapps::veyonmaster
 }
 
 node /^taller1-pro\.ciclos\.valledeljerte3/ {
@@ -147,7 +147,7 @@ node /^taller1-pro\.ciclos\.valledeljerte3/ {
         include equipos::comunes
         include equipos::iof1
 	include equipos::asir1	
-	include instalacionapps::veyonmaster
+#	include instalacionapps::veyonmaster
 }
 
 
@@ -162,7 +162,7 @@ node /^taller2-pro\.ciclos\.valledeljerte3/,"ttl-aio-taller2.ciclos.valledeljert
 
         include equipos::comunes
         include equipos::iof2
-	include instalacionapps::veyonmaster
+#	include instalacionapps::veyonmaster
 }
 
 

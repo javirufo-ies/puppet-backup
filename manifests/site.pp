@@ -66,7 +66,7 @@ node /^aula115-pro/ {
 
 #### CLONAR IMAGEN
 
-service { 'gdm3':
+service { 'lightdm':
   ensure     => running,
   enable     => true,
   hasrestart => true,

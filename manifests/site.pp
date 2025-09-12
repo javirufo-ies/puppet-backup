@@ -175,12 +175,12 @@ Section \"Device\"
 EndSection
 
 Section \"Monitor\"
-    Identifier \"DisplayPort-6\"
+    Identifier \"DP-1\"
     Option \"Primary\" \"true\"
 EndSection
 
 Section \"Monitor\"
-    Identifier \"HDMI-A-0\"
+    Identifier \"HDMI-1\"
     Option \"Clone\" \"true\"
 EndSection
 Section \"Screen\"

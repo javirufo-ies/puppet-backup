@@ -338,7 +338,7 @@ node /^portatil*\.ciclos\.valledeljerte3/ {
 
 }
 
-node /^taller1-\d+\.ciclos\.valledeljerte3/ {
+node /^taller1-\d+\/ {
 	notify {"Equipo de Taller1 alumno":}
         if $::kernel == 'windows' {
                 Package { provider => chocolatey, }

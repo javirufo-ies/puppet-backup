@@ -126,13 +126,14 @@ node /^aula114-pro\.ciclos\.valledeljerte3/ {
                 Package { provider => chocolatey, }
                 package {'rsat':
                         ensure => present,
+		include instalacionapps::veyonmaster
+
                 }
         }
 
         include equipos::comunes
         include equipos::smr2d
 	include equipos::asir2
-#	include instalacionapps::veyonmaster
 }
 
 node /^taller1-pro\.ciclos\.valledeljerte3/ {

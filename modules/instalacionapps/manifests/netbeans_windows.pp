@@ -7,15 +7,16 @@
 class instalacionapps::netbeans_windows {
 	$nombreScript = 'C:\\tmp\scriptNetbeans.ps1'
 	$directory_path = 'C:\\Program Files\\Netbeans'
-	$source_file = '\\\10.0.0.21\Instaladores\Apache-NetBeans-27.exe'
-	$destination_file = 'C:\\tmp\\Apache-NetBeans-27.exe'
+	$source_file = '\\\10.0.0.21\netbeans-27-bin.zip'
+	$destination_file = 'C:\\tmp\\netbeans-27-bin.zip'
 	$powershell_path = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
 
 #script que lleva a cabo la copia y ejecución de la instalación del paquete
 	$contenidoScript = "
 		if (!(Test-Path -Path \"${directory_path}\")) {
 			Copy-Item -Path \"${source_file}\" -Destination \"${destination_file}\"
-			Start-Process -FilePath ${destination_file} /verysilent /suppressmsgboxes /norestart -Wait
+			Expand-Archive -Path '${destination_file}' -DestinationPath '${directory_path}' -Force
+#Start-Process -FilePath ${destination_file} /verysilent /suppressmsgboxes /norestart -Wait
 			Remove-Item -Path \"${destination_file}\"
 		}
 		Remove-Item -Path \$MyInvocation.MyCommand.Path"

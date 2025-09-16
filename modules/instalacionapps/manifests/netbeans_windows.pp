@@ -5,14 +5,11 @@
 # @example
 #   include instalacionapps::netbeans_windows
 class instalacionapps::netbeans_windows {
-	
 	$nombreScript = 'C:\\tmp\scriptNetbeans.ps1'
 	$directory_path = 'C:\\Program Files\\Netbeans'
 	$source_file = '\\\10.0.0.21\Instaladores\Apache-NetBeans-27.exe'
 	$destination_file = 'C:\\tmp\\Apache-NetBeans-27.exe'
 	$powershell_path = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
-
-
 
 #script que lleva a cabo la copia y ejecución de la instalación del paquete
 	$contenidoScript = "
@@ -30,7 +27,7 @@ class instalacionapps::netbeans_windows {
 		content => $contenidoScript,
 	}
 #Ejecución del script
-	exec { 'instalaPacket':
+	exec { 'instalaNetbeans':
 		command => "${powershell_path} -NoProfile -ExecutionPolicy RemoteSigned -File ${nombreScript}",
 		require => File[$nombreScript],
 		path    => 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0',

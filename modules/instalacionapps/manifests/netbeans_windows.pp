@@ -7,7 +7,7 @@
 class instalacionapps::netbeans_windows {
 	$nombreScript = 'C:\\tmp\scriptNetbeans.ps1'
 	$directory_path = 'C:\\Program Files\\Netbeans'
-	$source_file = '\\\10.0.0.21\netbeans-27-bin.zip'
+	$source_file = '\\\10.0.0.21\Instaladors\netbeans-27-bin.zip'
 	$destination_file = 'C:\\tmp\\netbeans-27-bin.zip'
 	$powershell_path = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
 

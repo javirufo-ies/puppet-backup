@@ -44,4 +44,23 @@ class instalacionapps::virtualbox_linux {
     path    => ['/usr/bin', '/bin'],
   }
 
+
+# Crear archivo de blacklist solo si no existe
+file { '/etc/modprobe.d/blacklist-kvm-intel.conf':
+  ensure  => file,
+  content => "blacklist kvm_intel\n",
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0644',
+}
+
+# Quitar el módulo si el archivo se creó (solo una vez)
+exec { 'remove-kvm-intel':
+  command     => '/sbin/modprobe -r kvm_intel',
+  path        => ['/sbin', '/bin', '/usr/sbin', '/usr/bin'],
+  refreshonly => true,
+  subscribe   => File['/etc/modprobe.d/blacklist-kvm-intel.conf'],
+}
+
+
 }

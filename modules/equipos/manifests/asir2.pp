@@ -9,7 +9,7 @@ class equipos::asir2 {
 		Package { provider => chocolatey, }
 
 		include instalacionapps::sqldeveloper
-#		include instalacionapps::netbeans_windows
+		include instalacionapps::netbeans_windows
 
 #Este paquete ya está en smr2d, que está en el mismo aula
 #		package {'vscode':

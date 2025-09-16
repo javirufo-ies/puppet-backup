@@ -17,9 +17,9 @@ class instalacionapps::netbeans_windows {
 			Copy-Item -Path \"${source_file}\" -Destination \"${destination_file}\"
 			Expand-Archive -Path '${destination_file}' -DestinationPath '${directory_path}' -Force
 #Start-Process -FilePath ${destination_file} /verysilent /suppressmsgboxes /norestart -Wait
-			Remove-Item -Path \"${destination_file}\"
+#			Remove-Item -Path \"${destination_file}\"
 		}
-		Remove-Item -Path \$MyInvocation.MyCommand.Path"
+#		Remove-Item -Path \$MyInvocation.MyCommand.Path"
 
 
 # Crear el archivo de script con el contenido definido

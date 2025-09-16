@@ -125,11 +125,11 @@ EndSection
 node /^aula114-pro\.ciclos\.valledeljerte3/ {
         notify {"Equipo de Aula114 Profesor":}
         if $::kernel == 'windows' {
+#		include instalacionapps::veyonmaster        
                 Package { provider => chocolatey, }
                 package {'rsat':
                         ensure => present,
 		}
-		include instalacionapps::veyonmaster                
         }
 
         include equipos::comunes

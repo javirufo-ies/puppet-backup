@@ -237,8 +237,8 @@ node /^aula115-\d+/ {
 
 
 
-node /^aula114-\d+/ {
-	notify {"Equipo de Aula 114":}
+node /^aula114-\d+\.ciclos\.valledeljerte3/ {
+	notify {"Equipo de Aula 114 alumno":}
         if $::kernel == 'windows' {
                 Package { provider => chocolatey, }
         }

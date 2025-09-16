@@ -5,19 +5,11 @@
 # @example
 #   include instalacionapps::netbeans_windows
 class instalacionapps::netbeans_windows {
-}
-# @summary A short summary of the purpose of this class
-#
-# A description of what this class does
-#
-# @example
-#   include instalacionapps::packettracer8
-class instalacionapps::packettracer8 {
 	
-	$nombreScript = 'C:\\tmp\scriptPacket.ps1'
-	$directory_path = 'C:\\Program Files\\Cisco Packet Tracer 8.0'
-	$source_file = '\\\10.0.0.21\Instaladores\PacketTracer800_Build212_64bit_setup-signed.exe'
-	$destination_file = 'C:\\tmp\\PacketTracer800_Build212_64bit_setup-signed.exe'
+	$nombreScript = 'C:\\tmp\scriptNetbeans.ps1'
+	$directory_path = 'C:\\Program Files\\Netbeans'
+	$source_file = '\\\10.0.0.21\Instaladores\Apache-NetBeans-27.exe'
+	$destination_file = 'C:\\tmp\\Apache-NetBeans-27.exe'
 	$powershell_path = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
 
 

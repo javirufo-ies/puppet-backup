@@ -120,6 +120,10 @@ if $::kernel == 'windows' {
 	package {'openjdk':
 		ensure => present,
 	}
+
+	package {'winget':
+		ensure => present,
+	}
 } 
 #EQUIPOS LINUX
 else{

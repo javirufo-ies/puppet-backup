@@ -182,7 +182,7 @@ Section \"Monitor\"
 EndSection
 
 Section \"Monitor\"
-    Identifier \"HDMI-1\"
+    Identifier \"HDMI-A-1\"
     Option \"Clone\" \"true\"
 EndSection
 Section \"Screen\"

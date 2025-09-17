@@ -2,4 +2,4 @@ $secpasswd = ConvertTo-SecureString 'unirdominio' -AsPlainText -Force
 $mycreds = New-Object System.Management.Automation.PSCredential ('<%= @dominio %>\unirdominio', $secpasswd)
 Add-Computer -DomainName '<%= @dominio %>' -Credential $mycreds -Restart
 Remove-Item -LiteralPath $scriptPath -Force
-Remove-Item -Path \$MyInvocation.MyCommand.Path"
+Remove-Item -Path $MyInvocation.MyCommand.Path

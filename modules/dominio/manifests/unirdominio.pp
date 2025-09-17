@@ -21,7 +21,7 @@ class dominio::unirdominio (
 
   exec { 'join_domain':
     command   => 'powershell.exe -ExecutionPolicy Bypass -NoProfile -File C:/tmp/unirdominio.ps1',
-	unless => 'powershell.exe -Command "if ((Get-WmiObject Win32_ComputerSystem).PartOfDomain) { exit 0 } else { exit 1 }"',
+    unless => 'powershell.exe -Command "if ((Get-WmiObject Win32_ComputerSystem).PartOfDomain) { exit 0 } else { exit 1 }"',
     provider  => powershell,
     logoutput => false,
     require   => File['C:/tmp/unirdominio.ps1'],
@@ -29,7 +29,7 @@ class dominio::unirdominio (
 }
 
 exec { 'delete_join_script':
-  command  => 'Remove-Item -Path C:/tmp/unirdominio.ps1 -Force',
+  command  => 'Remove-Item -Path c:\\tmp\\unirdominio.ps1 -Force',
   provider => powershell,
   refreshonly => true,
 }

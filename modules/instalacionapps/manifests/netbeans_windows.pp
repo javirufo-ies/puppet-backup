@@ -35,10 +35,10 @@ class instalacionapps::netbeans_windows {
 		path    => 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0',
 	}
 #Creación icono
-exec { 'crear-icono':
-    command => "powershell -Command \"\$WshShell = New-Object -ComObject WScript.Shell; \$Shortcut = \$WshShell.CreateShortcut('${accesodirecto}'); \$Shortcut.TargetPath = '${path_ejecutable}'; \$Shortcut.Save()\"",
-    creates => $shortcut,
-    path    => ['C:\Windows\System32\WindowsPowerShell\v1.0', 'C:\Windows\System32'],
-    require => Exec['instalaNetbeans'],
-  }
+	exec { 'crear-icono':
+		command => "powershell -Command \"\$WshShell = New-Object -ComObject WScript.Shell; \$Shortcut = \$WshShell.CreateShortcut('${accesodirecto}'); \$Shortcut.TargetPath = '${path_ejecutable}'; \$Shortcut.Save()\"",
+		creates => $shortcut,
+		path => ['C:\Windows\System32\WindowsPowerShell\v1.0', 'C:\Windows\System32'],
+#		require => Exec['instalaNetbeans'],
+	}
 }

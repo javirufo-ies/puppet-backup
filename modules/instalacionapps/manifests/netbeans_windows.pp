@@ -11,7 +11,7 @@ class instalacionapps::netbeans_windows {
 	$destination_file = 'C:\\tmp\\netbeans-27-bin.zip'
 	$powershell_path = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
 	$path_ejecutable = 'C:\Program Files\\Netbeans27\\netbeans\\bin\\netbeans64.exe'
-	$accesodirecto = 'C:\\Users\\Default\\Desktop\\Netbeans 27.lnk'
+	$accesodirecto = 'C:\\Users\\Public\\Desktop\\Netbeans 27.lnk'
 #script que lleva a cabo la copia y ejecución de la instalación del paquete
 	$contenidoScript = "
 		if (!(Test-Path -Path \"${directory_path}\")) {

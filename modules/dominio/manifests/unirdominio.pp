@@ -29,7 +29,7 @@ class dominio::unirdominio (
 }
 
 exec { 'borrarunion_ad':
-  command  => 'powershell.exe -Command "Remove-Item -Path c:\\tmp\\unirdominio.ps1 -Force"',
+  command  => 'powershell.exe -Command "Remove-Item -Path c:/tmp/unirdominio.ps1 -Force"',
   provider => powershell,
   refreshonly => true,
 }

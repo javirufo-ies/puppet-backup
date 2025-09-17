@@ -11,7 +11,7 @@ class instalacionapps::netbeans_windows {
 	$destination_file = 'C:\\tmp\\netbeans-27-bin.zip'
 	$powershell_path = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
 	$path_ejecutable = 'C:\Program Files\\Netbeans27\\netbeans\\bin\\netbeans64.exe'
-
+	$accesodirecto = 'Netbeans 27.lnk'
 #script que lleva a cabo la copia y ejecución de la instalación del paquete
 	$contenidoScript = "
 		if (!(Test-Path -Path \"${directory_path}\")) {
@@ -36,7 +36,7 @@ class instalacionapps::netbeans_windows {
 	}
 #Creación icono
 exec { 'crear-icono':
-    command => "powershell -Command \"\$WshShell = New-Object -ComObject WScript.Shell; \$Shortcut = \$WshShell.CreateShortcut('${shortcut}'); \$Shortcut.TargetPath = '${path_ejecutable}'; \$Shortcut.Save()\"",
+    command => "powershell -Command \"\$WshShell = New-Object -ComObject WScript.Shell; \$Shortcut = \$WshShell.CreateShortcut('${accesodirecto}'); \$Shortcut.TargetPath = '${path_ejecutable}'; \$Shortcut.Save()\"",
     creates => $shortcut,
     path    => ['C:\Windows\System32\WindowsPowerShell\v1.0', 'C:\Windows\System32'],
     require => Exec['instalaNetbeans'],

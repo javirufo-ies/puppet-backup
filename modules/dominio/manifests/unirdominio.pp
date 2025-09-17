@@ -25,11 +25,11 @@ class dominio::unirdominio (
     provider  => powershell,
     logoutput => false,
     require   => File['C:/tmp/unirdominio.ps1'],
-   notify    => Exec['delete_join_script'],
+   notify    => Exec['borrarunion_ad'],
 }
 
-exec { 'delete_join_script':
-  command  => 'Remove-Item -Path c:\\tmp\\unirdominio.ps1 -Force',
+exec { 'borrarunion_ad':
+  command  => 'powershell.exe -Command "Remove-Item -Path c:\\tmp\\unirdominio.ps1 -Force"',
   provider => powershell,
   refreshonly => true,
 }

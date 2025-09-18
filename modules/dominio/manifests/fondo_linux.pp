@@ -21,7 +21,7 @@ class dominio::fondo_linux {
     content => @("EOF")
       [greeter]
       background=/tmp/logo.jpg
-      EOF,
+EOF,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',

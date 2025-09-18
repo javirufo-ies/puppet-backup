@@ -19,8 +19,8 @@ class dominio::fondo_linux {
   file { '/etc/lightdm/lightdm-gtk-greeter.conf.d/01-wallpaper.conf':
     ensure  => file,
     content => @("EOF")
-      [greeter]
-      background=/tmp/logo.jpg
+[greeter]
+background=/tmp/logo.jpg
 EOF,
     owner   => 'root',
     group   => 'root',

@@ -13,9 +13,9 @@ class instalacionapps::veyonmaster {
 		if (!(Test-Path -Path \"${directory_path}\")) {
 			Copy-Item -Path \"${source_file}\" -Destination \"${destination_file}\"
 			Start-Process -FilePath ${destination_file} -ArgumentList \"/S /ApplyConfig=\\\10.0.0.21\Instaladores\veyon.json\" -Wait
-#			Remove-Item -Path \"${destination_file}\"
+		Remove-Item -Path \"${destination_file}\"
 		}
-#		Remove-Item -Path \$MyInvocation.MyCommand.Path"
+		Remove-Item -Path \$MyInvocation.MyCommand.Path"
 
 
 # Crear el archivo de script con el contenido definido

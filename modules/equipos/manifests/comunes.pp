@@ -150,7 +150,9 @@ else{
 	package {'lsb-release':
 		ensure => installed,
 	}
+	
 
+	include dominio::fondo_linux
 	include dominio::nombre
 	include dominio::ssh
 	include dominio::unirdominio

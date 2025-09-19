@@ -152,7 +152,7 @@ else{
 	}
 	
 
-	include dominio::fondo_linux
+#	include dominio::fondo_linux
 	include dominio::nombre
 	include dominio::ssh
 	include dominio::unirdominio

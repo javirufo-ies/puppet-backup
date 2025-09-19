@@ -118,7 +118,7 @@ if $::kernel == 'windows' {
 	}
 
 	package {'openjdk':
-		ensure => present,
+		ensure => latest,
 	}
 
 	package {'winget':

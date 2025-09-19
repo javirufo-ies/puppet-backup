@@ -121,9 +121,9 @@ if $::kernel == 'windows' {
 		ensure => latest,
 	}
 
-	package {'winget':
-		ensure => present,
-	}
+#	package {'winget':
+#		ensure => present,
+#	}
 } 
 #EQUIPOS LINUX
 else{

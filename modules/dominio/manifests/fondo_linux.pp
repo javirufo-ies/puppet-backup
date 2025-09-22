@@ -18,7 +18,7 @@ class dominio::fondo_linux {
   # 1. Configuración de LightDM (pantalla de login)
   file { '/etc/lightdm/lightdm-gtk-greeter.conf.d/01-wallpaper.conf':
     ensure  => file,
-    content => @("EOF")
+    content => @(EOF)
 [greeter]
 background=/tmp/logo.jpg
 EOF,

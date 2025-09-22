@@ -8,7 +8,7 @@ class dominio::fondo_linux {
 
   file { '/tmp/logo.jpg':
     ensure => file,
-    source => 'puppet:///modules/fondo_linux/logo.jpg',
+    source => 'puppet:///modules/dominio/logo.jpg',
     owner  => 'root',
     group  => 'root',
     mode   => '0644',

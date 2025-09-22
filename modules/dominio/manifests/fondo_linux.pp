@@ -40,22 +40,24 @@ background=/tmp/logo.jpg
     unless  => "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path | grep '/tmp/logo.jpg'",
   }
 
+
+$bloqueofondo = "
+       <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+       <channel name=\"xfce4-desktop\" version=\"1.0\">
+         <property name=\"backdrop\" type=\"empty\">
+           <property name=\"screen0\" type=\"empty\">
+             <property name=\"monitor0\" type=\"empty\">
+               <property name=\"image-path\" type=\"string\" value=\"/tmp/logo.jpg\"/>
+               <property name=\"image-show\" type=\"bool\" value=\"true\"/>
+             </property>
+           </property>
+         </property>
+       </channel>
+"
   # 3. Bloquear cambios de fondo para usuarios (requiere que edites /etc/xdg/xfce4/xfconf/xfce-perchannel-xml)
   file { '/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml':
     ensure  => file,
-    content => @("EOF")
-      <?xml version="1.0" encoding="UTF-8"?>
-      <channel name="xfce4-desktop" version="1.0">
-        <property name="backdrop" type="empty">
-          <property name="screen0" type="empty">
-            <property name="monitor0" type="empty">
-              <property name="image-path" type="string" value="/tmp/logo.jpg"/>
-              <property name="image-show" type="bool" value="true"/>
-            </property>
-          </property>
-        </property>
-      </channel>
-      EOF,
+    content => $bloqueofondo,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',

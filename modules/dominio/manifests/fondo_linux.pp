@@ -15,8 +15,8 @@ class dominio::fondo_linux {
   }
 
 $contenidofondo = "
-	[greeter]
-	background=/tmp/logo.jpg
+[greeter]
+background=/tmp/logo.jpg
 "
 
     file { '/etc/resolv.conf':

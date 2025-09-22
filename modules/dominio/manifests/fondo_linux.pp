@@ -14,14 +14,19 @@ class dominio::fondo_linux {
     mode   => '0644',
   }
 
+$contenidofondo = "
+	[greeter]
+	background=/tmp/logo.jpg
+"
+
+    file { '/etc/resolv.conf':
+      content => $str,
+    }
 
   # 1. Configuración de LightDM (pantalla de login)
   file { '/etc/lightdm/lightdm-gtk-greeter.conf.d/01-wallpaper.conf':
     ensure  => file,
-    content => @(EOF),
-[greeter]
-background=/tmp/logo.jpg
-EOF
+    content => $contenidofondo,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',

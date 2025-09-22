@@ -6,6 +6,16 @@
 #   include dominio::fondo_linux
 class dominio::fondo_linux {
 
+
+  # 1️⃣ Asegurar que el directorio para LightDM exista (opcional si lo usas)
+  file { '/etc/lightdm/lightdm-gtk-greeter.conf.d':
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+  }
+
+  # 2️⃣ Copiar el fondo desde el módulo
   file { '/tmp/logo.jpg':
     ensure => file,
     source => 'puppet:///modules/dominio/logo.jpg',
@@ -14,53 +24,39 @@ class dominio::fondo_linux {
     mode   => '0644',
   }
 
-$contenidofondo = "
-[greeter]
-background=/tmp/logo.jpg
-"
+  # 3️⃣ Configurar Cinnamon para usar el fondo
+  exec { 'set-cinnamon-background':
+    command => 'gsettings set org.cinnamon.desktop.background picture-uri "file:///tmp/logo.jpg"',
+    path    => ['/usr/bin', '/bin'],
+    onlyif  => 'test -f /tmp/logo.jpg',
+    require => File['/tmp/logo.jpg'],
+  }
 
-    file { '/etc/resolv.conf':
-      content => $str,
-    }
-
-  # 1. Configuración de LightDM (pantalla de login)
-  file { '/etc/lightdm/lightdm-gtk-greeter.conf.d/01-wallpaper.conf':
+  # 4️⃣ Crear archivo de configuración global para dconf
+  file { '/etc/dconf/db/local.d/00-fondo':
     ensure  => file,
-    content => $contenidofondo,
+    content => "[org/cinnamon/desktop/background]\npicture-uri='file:///tmp/logo.jpg'\npicture-options='zoom'\n",
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
+    require => File['/tmp/logo.jpg'],
   }
 
-  # 2. Fondo de escritorio para todos los usuarios de XFCE
-  # Se aplica al "canal" xfce4-desktop
-  exec { 'set-xfce-background':
-    command => "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path -s '/tmp/logo.jpg'",
-    path    => ['/bin', '/usr/bin'],
-    unless  => "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path | grep '/tmp/logo.jpg'",
-  }
-
-
-$bloqueofondo = "
-       <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-       <channel name=\"xfce4-desktop\" version=\"1.0\">
-         <property name=\"backdrop\" type=\"empty\">
-           <property name=\"screen0\" type=\"empty\">
-             <property name=\"monitor0\" type=\"empty\">
-               <property name=\"image-path\" type=\"string\" value=\"/tmp/logo.jpg\"/>
-               <property name=\"image-show\" type=\"bool\" value=\"true\"/>
-             </property>
-           </property>
-         </property>
-       </channel>
-"
-  # 3. Bloquear cambios de fondo para usuarios (requiere que edites /etc/xdg/xfce4/xfconf/xfce-perchannel-xml)
-  file { '/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml':
+  # 5️⃣ Crear archivo de bloqueo para impedir cambios por los usuarios
+  file { '/etc/dconf/db/local.d/locks/background':
     ensure  => file,
-    content => $bloqueofondo,
+    content => "/org/cinnamon/desktop/background/picture-uri\n/org/cinnamon/desktop/background/picture-options\n",
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
+    require => File['/etc/dconf/db/local.d/00-fondo'],
+  }
+
+  # 6️⃣ Actualizar la base de datos dconf para aplicar los cambios globales
+  exec { 'update-dconf':
+    command => '/usr/bin/dconf update',
+    path    => ['/usr/bin', '/bin'],
+    require => [File['/etc/dconf/db/local.d/00-fondo'], File['/etc/dconf/db/local.d/locks/background']],
   }
 
 }

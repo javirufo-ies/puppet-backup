@@ -31,14 +31,17 @@ class dominio::fondo_linux {
     mode   => '0755',
   }
 
+  $contenidoback => "
+	org/gnome/desktop/background]
+        picture-uri=\"file://${fondo_destino}\"
+        picture-uri-dark=\"file://${fondo_destino}\"
+  "
   file { '/etc/dconf/db/local.d/00-background':
     ensure  => file,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => "[org/gnome/desktop/background]\n" +
-               "picture-uri='file://${fondo_destino}'\n" +
-               "picture-uri-dark='file://${fondo_destino}'\n",
+    content => $contenidoback,
   }
 
   file { '/etc/dconf/db/local.d/locks':
@@ -48,13 +51,19 @@ class dominio::fondo_linux {
     mode   => '0755',
   }
 
+
+
+	$contenidoback2 => "
+/org/gnome/desktop/background/picture-uri
+/org/gnome/desktop/background/picture-uri-dark
+	"
+
   file { '/etc/dconf/db/local.d/locks/background':
     ensure  => file,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => "/org/gnome/desktop/background/picture-uri\n" +
-               "/org/gnome/desktop/background/picture-uri-dark\n",
+    content => $contenidoback2,
   }
 
   exec { 'dconf_update_users':
@@ -71,12 +80,15 @@ class dominio::fondo_linux {
   # Fondo de LightDM (pantalla de login)
   ########################################
 
+
+ $contenidogreeter => ""[greeter]\nbackground=${fondo_destino}"
+
   file { '/etc/lightdm/lightdm-gtk-greeter.conf':
     ensure  => file,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => "[greeter]\nbackground=${fondo_destino}\n",
+    content => $contenidogreeter,
     require => File[$fondo_destino],
   }
 

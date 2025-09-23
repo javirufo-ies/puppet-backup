@@ -17,7 +17,7 @@ class dominio::fondo_linux {
     owner  => 'root',
     group  => 'root',
     mode   => '0644',
-    source => 'puppet:///modules/dominio/fondo.jpg',
+    source => 'puppet:///modules/dominio/logo.jpg',
   }
 
   ###############################

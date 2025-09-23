@@ -32,9 +32,9 @@ class dominio::fondo_linux {
   }
 
   $contenidoback = "
-	org/gnome/desktop/background]
-        picture-uri=\"file://${fondo_destino}\"
-        picture-uri-dark=\"file://${fondo_destino}\"
+[org/gnome/desktop/background]
+picture-uri='file://${fondo_destino}'
+picture-uri-dark='file://${fondo_destino}'
   "
   file { '/etc/dconf/db/local.d/00-background':
     ensure  => file,
@@ -81,7 +81,10 @@ class dominio::fondo_linux {
   ########################################
 
 
- $contenidogreeter = "[greeter]\nbackground=${fondo_destino}"
+ $contenidogreeter = "
+[greeter]
+background=${fondo_destino}
+"
 
   file { '/etc/lightdm/lightdm-gtk-greeter.conf':
     ensure  => file,

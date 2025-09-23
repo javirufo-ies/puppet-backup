@@ -6,66 +6,78 @@
 #   include dominio::fondo_linux
 class dominio::fondo_linux {
 
+  # Ruta destino del fondo en el sistema
+  $fondo_destino = '/usr/share/backgrounds/fondo.jpg'
 
-  # 1️⃣ Asegurar que el directorio para LightDM exista (opcional si lo usas)
-  file { '/etc/lightdm/lightdm-gtk-greeter.conf.d':
+  ###############################
+  # Copiar el fondo desde Puppet
+  ###############################
+  file { $fondo_destino:
+    ensure => file,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+    source => 'puppet:///modules/dominio/fondo.jpg',
+  }
+
+  ###############################
+  # Fondo de escritorio (usuarios)
+  ###############################
+
+  file { '/etc/dconf/db/local.d':
     ensure => directory,
     owner  => 'root',
     group  => 'root',
     mode   => '0755',
   }
 
-  # 2️⃣ Copiar el fondo desde el módulo
-  file { '/tmp/logo.jpg':
-    ensure => file,
-    source => 'puppet:///modules/dominio/logo.jpg',
+  file { '/etc/dconf/db/local.d/00-background':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => "[org/gnome/desktop/background]\n" +
+               "picture-uri='file://${fondo_destino}'\n" +
+               "picture-uri-dark='file://${fondo_destino}'\n",
+  }
+
+  file { '/etc/dconf/db/local.d/locks':
+    ensure => directory,
     owner  => 'root',
     group  => 'root',
-    mode   => '0644',
+    mode   => '0755',
   }
 
-  # 3️⃣ Configurar Cinnamon para usar el fondo
-  exec { 'set-cinnamon-background':
-    command => 'gsettings set org.cinnamon.desktop.background picture-uri "file:///tmp/logo.jpg"',
-    path    => ['/usr/bin', '/bin'],
-    onlyif  => 'test -f /tmp/logo.jpg',
-    require => File['/tmp/logo.jpg'],
+  file { '/etc/dconf/db/local.d/locks/background':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => "/org/gnome/desktop/background/picture-uri\n" +
+               "/org/gnome/desktop/background/picture-uri-dark\n",
   }
 
-# 4️⃣ Asegurar que existan los directorios para dconf
-file { '/etc/dconf/db/local.d':
-  ensure => directory,
-  owner  => 'root',
-  group  => 'root',
-  mode   => '0755',
-}
+  exec { 'dconf_update_users':
+    command     => '/usr/bin/dconf update',
+    refreshonly => true,
+    subscribe   => [
+      File[$fondo_destino],
+      File['/etc/dconf/db/local.d/00-background'],
+      File['/etc/dconf/db/local.d/locks/background'],
+    ],
+  }
 
-file { '/etc/dconf/db/local.d/locks':
-  ensure  => directory,
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0755',
-  require => File['/etc/dconf/db/local.d'],
-}
+  ########################################
+  # Fondo de LightDM (pantalla de login)
+  ########################################
 
-# 5️⃣ Crear archivo de configuración global
-file { '/etc/dconf/db/local.d/00-fondo':
-  ensure  => file,
-  content => "[org/cinnamon/desktop/background]\npicture-uri='file:///tmp/logo.jpg'\npicture-options='zoom'\n",
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0644',
-  require => File['/etc/dconf/db/local.d'],
-}
-
-# 6️⃣ Crear archivo de bloqueo
-file { '/etc/dconf/db/local.d/locks/background':
-  ensure  => file,
-  content => "/org/cinnamon/desktop/background/picture-uri\n/org/cinnamon/desktop/background/picture-options\n",
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0644',
-  require => File['/etc/dconf/db/local.d/locks'],
-}
+  file { '/etc/lightdm/lightdm-gtk-greeter.conf':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => "[greeter]\nbackground=${fondo_destino}\n",
+    require => File[$fondo_destino],
+  }
 
 }

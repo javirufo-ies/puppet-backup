@@ -1,6 +1,36 @@
 class instalacionapps::virtualbox_linux {
 
 
+#hay que eliminar KVM para poder usar virtualbox
+  # Paquetes KVM que queremos eliminar
+  $kvm_paquetes = [
+    'qemu-kvm',
+    'libvirt-daemon-system',
+    'libvirt-clients',
+  ]
+
+  package { $kvm_paquetes:
+    ensure => absent,
+  }
+
+  # Detener y deshabilitar el servicio libvirtd
+  service { 'libvirtd':
+    ensure => 'stopped',
+    enable => false,
+  }
+
+  # Eliminar módulos del kernel KVM si están cargados
+  exec { 'eliminar_modulos_kvm':
+    command => '/sbin/rmmod kvm_intel kvm_amd kvm || true',
+    path    => ['/sbin','/bin','/usr/sbin','/usr/bin'],
+    onlyif  => 'lsmod | grep -E "kvm(_intel|_amd)?"',
+    require => Package[$kvm_paquetes],
+  }
+}
+
+
+
+
   # Añadir la clave pública de Oracle para VirtualBox → usando keyring
   exec { 'add_virtualbox_key':
     command => 'wget -qO- https://www.virtualbox.org/download/oracle_vbox_2016.asc | gpg --dearmor | tee /etc/apt/keyrings/oracle-virtualbox.gpg > /dev/null',

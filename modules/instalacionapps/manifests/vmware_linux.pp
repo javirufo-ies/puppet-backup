@@ -29,7 +29,7 @@ exec { 'instalar_vmware':
   exec { 'compilar_modulos':
     command => '/usr/bin/vmware-modconfig --console --install-all',
     refreshonly => true,
-  unless  => 'test -f /lib/modules/$(uname -r)/misc/vmmon.ko',
+  unless  => '/usr/bin/test -f /lib/modules/$(uname -r)/misc/vmmon.ko',
 
   }
 

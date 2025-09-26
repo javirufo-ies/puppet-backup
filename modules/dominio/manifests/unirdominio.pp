@@ -108,28 +108,55 @@ exec { 'actualizar_dns':
 }
 
 
-#Añadir usuarios al grupo vboxusers
-file { '/usr/local/bin/anade_vboxusers.sh':
-  ensure  => file,
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0755',
-  content => "#!/bin/bash
-GROUP=\"vboxusers\"
-USER=\"\$PAM_USER\"
-if ! id -nG \"\$USER\" | grep -qw \"\$GROUP\"; then
-    usermod -aG \"\$GROUP\" \"\$USER\"
-fi
-",
+
+
+#Vamos a añadir el script que permite añadir a los usuarios al grupo vboxusers para que puedan usar usb
+#Crear el grupo vboxusers si no existe
+  group { 'vboxusers':
+    ensure => present,
+  }
+
+#Crear el script que añade al usuario al grupo
+  file { '/usr/local/bin/anade_vboxusers.sh':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    content => @("SCRIPT"/L)
+      #!/bin/bash
+      # Script PAM para añadir el usuario al grupo vboxusers
+      GROUP="vboxusers"
+      USER="${PAM_USER:-$1}"
+      [ -z "$USER" ] && USER="$PAM_RUSER"
+
+      # Añadir solo si no pertenece ya al grupo
+      if ! id -nG "$USER" | grep -qw "$GROUP"; then
+          usermod -aG "$GROUP" "$USER"
+      fi
+      | SCRIPT
+    require => Group['vboxusers'],
+  }
+
+#onfigurar PAM para ejecutar el script en common-session
+  exec { 'anadir_pam_hook_common_session':
+    command => "echo 'session optional pam_exec.so /usr/local/bin/anade_vboxusers.sh' >> /etc/pam.d/common-session",
+    unless  => "grep -q 'pam_exec.so /usr/local/bin/anade_vboxusers.sh' /etc/pam.d/common-session",
+    path    => ['/bin', '/usr/bin'],
+    require => File['/usr/local/bin/anade_vboxusers.sh'],
+  }
+
+  # 4️⃣ Configurar PAM para ejecutar el script en LightDM
+  exec { 'add_pam_hook_lightdm':
+    command => "echo 'session optional pam_exec.so /usr/local/bin/add_to_vboxusers.sh' >> /etc/pam.d/lightdm",
+    unless  => "grep -q 'pam_exec.so /usr/local/bin/add_to_vboxusers.sh' /etc/pam.d/lightdm",
+    path    => ['/bin', '/usr/bin'],
+    require => File['/usr/local/bin/add_to_vboxusers.sh'],
+  }
 }
 
-# Añadir la línea a PAM (si no existe)
-exec { 'anade_pam_hook_vboxusers':
-  command => "echo 'session optional pam_exec.so /usr/local/bin/add_to_vboxusers.sh' >> /etc/pam.d/common-session",
-  unless  => "grep -q 'pam_exec.so /usr/local/bin/add_to_vboxusers.sh' /etc/pam.d/common-session",
-  path    => ['/bin', '/usr/bin'],
-  require => File['/usr/local/bin/anade_vboxusers.sh'],
-}
+
+
+
 
 
  }

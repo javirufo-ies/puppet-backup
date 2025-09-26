@@ -121,8 +121,8 @@ exec { 'actualizar_dns':
 
 # Definir contenido del script en una variable
 $contenido_script = "
-if ! id -nG '$1' | grep -qw 'vboxusers'; then
-usermod -aG 'vboxusers' '$1'
+if ! id -nG '$USER' | grep -qw 'vboxusers'; then
+usermod -aG 'vboxusers' '$USER'
 fi
 "
 

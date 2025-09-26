@@ -108,6 +108,29 @@ exec { 'actualizar_dns':
 }
 
 
+#Añadir usuarios al grupo vboxusers
+file { '/usr/local/bin/anade_vboxusers.sh':
+  ensure  => file,
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0755',
+  content => "#!/bin/bash
+GROUP=\"vboxusers\"
+USER=\"\$PAM_USER\"
+if ! id -nG \"\$USER\" | grep -qw \"\$GROUP\"; then
+    usermod -aG \"\$GROUP\" \"\$USER\"
+fi
+",
+}
+
+# Añadir la línea a PAM (si no existe)
+exec { 'anade_pam_hook_vboxusers':
+  command => "echo 'session optional pam_exec.so /usr/local/bin/add_to_vboxusers.sh' >> /etc/pam.d/common-session",
+  unless  => "grep -q 'pam_exec.so /usr/local/bin/add_to_vboxusers.sh' /etc/pam.d/common-session",
+  path    => ['/bin', '/usr/bin'],
+  require => File['/usr/local/bin/anade_vboxusers.sh'],
+}
+
 
  }
 }

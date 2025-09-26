@@ -26,7 +26,7 @@ class instalacionapps::virtualbox_linux {
     onlyif  => 'lsmod | grep -E "kvm(_intel|_amd)?"',
     require => Package[$kvm_paquetes],
   }
-}
+
 
 
 

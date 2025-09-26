@@ -34,9 +34,9 @@ exec { 'instalar_vmware':
   }
 
   # 4. Verificar que el módulo vmmon está cargado
-  exec { 'check-vmmon':
-    command => 'lsmod | grep -q vmmon',
-    unless  => 'lsmod | grep -q vmmon',
+  exec { 'comprueba_vmmon':
+    command => '/usr/sbin/lsmod | grep -q vmmon',
+    unless  => '/usr/sbin/lsmod | grep -q vmmon',
     require => Exec['compilar_modulos'],
   }
 

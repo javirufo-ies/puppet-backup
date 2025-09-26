@@ -6,10 +6,9 @@
 #   include instalacionapps::vmware_linux
 class instalacionapps::vmware_linux {
  # 1. Paquetes necesarios para compilar
-package { ['build-essential', "linux-headers-$(fact['kernelrelease'])", 'dkms']:
-	ensure => installed,
+package { ["build-essential", "linux-headers-${facts['kernelrelease']}", "dkms"]:
+  ensure => installed,
 }
-
 
 
 exec { 'copiar_vmware':

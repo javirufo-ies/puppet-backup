@@ -149,7 +149,7 @@ SCRIPT
     path    => ['/bin', '/usr/bin'],
     require => File['/usr/local/bin/add_to_vboxusers.sh'],
   }
-}
+
 
 
 

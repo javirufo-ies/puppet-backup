@@ -118,23 +118,30 @@ exec { 'actualizar_dns':
 
 
 
-$contenidoScript = "
-#!/bin/bash
-$GROUP=vboxusers
-if ! id -nG $USER | grep -qw "vboxusers"; then
-	usermod -aG "vboxusers" $USER
-fi
-"
-#Crear el script que añade al usuario al grupo
-  file { '/usr/local/bin/anade_vboxusers.sh':
-    ensure  => file,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0755',
-	content => $contenidoscript
-  }
 
-#onfigurar PAM para ejecutar el script en common-session
+# Definir contenido del script en una variable
+$contenido_script = @("SCRIPT"/L)
+#!/bin/bash
+# Script PAM para añadir el usuario al grupo vboxusers
+GROUP="vboxusers"
+USER=\$1
+
+if ! id -nG "\$USER" | grep -qw "\$GROUP"; then
+    usermod -aG "\$GROUP" "\$USER"
+fi
+SCRIPT
+
+# Crear el archivo con el contenido
+file { '/usr/local/bin/anade_vboxusers.sh':
+  ensure  => file,
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0755',
+  content => $contenido_script,
+}
+
+
+#Configurar PAM para ejecutar el script en common-session
   exec { 'anadir_pam_hook_common_session':
     command => "echo 'session optional pam_exec.so /usr/local/bin/anade_vboxusers.sh' >> /etc/pam.d/common-session",
     unless  => "grep -q 'pam_exec.so /usr/local/bin/anade_vboxusers.sh' /etc/pam.d/common-session",

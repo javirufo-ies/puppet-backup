@@ -120,16 +120,11 @@ exec { 'actualizar_dns':
 
 
 # Definir contenido del script en una variable
-$contenido_script = @("SCRIPT"/L)
-#!/bin/bash
-# Script PAM para añadir el usuario al grupo vboxusers
-GROUP="vboxusers"
-USER=\$1
-
-if ! id -nG "\$USER" | grep -qw "\$GROUP"; then
-    usermod -aG "\$GROUP" "\$USER"
+$contenido_script = "
+if ! id -nG \"$1\" | grep -qw \"vboxusers"; then
+usermod -aG \"vboxusers\" \"$1\"
 fi
-SCRIPT
+"
 
 # Crear el archivo con el contenido
 file { '/usr/local/bin/anade_vboxusers.sh':

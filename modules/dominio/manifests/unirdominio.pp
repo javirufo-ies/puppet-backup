@@ -119,12 +119,6 @@ exec { 'actualizar_dns':
 
 
 
-# Definir contenido del script en una variable
-$contenido_script = "
-if ! id -nG '$USER' | grep -qw 'vboxusers'; then
-usermod -aG 'vboxusers' '$USER'
-fi
-"
 
 # Crear el archivo con el contenido
 file { '/usr/local/bin/anade_vboxusers.sh':
@@ -132,7 +126,7 @@ file { '/usr/local/bin/anade_vboxusers.sh':
   owner   => 'root',
   group   => 'root',
   mode    => '0755',
-  content => $contenido_script,
+	source => "puppet:///modules/dominio/anade_vboxusers.sh",
 }
 
 

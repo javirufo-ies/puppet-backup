@@ -29,7 +29,8 @@ exec { 'instalar_vmware':
   exec { 'compilar_modulos':
     command => '/usr/bin/vmware-modconfig --console --install-all',
     refreshonly => true,
-    subscribe   => Exec['instalar_vmware'],
+  unless  => 'test -f /lib/modules/$(uname -r)/misc/vmmon.ko',
+
   }
 
   # 4. Verificar que el módulo vmmon está cargado

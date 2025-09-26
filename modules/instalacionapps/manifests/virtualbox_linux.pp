@@ -63,4 +63,14 @@ exec { 'remove-kvm-intel':
 }
 
 
+
+#Añadir todos los usuarios al grupo vboxusers
+exec { 'añadirusuarios-vboxusers':
+  command => "for user in $(cut -f1 -d: /etc/passwd); do usermod -aG vboxusers $user; done",
+  path    => ['/bin', '/usr/bin'],
+  unless  => "getent group vboxusers | grep $(whoami)", # solo para evitar repetición
+  require => Group['vboxusers'],
+}
+
+
 }

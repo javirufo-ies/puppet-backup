@@ -5,6 +5,11 @@
 # @example
 #   include instalacionapps::vmware_linux
 class instalacionapps::vmware_linux {
+ # 1. Paquetes necesarios para compilar
+package { ['build-essential', "linux-headers-$(fact('kernelrelease'))", 'dkms']:
+	ensure => installed,
+}
+
 
 
 exec { 'copiar_vmware':
@@ -21,7 +26,19 @@ exec { 'instalar_vmware':
   require => Exec['copiar_vmware'],
 }
 
+# 3. Compilar los módulos
+  exec { 'compilar_modulos':
+    command => '/usr/bin/vmware-modconfig --console --install-all',
+    refreshonly => true,
+    subscribe   => Exec['instalar_vmware'],
+  }
 
+  # 4. Verificar que el módulo vmmon está cargado
+  exec { 'check-vmmon':
+    command => 'lsmod | grep -q vmmon',
+    unless  => 'lsmod | grep -q vmmon',
+    require => Exec['compilar_modulos'],
+  }
 
 
 

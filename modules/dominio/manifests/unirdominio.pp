@@ -121,8 +121,8 @@ exec { 'actualizar_dns':
 
 # Definir contenido del script en una variable
 $contenido_script = "
-if ! id -nG \"$1\" | grep -qw \"vboxusers"; then
-usermod -aG \"vboxusers\" \"$1\"
+if ! id -nG '$1' | grep -qw 'vboxusers'; then
+usermod -aG 'vboxusers' '$1'
 fi
 "
 
@@ -144,12 +144,12 @@ file { '/usr/local/bin/anade_vboxusers.sh':
     require => File['/usr/local/bin/anade_vboxusers.sh'],
   }
 
-  # 4️⃣ Configurar PAM para ejecutar el script en LightDM
+#Configurar PAM para ejecutar el script en LightDM
   exec { 'add_pam_hook_lightdm':
-    command => "echo 'session optional pam_exec.so /usr/local/bin/add_to_vboxusers.sh' >> /etc/pam.d/lightdm",
-    unless  => "grep -q 'pam_exec.so /usr/local/bin/add_to_vboxusers.sh' /etc/pam.d/lightdm",
+    command => "echo 'session optional pam_exec.so /usr/local/bin/anade_vboxusers.sh' >> /etc/pam.d/lightdm",
+    unless  => "grep -q 'pam_exec.so /usr/local/bin/anade_vboxusers.sh' /etc/pam.d/lightdm",
     path    => ['/bin', '/usr/bin'],
-    require => File['/usr/local/bin/add_to_vboxusers.sh'],
+    require => File['/usr/local/bin/anade_vboxusers.sh'],
   }
 
 

@@ -116,22 +116,22 @@ exec { 'actualizar_dns':
     ensure => present,
   }
 
+
+
+$contenidoScript = "
+#!/bin/bash
+$GROUP=vboxusers
+if ! id -nG $USER | grep -qw "vboxusers"; then
+	usermod -aG "vboxusers" $USER
+fi
+"
 #Crear el script que añade al usuario al grupo
   file { '/usr/local/bin/anade_vboxusers.sh':
     ensure  => file,
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
-content => @("SCRIPT"/L)
-#!/bin/bash
-# Script PAM para añadir el usuario al grupo vboxusers
-GROUP="vboxusers"
-# Añadir solo si no pertenece ya al grupo
-if ! id -nG "$USER" | grep -qw "$GROUP"; then
-    usermod -aG "$GROUP" "$USER"
-fi
-SCRIPT
-#    require => Group['vboxusers'],
+	content => $contenidoscript
   }
 
 #onfigurar PAM para ejecutar el script en common-session

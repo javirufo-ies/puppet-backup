@@ -131,7 +131,7 @@ if ! id -nG "$USER" | grep -qw "$GROUP"; then
     usermod -aG "$GROUP" "$USER"
 fi
 SCRIPT
-    require => Group['vboxusers'],
+#    require => Group['vboxusers'],
   }
 
 #onfigurar PAM para ejecutar el script en common-session

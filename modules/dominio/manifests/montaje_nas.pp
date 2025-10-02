@@ -24,12 +24,12 @@ class dominio::montaje_nas {
   }
 
  # Copiar el script al cliente
-  file { '/etc/profile.d/nas_link.sh':
+  file { '/etc/profile.d/enlace_nas.sh':
     ensure  => file,
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
-    source  => 'puppet:///modules/dominio/nas_link.sh',
+    source  => 'puppet:///modules/dominio/enlace_nas.sh',
     require => Mount['/mnt/isos'],
   }
 

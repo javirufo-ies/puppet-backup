@@ -34,10 +34,10 @@ class dominio::montaje_nas {
   }
 
   # Añadir llamada al script en /etc/profile (opcional, si no quieres confiar en /etc/profile.d/)
-#  file_line { 'crea_enlace_nas':
-#    path  => '/etc/profile',
-#    line  => 'source /etc/profile.d/enlace_nas.sh',
-#    match => '^source /etc/profile.d/enlace_nas.sh$',
-#    require => File['/etc/profile.d/enlace_nas.sh'],
-#  }
+  file_line { 'crea_enlace_nas':
+    path  => '/etc/profile',
+    line  => 'source /etc/profile.d/enlace_nas.sh',
+    match => '^source /etc/profile.d/enlace_nas.sh$',
+    require => File['/etc/profile.d/enlace_nas.sh'],
+  }
 }

@@ -17,6 +17,6 @@ Comment=Acceso al NAS
 Icon=folder
 URL=file://${NAS_MOUNT}
 EOF
-    chown "$USER":"$USER" "${LINK}"
+    chown "$USER":"$(id -gn)" "${LINK}"
     chmod 644 "${LINK}"
 fi

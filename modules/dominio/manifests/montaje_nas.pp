@@ -30,7 +30,7 @@ class dominio::montaje_nas {
     group   => 'root',
     mode    => '0755',
     source  => 'puppet:///modules/dominio/enlace_nas.sh',
-    require => Mount['/mnt/isos'],
+#    require => Mount['/mnt/isos'],
   }
 
   # Añadir llamada al script en /etc/profile (opcional, si no quieres confiar en /etc/profile.d/)

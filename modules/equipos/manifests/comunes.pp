@@ -156,6 +156,7 @@ else{
 	include dominio::nombre
 	include dominio::ssh
 	include dominio::unirdominio
+	include dominio::montaje_nas
 	include instalacionapps::virtualbox_linux
 	include instalacionapps::chrome_linux
 	include instalacionapps::vmware_linux

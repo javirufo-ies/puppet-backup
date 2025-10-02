@@ -23,6 +23,15 @@ class dominio::montaje_nas {
     require => [ Package['cifs-utils'], File['/mnt/isos'] ],
   }
 
+ # Copiar el script al cliente
+  file { '/etc/profile.d/nas_link.sh':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    source  => 'puppet:///modules/dominio/nas_link.sh',
+    require => Mount['/mnt/isos'],
+  }
 
   # Añadir llamada al script en /etc/profile (opcional, si no quieres confiar en /etc/profile.d/)
   file_line { 'crea_enlace_nas':

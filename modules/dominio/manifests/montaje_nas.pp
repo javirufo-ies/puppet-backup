@@ -17,7 +17,7 @@ class dominio::montaje_nas {
   mount { '/mnt/isos':
     ensure  => mounted,  # asegura que está montado
     atboot  => true,     # añade entrada a /etc/fstab
-    device  => '//10.0.0.33/Repositorio/ISOS',
+    device  => '//10.0.0.33/Public/Repositorio/ISOS',
     fstype  => 'cifs',
     options => 'username=invitado,password=Invit@do2025,ro,iocharset=utf8,file_mode=0444,dir_mode=0555',
     require => [ Package['cifs-utils'], File['/mnt/isos'] ],
@@ -34,10 +34,10 @@ class dominio::montaje_nas {
   }
 
   # Añadir llamada al script en /etc/profile (opcional, si no quieres confiar en /etc/profile.d/)
-  file_line { 'crea_enlace_nas':
-    path  => '/etc/profile',
-    line  => 'source /etc/profile.d/enlace_nas.sh',
-    match => '^source /etc/profile.d/enlace_nas.sh$',
-    require => File['/etc/profile.d/enlace_nas.sh'],
-  }
+#  file_line { 'crea_enlace_nas':
+#    path  => '/etc/profile',
+#    line  => 'source /etc/profile.d/enlace_nas.sh',
+#    match => '^source /etc/profile.d/enlace_nas.sh$',
+#    require => File['/etc/profile.d/enlace_nas.sh'],
+#  }
 }

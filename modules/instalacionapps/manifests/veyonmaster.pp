@@ -35,7 +35,7 @@ if $::kernel == 'windows' {
 else {
 
 # Aseguramos dependencias
-      package { 'gnupg2':
+      package { ['gnupg2', 'veyon-master']:
         ensure => installed,
       }
 

@@ -17,7 +17,7 @@ class dominio::montaje_nas {
   mount { '/mnt/isos':
     ensure  => mounted,  # asegura que está montado
     atboot  => true,     # añade entrada a /etc/fstab
-    device  => '//10.0.0.33/Public/Repositorio/ISOS',
+    device  => '//10.0.0.33/Repositorio/ISOS',
     fstype  => 'cifs',
     options => 'username=invitado,password=Invit@do2025,ro,iocharset=utf8,file_mode=0444,dir_mode=0555',
     require => [ Package['cifs-utils'], File['/mnt/isos'] ],

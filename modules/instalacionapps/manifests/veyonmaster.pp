@@ -35,7 +35,7 @@ if $::kernel == 'windows' {
 else {
 
 # Aseguramos dependencias
-      package { ['wget','gnupg2']:
+      package { 'gnupg2':
         ensure => installed,
       }
 

@@ -40,15 +40,15 @@ else {
       }
 
       # Añadimos repositorio oficial de Veyon
-      exec { 'add_veyon_repo':
-        command => '/usr/bin/wget -O - https://veyon.io/key/veyon.gpg | apt-key add - && echo "deb http://ppa.launchpad.net/veyon/stable/ubuntu focal main" > /etc/apt/sources.list.d/veyon.list && apt-get update',
-        creates => '/etc/apt/sources.list.d/veyon.list',
-      }
+#      exec { 'add_veyon_repo':
+#        command => '/usr/bin/wget -O - https://veyon.io/key/veyon.gpg | apt-key add - && echo "deb http://ppa.launchpad.net/veyon/stable/ubuntu focal main" > /etc/apt/sources.list.d/veyon.list && apt-get update',
+#        creates => '/etc/apt/sources.list.d/veyon.list',
+#      }
 
       # Instalamos el paquete Veyon Master
       package { 'veyon':
         ensure  => installed,
-        require => Exec['add_veyon_repo'],
+#        require => Exec['add_veyon_repo'],
       }
     
 

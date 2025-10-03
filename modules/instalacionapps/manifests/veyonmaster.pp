@@ -46,17 +46,17 @@ else {
 #      }
 
       # Instalamos el paquete Veyon Master
-      package { 'veyon':
-        ensure  => installed,
+#      package { 'veyon':
+#        ensure  => installed,
 #        require => Exec['add_veyon_repo'],
-      }
+#      }
     
 
  # Servicio para que el equipo sea accesible desde otro
   service { 'veyon-service':
     ensure => running,
     enable => true,
-    require => Package['veyon'],
+    require => Package['veyon-service'],
   }
 
 # Copiar la configuración (JSON)
@@ -66,7 +66,7 @@ else {
 		group   => 'root',
 		mode    => '0644',
 		source  => 'puppet:///modules/instalacionapps/veyon.json',
-		require => Package['veyon'],
+#		require => Package['veyon'],
 		notify => Service['veyon-service'],
   }
 }

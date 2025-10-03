@@ -151,7 +151,7 @@ node /^taller1-pro\.ciclos\.valledeljerte3/ {
         include equipos::comunes
         include equipos::iof1
 	include equipos::asir1	
-#	include instalacionapps::veyonmaster
+	include instalacionapps::veyonmaster
 
 
 #### CLONAR IMAGEN

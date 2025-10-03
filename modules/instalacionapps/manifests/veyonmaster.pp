@@ -1,6 +1,6 @@
 #Hay que habilitar la ejecución de script en los clientes
 class instalacionapps::veyonmaster {
-
+if $::kernel == 'windows' {
 	$nombreScript = 'C:\\tmp\scriptVeyon.ps1'
 	$directory_path = 'C:\\Program Files\\Veyon'
 	$source_file = '\\\10.0.0.21\Instaladores\veyon-4.4.2.0-win64-setup.exe'
@@ -29,4 +29,30 @@ class instalacionapps::veyonmaster {
 		require => File[$nombreScript],
 		path    => 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0',
 	}
+}
+
+#Cliente LINUX
+else {
+
+# Aseguramos dependencias
+      package { ['wget','gnupg2']:
+        ensure => installed,
+      }
+
+      # Añadimos repositorio oficial de Veyon
+      exec { 'add_veyon_repo':
+        command => '/usr/bin/wget -O - https://veyon.io/key/veyon.gpg | apt-key add - && echo "deb http://ppa.launchpad.net/veyon/stable/ubuntu focal main" > /etc/apt/sources.list.d/veyon.list && apt-get update',
+        creates => '/etc/apt/sources.list.d/veyon.list',
+      }
+
+      # Instalamos el paquete Veyon Master
+      package { 'veyon':
+        ensure  => installed,
+        require => Exec['add_veyon_repo'],
+      }
+    
+
+}
+
+
 }

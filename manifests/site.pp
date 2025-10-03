@@ -63,6 +63,7 @@ node /^aula115-pro/ {
         include equipos::comunes
         include equipos::smr1d
 	include equipos::smr1v
+	include instalacionapps::veyonmaster
 
 #### CLONAR IMAGEN
 

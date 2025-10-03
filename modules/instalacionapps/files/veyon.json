@@ -1,0 +1,344 @@
+{
+    "AccessControl": {
+        "AccessControlRules": {
+            "JsonStoreArray": [
+                {
+                    "Action": 3,
+                    "Description": "",
+                    "IgnoreConditions": false,
+                    "InvertConditions": false,
+                    "Name": "Equipos departamento",
+                    "Parameters": [
+                        {
+                            "Argument": "DEPARTAMENTO",
+                            "Condition": 3,
+                            "Enabled": true,
+                            "Subject": 2
+                        }
+                    ]
+                }
+            ]
+        },
+        "AccessControlRulesProcessingEnabled": "true",
+        "AccessRestrictedToUserGroups": "false",
+        "AuthorizedUserGroups": [
+        ],
+        "DataBackend": "{6f0a491e-c1c6-4338-8244-f823b0bf8670}",
+        "DomainGroupsEnabled": "true",
+        "UserGroupsBackend": "6f0a491e-c1c6-4338-8244-f823b0bf8670"
+    },
+    "Authentication": {
+        "KeyAuthenticationEnabled": "true",
+        "LogonAuthenticationEnabled": "true",
+        "PrivateKeyBaseDir": "\\\\apolo\\Veyon\\private",
+        "PublicKeyBaseDir": "\\\\apolo\\Veyon\\public"
+    },
+    "Core": {
+        "ApplicationVersion": 2,
+        "InstallationID": "f53e2dd2-bf04-4a15-868a-20db485f9381",
+        "PluginVersions": {
+            "JsonStoreObject": {
+                "{14bacaaa-ebe5-449c-b881-5b382f952571}": "1.1",
+                "{1b08265b-348f-4978-acaa-45d4f6b90bd9}": "1.1",
+                "{1baa01e0-02d6-4494-a766-788f5b225991}": "1.1",
+                "{1bdb0d1c-f8eb-4d21-a093-d555a10f3975}": "1.1",
+                "{2917cdeb-ac13-4099-8715-20368254a367}": "1.1",
+                "{2ad98ccb-e9a5-43ef-8c4c-876ac5efbcb1}": "1.1",
+                "{387a0c43-1355-4ff6-9e1f-d098e9ce5127}": "1.1",
+                "{39d7a07f-94db-4912-aa1a-c4df8aee3879}": "1.1",
+                "{4122e8ca-b617-4e36-b851-8e050ed2d82e}": "1.2",
+                "{4790bad8-4c56-40d5-8361-099a68f0c24b}": "1.1",
+                "{67dfc1c1-8f37-4539-a298-16e74e34fd8b}": "1.1",
+                "{6f0a491e-c1c6-4338-8244-f823b0bf8670}": "1.2",
+                "{80580500-2e59-4297-9e35-e53959b028cd}": "1.2",
+                "{85f6c631-e75a-4c78-8cb2-a7f3f502015a}": "1.1",
+                "{8ae6668b-9c12-4b29-9bfc-ff89f6604164}": "1.1",
+                "{a54ee018-42bf-4569-90c7-0d8470125ccf}": "1.1",
+                "{b47bcae0-24ff-4bf5-869c-484d64af5c4c}": "1.1",
+                "{d4bb9c42-9eef-4ecb-8dd5-dfd84b355481}": "1.0",
+                "{ee322521-f4fb-482d-b082-82a79003afa7}": "1.1"
+            }
+        }
+    },
+    "Demo": {
+        "FramebufferUpdateInterval": "100",
+        "KeyFrameInterval": "10",
+        "MemoryLimit": "128"
+    },
+    "Directories": {
+        "Screenshots": "$APPDATA\\Screenshots",
+        "UserConfiguration": "$APPDATA\\Config"
+    },
+    "ExternalVncServer": {
+        "ServerPort": "5900"
+    },
+    "LDAP": {
+        "BaseDN": "DC=ciclos,DC=valledeljerte3",
+        "BindDN": "CICLOS\\veyon",
+        "BindPassword": "36dfccac535713f6d7301a22a6641f6e0eb475456958dbef11645100ba42f514c35b33df7d2984e68762fa8cab1a304ce34b64ee6f90d4b49a2039769a8d9294e893753eb8857d81c8bd0c12aee5bf040f38a67e913cbd8f84f29d09a2e71e3bad63465ae5e52c7e51dd1a9cefee370945701989ffc490a175b9893db832396fac976c87cb83d1e93dc54dafa2b46e0be251e30fe080906dcc37f6ef86c8cc9cbf8fa32782d558efb899606dfc82f79266fa64d27c7c81508284bfb41e9dadb5ac289aac50191b6c37257c39159062f64e1ae7ff0869335d94ff3f962c881652d5953b506e7ae2729223c02f232d31b6381a2e4c5aa11c8345b6ae3b38e2a8b8f8681efb2dd2f577fbb0df79c035182eac7dade555abb3f79141f45093acb8a99f100a1d0c1227cfda2f2124d037edc0d1464b02b0863cb5027d96b561c4a9b0391ae2b850ad11e5a12a8ad159615089c07f5f9eed1aad1f71ad9a294f5f309d39d96947db3aa9ae5b3b8caf0d311c79c0a854b59e3154fea79e212552bc494af503d0fd13bae59f584439b756139b2e3d588022a2020084a03e63e2d8d2ded88df7d9d0c2cef2f87bf88e84dea80fe5319f8277054847be788632dac9f13e5803d296ad2b7d3afb3a0f3cbc4ae289b3f1805b4ca18d3f0756315ff90bac9869b65982ff3f84c916a58f0b398d365c90aff278176f5d3f009e062975c66817b9",
+        "ComputerGroupTree": "OU=ordenadores,OU=IyC",
+        "ComputerHostNameAsFQDN": "false",
+        "ComputerHostNameAttribute": "cn",
+        "ComputerLocationAttribute": "",
+        "ComputerLocationsByAttribute": "false",
+        "ComputerLocationsByContainer": "true",
+        "ComputerRoomAttribute": "",
+        "ComputerRoomMembersByContainer": "true",
+        "ComputerRoomNameAttribute": "ou",
+        "ComputerTree": "OU=ordenadores,OU=IyC",
+        "GroupTree": "OU=grupos,OU=IyC",
+        "LocationNameAttribute": "ou",
+        "QueryNamingContext": "false",
+        "RecursiveSearchOperations": "true",
+        "ServerHost": "artemis",
+        "ServerPort": "389",
+        "UseBindCredentials": "true",
+        "UserLoginNameAttribute": "",
+        "UserTree": "OU=IyC"
+    },
+    "LocalData": {
+        "NetworkObjects": {
+            "JsonStoreArray": [
+                {
+                    "HostAddress": "FPB2-01.ciclos.valledeljerte3",
+                    "Name": "FPB2-01",
+                    "ParentUid": "{1f4cdded-ff69-4725-bcb8-4919e1216b7c}",
+                    "Type": 3,
+                    "Uid": "{7b8fe0b9-d34e-4be4-a35c-b59077d60478}"
+                },
+                {
+                    "HostAddress": "FPB2-02.ciclos.valledeljerte3",
+                    "Name": "FPB2-02",
+                    "ParentUid": "{1f4cdded-ff69-4725-bcb8-4919e1216b7c}",
+                    "Type": 3,
+                    "Uid": "{acb4dac5-cd47-469c-b571-33c19e18a82f}"
+                },
+                {
+                    "HostAddress": "10.0.127.8",
+                    "Name": "FPB2-03",
+                    "ParentUid": "{1f4cdded-ff69-4725-bcb8-4919e1216b7c}",
+                    "Type": 3,
+                    "Uid": "{3ae519f5-8bfe-4429-80a1-b62b60624cf3}"
+                },
+                {
+                    "HostAddress": "FPB2-04.ciclos.valledeljerte3",
+                    "Name": "FPB2-04",
+                    "ParentUid": "{1f4cdded-ff69-4725-bcb8-4919e1216b7c}",
+                    "Type": 3,
+                    "Uid": "{48e71fcf-db45-48ab-958e-70cffe69ee0c}"
+                },
+                {
+                    "HostAddress": "FPB2-05.ciclos.valledeljerte3",
+                    "Name": "FPB2-05",
+                    "ParentUid": "{1f4cdded-ff69-4725-bcb8-4919e1216b7c}",
+                    "Type": 3,
+                    "Uid": "{dc764d14-950b-455a-ac53-a45a6360deef}"
+                },
+                {
+                    "HostAddress": "FPB2-06.ciclos.valledeljerte3",
+                    "Name": "FPB2-06",
+                    "ParentUid": "{1f4cdded-ff69-4725-bcb8-4919e1216b7c}",
+                    "Type": 3,
+                    "Uid": "{b5d66c54-cbd2-4fe2-baa6-b409203f4ae6}"
+                },
+                {
+                    "HostAddress": "FPB2-07.ciclos.valledeljerte3",
+                    "Name": "FPB2-07",
+                    "ParentUid": "{1f4cdded-ff69-4725-bcb8-4919e1216b7c}",
+                    "Type": 3,
+                    "Uid": "{e80a5f47-a8b6-41ab-89df-4778c49eb487}"
+                },
+                {
+                    "HostAddress": "FPB2-08.ciclos.valledeljerte3",
+                    "Name": "FPB2-08",
+                    "ParentUid": "{1f4cdded-ff69-4725-bcb8-4919e1216b7c}",
+                    "Type": 3,
+                    "Uid": "{18f76197-bd31-4df7-86c2-ee07c02a746a}"
+                },
+                {
+                    "HostAddress": "FPB2-09.ciclos.valledeljerte3",
+                    "Name": "FPB2-09",
+                    "ParentUid": "{1f4cdded-ff69-4725-bcb8-4919e1216b7c}",
+                    "Type": 3,
+                    "Uid": "{28368302-5867-4460-a73d-a67b5501fa84}"
+                },
+                {
+                    "HostAddress": "FPB2-10.ciclos.valledeljerte3",
+                    "Name": "FPB2-10",
+                    "ParentUid": "{1f4cdded-ff69-4725-bcb8-4919e1216b7c}",
+                    "Type": 3,
+                    "Uid": "{88d4fa02-dac7-45d3-a9e4-2dcb9b506046}"
+                },
+                {
+                    "HostAddress": "aula2-pro",
+                    "Name": "Nuevo equipo",
+                    "ParentUid": "{d2cf4e89-adf5-40ea-baf2-a4b81340e783}",
+                    "Type": 3,
+                    "Uid": "{72cd05fb-4d23-413f-86da-bf97320d2cad}"
+                },
+                {
+                    "HostAddress": "Taller2-01",
+                    "Name": "Taller2-01",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{ecc14066-42b3-4125-8bbf-a76bbae07278}"
+                },
+                {
+                    "HostAddress": "Taller2-02",
+                    "Name": "Taller2-02",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{f28c2e72-3d77-4629-af74-c2b8f2e60ddf}"
+                },
+                {
+                    "HostAddress": "Taller2-03",
+                    "Name": "Taller2-03",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{fe8eb1b9-f6ff-4457-b86f-5234d2de6abf}"
+                },
+                {
+                    "HostAddress": "Taller2-04",
+                    "Name": "Taller2-04",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{12b0329f-6a09-46ba-aa2d-fb903f802930}"
+                },
+                {
+                    "HostAddress": "Taller2-05",
+                    "Name": "Taller2-05",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{9c78c132-dd9a-4053-92b8-8f363f86c0e0}"
+                },
+                {
+                    "HostAddress": "Taller2-06",
+                    "Name": "Taller2-06",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{4a4c6cbc-d130-4805-839f-537e55072249}"
+                },
+                {
+                    "HostAddress": "Taller2-07",
+                    "Name": "Taller2-07",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{3414fbf7-4437-462f-9a62-59a27cc7b57d}"
+                },
+                {
+                    "HostAddress": "Taller2-08",
+                    "Name": "Taller2-08",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{e8cf382e-8196-4e41-920c-386ae891f8f8}"
+                },
+                {
+                    "HostAddress": "Taller2-09",
+                    "Name": "Taller2-09",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{9585a8da-8841-49ba-91e2-efd761f7f55f}"
+                },
+                {
+                    "HostAddress": "Taller2-10",
+                    "Name": "Taller2-10",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{8e44dc3b-20e8-498d-8c97-376812eb3aeb}"
+                },
+                {
+                    "HostAddress": "Taller2-11",
+                    "Name": "Taller2-11",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{b08c74d8-fe01-4d95-b2ce-46dfe561c25f}"
+                },
+                {
+                    "HostAddress": "Taller2-12",
+                    "Name": "Taller2-12",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{6866673c-ddf6-4fdf-9afe-efad3ac6a067}"
+                },
+                {
+                    "HostAddress": "Taller2-13",
+                    "Name": "Taller2-13",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{a5b83853-3cf4-47f8-91dc-2822c2852154}"
+                },
+                {
+                    "HostAddress": "Taller2-14",
+                    "Name": "Taller2-14",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{e4677e18-0c88-41e9-805c-cd91684675a3}"
+                },
+                {
+                    "HostAddress": "Taller2-15",
+                    "Name": "Taller2-15",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{4cf03ca2-f867-4adc-b5c2-20bbc978ee03}"
+                },
+                {
+                    "HostAddress": "Taller2-16",
+                    "Name": "Taller2-16",
+                    "ParentUid": "{6490ae4c-6fd0-4a4b-a101-57984dc34eda}",
+                    "Type": 3,
+                    "Uid": "{6cc92dd5-98bc-4a4a-8797-93c159d73ceb}"
+                }
+            ]
+        }
+    },
+    "Logging": {
+        "LogFileDirectory": "$TEMP",
+        "LogFileRotationCount": "10",
+        "LogFileRotationEnabled": "false",
+        "LogFileSizeLimit": "100",
+        "LogFileSizeLimitEnabled": "false",
+        "LogLevel": "4",
+        "LogToStdErr": "true",
+        "LogToWindowsEventLog": "false"
+    },
+    "Master": {
+        "AllowAddingHiddenLocations": "false",
+        "AutoOpenComputerSelectPanel": "false",
+        "AutoSelectCurrentLocation": "false",
+        "ComputerDoubleClickFeature": "{ca00ad68-1709-4abe-85e2-48dff6ccf8a2}",
+        "ConfirmUnsafeActions": "false",
+        "HideEmptyLocations": "false",
+        "ShowCurrentLocationOnly": "false"
+    },
+    "Network": {
+        "DemoServerPort": "11400",
+        "FeatureWorkerManagerPort": "11300",
+        "FirewallExceptionEnabled": "1",
+        "PrimaryServicePort": "11100",
+        "VncServerPort": "11200"
+    },
+    "NetworkObjectDirectory": {
+        "Plugin": "{6f0a491e-c1c6-4338-8244-f823b0bf8670}",
+        "UpdateInterval": "60"
+    },
+    "Service": {
+        "Arguments": "",
+        "Autostart": "true",
+        "HideTrayIcon": "false",
+        "SoftwareSASEnabled": "1"
+    },
+    "UI": {
+        "ApplicationName": "",
+        "EnableHighDPIScaling": "false",
+        "Language": ""
+    },
+    "UltraVNC": {
+        "CaptureLayeredWindows": "true",
+        "Configured": "true",
+        "LowAccuracy": "true",
+        "PollFullScreen": "true"
+    },
+    "Windows": {
+        "SoftwareSASEnabled": "1"
+    }
+}

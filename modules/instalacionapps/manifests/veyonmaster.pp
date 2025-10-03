@@ -52,6 +52,16 @@ else {
       }
     
 
+# Copiar la configuración (JSON)
+	file { '/etc/veyon/veyon.json':
+    		ensure  => file,
+		owner   => 'root',
+		group   => 'root',
+		mode    => '0644',
+		source  => 'puppet:///modules/instalacionapps/veyon.json',
+		require => Package['veyon'],
+		notify  => Service['veyon-service'], # Reinicia servicio si cambia
+  }
 }
 
 

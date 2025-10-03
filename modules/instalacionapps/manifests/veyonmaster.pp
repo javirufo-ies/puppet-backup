@@ -53,11 +53,11 @@ else {
     
 
  # Servicio para que el equipo sea accesible desde otro
-  service { 'veyon-service':
-    ensure => running,
-    enable => true,
-    require => Package['veyon-service'],
-  }
+#  service { 'veyon':
+#    ensure => running,
+#    enable => true,
+#    require => Package['veyon-service'],
+#  }
 
 # Copiar la configuración (JSON)
 	file { '/etc/veyon/veyon.json':
@@ -67,7 +67,7 @@ else {
 		mode    => '0644',
 		source  => 'puppet:///modules/instalacionapps/veyon.json',
 #		require => Package['veyon'],
-		notify => Service['veyon-service'],
+		notify => Service['veyon'],
   }
 }
 

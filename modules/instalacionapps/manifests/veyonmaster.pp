@@ -50,7 +50,13 @@ else {
 #		require => Package['veyon'],
 		notify => Service['veyon'],
 	}
-# Manifiesto Puppet para desplegar acceso directo global de Veyon Master (Ubuntu + Cinnamon)
+
+
+# ============================================================
+# Veyon Master global desktop shortcut (Ubuntu + Cinnamon + AD)
+# ============================================================
+
+# 1️⃣ Lanzador global (para menú de aplicaciones y referencia común)
 file { '/usr/share/applications/veyon-master.desktop':
   ensure  => file,
   mode    => '0755',
@@ -65,26 +71,59 @@ Comment=Lanzar Veyon Master
 ",
 }
 
-# Copiar el icono a /etc/skel (para nuevos usuarios locales o AD cacheados)
-file { '/etc/skel/Escritorio/veyon-master.desktop':
+# 2️⃣ Crear carpeta base en /etc/skel por si está vacía
+file { '/etc/skel':
+  ensure => directory,
+  mode   => '0755',
+}
+
+# Crear tanto /etc/skel/Desktop como /etc/skel/Escritorio (por compatibilidad de idioma)
+file { ['/etc/skel/Desktop', '/etc/skel/Escritorio']:
+  ensure => directory,
+  mode   => '0755',
+}
+
+# Copiar el lanzador a ambas rutas (para nuevos usuarios locales o AD cacheados)
+file { ['/etc/skel/Desktop/veyon-master.desktop', '/etc/skel/Escritorio/veyon-master.desktop']:
   ensure => link,
   target => '/usr/share/applications/veyon-master.desktop',
 }
 
-# Crear enlace para todos los usuarios existentes locales
+# 3️⃣ Añadir icono a los escritorios de los usuarios ya existentes
 exec { 'deploy_veyon_icon_existing_users':
-  command => '/bin/bash -c "for d in /home/*/Escritorio; do ln -sf /usr/share/applications/veyon-master.desktop $d/; chmod +x $d/veyon-master.desktop; done"',
+  command => '/bin/bash -c "
+    for d in /home/*; do
+      conf=$d/.config/user-dirs.dirs;
+      if [ -f $conf ]; then
+        desktop=$(grep XDG_DESKTOP_DIR $conf | cut -d\\\" -f2 | sed s:\\$HOME:$d:);
+      fi;
+      [ -z \\\"$desktop\\\" ] && desktop=$d/Desktop;
+      [ ! -d \\\"$desktop\\\" ] && desktop=$d/Escritorio;
+      if [ -d \\\"$desktop\\\" ]; then
+        ln -sf /usr/share/applications/veyon-master.desktop \\\"$desktop/\\\";
+        chmod +x \\\"$desktop/veyon-master.desktop\\\";
+      fi;
+    done"',
   path    => ['/bin', '/usr/bin'],
   onlyif  => '/usr/bin/test -d /home',
 }
 
-# Crear script que añade el icono cuando un usuario de AD inicia sesión (si su carpeta home aún no existía)
+# 4️⃣ Script de perfil para usuarios nuevos o de dominio (AD)
 file { '/etc/profile.d/veyon_icon.sh':
   ensure  => file,
   mode    => '0755',
   content => '#!/bin/bash
-DESKTOP_DIR="$HOME/Escritorio"
 ICON="/usr/share/applications/veyon-master.desktop"
+
+# Detectar carpeta de escritorio (independiente del idioma)
+if [ -f "$HOME/.config/user-dirs.dirs" ]; then
+  DESKTOP_DIR=$(grep XDG_DESKTOP_DIR "$HOME/.config/user-dirs.dirs" | cut -d "\"" -f2 | sed "s:\$HOME:$HOME:")
+else
+  DESKTOP_DIR="$HOME/Desktop"
+  [ ! -d "$DESKTOP_DIR" ] && DESKTOP_DIR="$HOME/Escritorio"
+fi
+
+# Crear el icono si no existe
 if [ -d "$DESKTOP_DIR" ] && [ ! -e "$DESKTOP_DIR/veyon-master.desktop" ]; then
   ln -sf "$ICON" "$DESKTOP_DIR/"
   chmod +x "$DESKTOP_DIR/veyon-master.desktop"

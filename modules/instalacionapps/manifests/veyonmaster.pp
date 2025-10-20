@@ -101,7 +101,7 @@ exec { 'deploy_veyon_icon_existing_users':
       [ ! -d \\\"$desktop\\\" ] && desktop=$d/Escritorio;
       if [ -d \\\"$desktop\\\" ]; then
         ln -sf /usr/share/applications/veyon-master.desktop \\\"$desktop/\\\";
-        chmod +x \\\"$desktop/veyon-master.desktop\\\";
+        chmod 0777 \\\"$desktop/veyon-master.desktop\\\";
       fi;
     done"',
   path    => ['/bin', '/usr/bin'],
@@ -126,7 +126,7 @@ fi
 # Crear el icono si no existe
 if [ -d "$DESKTOP_DIR" ] && [ ! -e "$DESKTOP_DIR/veyon-master.desktop" ]; then
   ln -sf "$ICON" "$DESKTOP_DIR/"
-  chmod +x "$DESKTOP_DIR/veyon-master.desktop"
+  chmod 0777 "$DESKTOP_DIR/veyon-master.desktop"
 fi
 ',
 }

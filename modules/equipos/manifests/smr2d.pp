@@ -10,6 +10,9 @@ class equipos::smr2d {
 		package {'vscode':
 			ensure => present,
 		}
+		package {'python':
+			ensure => present,
+		}
 		package {'xampp-81':
 			ensure => present,
 		}

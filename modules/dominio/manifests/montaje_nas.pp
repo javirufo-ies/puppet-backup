@@ -3,6 +3,7 @@ if $::kernel == 'windows' {
 	exec { 'conectar_nas':
 		command => 'net use R: "\\\\10.0.0.33\\Repositorio" /persistent:yes /user:invitado Invit@do2025',
 		unless  => 'net use R: | findstr "\\\\10.0.0.33\\Repositorio"',
+		path    => ['C:\\Windows\\System32'],
 	}
 
 

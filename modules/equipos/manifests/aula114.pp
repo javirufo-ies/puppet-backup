@@ -26,7 +26,7 @@ class equipos::aula114 {
                 ensure => present,
         }
 	package { 'python':
-		ensure => present,
+		ensure => latest,
 	}
         package { 'jdk8':
                 ensure => present,

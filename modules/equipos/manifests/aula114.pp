@@ -25,6 +25,9 @@ class equipos::aula114 {
         package { 'vscode':
                 ensure => present,
         }
+	package { 'python':
+		ensure => present,
+	}
         package { 'jdk8':
                 ensure => present,
         }

@@ -20,7 +20,7 @@ if $::kernel == 'windows' {
 
 	include dominio::ssh
 	include dominio::unirdominio
-
+	include dominio::montaje_nas
         
 
 

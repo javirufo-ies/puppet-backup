@@ -1,10 +1,42 @@
 class dominio::montaje_nas {
 if $::kernel == 'windows' {
-	exec { 'conectar_nas':
-		command => 'net use R: "\\\\10.0.0.33\\Repositorio" /persistent:yes /user:invitado Invit@do2025',
-		unless  => 'net use R: | findstr "\\\\10.0.0.33\\Repositorio"',
-		path    => ['C:\\Windows\\System32'],
-	}
+
+
+  $nas_server  = '\\\\10.0.0.33\\Repositorio'
+  $nas_user    = 'invitado'
+  $nas_pass    = lookup('password')  # ← viene de Hiera cifrada
+
+  registry::value { 'Map Z Drive to QNAP':
+    ensure => present,
+    key    => 'HKCU\Network\R',
+    value  => 'RemotePath',
+    type   => 'string',
+    data   => $nas_server,
+  }
+
+  registry::value { 'R Drive UserName':
+    ensure => present,
+    key    => 'HKCU\Network\R',
+    value  => 'UserName',
+    type   => 'string',
+    data   => $nas_user,
+  }
+
+  registry::value { 'R Drive Password':
+    ensure => present,
+    key    => 'HKCU\Network\R',
+    value  => 'Password',
+    type   => 'string',
+    data   => $nas_pass,
+  }
+
+  registry::value { 'R Drive ProviderName':
+    ensure => present,
+    key    => 'HKCU\Network\R',
+    value  => 'ProviderName',
+    type   => 'string',
+    data   => 'Microsoft Windows Network',
+  }
 
 
 

@@ -1,14 +1,13 @@
 class dominio::montaje_nas {
 if $::kernel == 'windows' {
 
-
   $nas_server  = '\\\\10.0.0.33\\Repositorio'
   $nas_user    = 'invitado'
-  $nas_pass    = lookup('dominio::passwordinvitado')  # ← viene de Hiera cifrada
+  $nas_pass    = lookup('dominio::passwordinvitado')  # ← contraseña cifrada en Hiera
 
-  registry::value { 'Map Z Drive to QNAP':
+  registry::value { 'Map R Drive to QNAP':
     ensure => present,
-    key    => 'HKCU\Network\R',
+    key    => 'HKCU\\Network\\R',
     value  => 'RemotePath',
     type   => 'string',
     data   => $nas_server,
@@ -16,7 +15,7 @@ if $::kernel == 'windows' {
 
   registry::value { 'R Drive UserName':
     ensure => present,
-    key    => 'HKCU\Network\R',
+    key    => 'HKCU\\Network\\R',
     value  => 'UserName',
     type   => 'string',
     data   => $nas_user,
@@ -24,7 +23,7 @@ if $::kernel == 'windows' {
 
   registry::value { 'R Drive Password':
     ensure => present,
-    key    => 'HKCU\Network\R',
+    key    => 'HKCU\\Network\\R',
     value  => 'Password',
     type   => 'string',
     data   => $nas_pass,
@@ -32,12 +31,11 @@ if $::kernel == 'windows' {
 
   registry::value { 'R Drive ProviderName':
     ensure => present,
-    key    => 'HKCU\Network\R',
+    key    => 'HKCU\\Network\\R',
     value  => 'ProviderName',
     type   => 'string',
     data   => 'Microsoft Windows Network',
   }
-
 
 
 }

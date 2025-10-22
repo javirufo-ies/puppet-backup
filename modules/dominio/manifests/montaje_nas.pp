@@ -1,5 +1,14 @@
 class dominio::montaje_nas {
+if $::kernel == 'windows' {
+	exec { 'conectar_nas':
+		command => 'net use R: "\\\\10.0.0.33\\Repositorio" /persistent:yes /user:invitado Invit@do2025',
+		unless  => 'net use R: | findstr "\\\\10.0.0.33\\Repositorio"',
+	}
 
+
+
+}
+else {
   # Paquete necesario para montar recursos SMB/CIFS
   package { 'cifs-utils':
     ensure => installed,
@@ -40,4 +49,5 @@ class dominio::montaje_nas {
     match => '^source /etc/profile.d/enlace_nas.sh$',
     require => File['/etc/profile.d/enlace_nas.sh'],
   }
+}
 }

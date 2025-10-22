@@ -4,7 +4,7 @@ if $::kernel == 'windows' {
 
   $nas_server  = '\\\\10.0.0.33\\Repositorio'
   $nas_user    = 'invitado'
-  $nas_pass    = lookup('password')  # ← viene de Hiera cifrada
+  $nas_pass    = lookup('dominio::passwordinvitado')  # ← viene de Hiera cifrada
 
   registry::value { 'Map Z Drive to QNAP':
     ensure => present,

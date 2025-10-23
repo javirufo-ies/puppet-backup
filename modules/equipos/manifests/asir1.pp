@@ -9,7 +9,7 @@ class equipos::asir1 {
 		Package { provider => chocolatey, }
 
 	} else {
-		package {'python3':
+		package {'python':
 			ensure => installed,
 		}
                 package {'default-mysql-server':

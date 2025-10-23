@@ -8,6 +8,9 @@ class equipos::smr2v {
 	if $::kernel == 'windows' {
 		Package { provider => chocolatey, }
 		package {'vscode':
+			ensure => latest,
+		}
+		package {'python':
 			ensure => present,
 		}
 		package {'xampp-81':

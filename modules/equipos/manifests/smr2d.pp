@@ -8,7 +8,7 @@ class equipos::smr2d {
 	if $::kernel == 'windows' {
 		Package { provider => chocolatey, }
 		package {'vscode':
-			ensure => present,
+			ensure => latest,
 		}
 		package {'python':
 			ensure => present,

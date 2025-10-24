@@ -166,6 +166,10 @@ else{
 	}
 	
 
+	package {'libreoffice-base':
+		ensure => present,
+	}
+
 	package {'rclone':
 		ensure => installed,
 	}

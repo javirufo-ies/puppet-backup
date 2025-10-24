@@ -20,9 +20,9 @@ class equipos::smr2d {
 
  # --- Instalar Jupyter e ipykernel mediante pip ---
   exec { 'install jupyter':
-    command => 'powershell -NoProfile -ExecutionPolicy Bypass -Command "python -m pip install --upgrade pip jupyter ipykernel"',
+    command => 'c:\Windows\System32\WindowsPowershell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "python -m pip install --upgrade pip jupyter ipykernel"',
     unless  => 'powershell -NoProfile -Command "(pip show jupyter) -ne $null"',
-    path    => ['C:\Python313', 'C:\Python313\Scripts', 'C:\Windows\System32'],
+    path    => ['C:\Python313', 'C:\Python313\Scripts', 'C:\Windows\System32', 'c:\Windows\System32\WindowsPowershell\v1.0\'],
     require => Package['python'],
   }
 
@@ -30,7 +30,7 @@ class equipos::smr2d {
   exec { 'register ipykernel':
     command => 'powershell -NoProfile -ExecutionPolicy Bypass -Command "python -m ipykernel install --user"',
     unless  => 'powershell -NoProfile -Command "Test-Path $env:USERPROFILE\.local\share\jupyter\kernels\python3"',
-    path    => ['C:\Python313', 'C:\Python313\Scripts', 'C:\Windows\System32'],
+    path    => ['C:\Python313', 'C:\Python313\Scripts', 'C:\Windows\System32', 'c:\Windows\System32\WindowsPowershell\v1.0\'],
     require => Exec['install jupyter'],
   }
 

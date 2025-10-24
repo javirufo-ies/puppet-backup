@@ -22,7 +22,7 @@ class equipos::smr2d {
   exec { 'install jupyter':
     command => 'powershell -NoProfile -ExecutionPolicy Bypass -Command "python -m pip install --upgrade pip jupyter ipykernel"',
     unless  => 'powershell -NoProfile -Command "(pip show jupyter) -ne $null"',
-    path    => ['C:\Python311', 'C:\Python311\Scripts', 'C:\Windows\System32'],
+    path    => ['C:\Python313', 'C:\Python313\Scripts', 'C:\Windows\System32'],
     require => Package['python'],
   }
 
@@ -30,7 +30,7 @@ class equipos::smr2d {
   exec { 'register ipykernel':
     command => 'powershell -NoProfile -ExecutionPolicy Bypass -Command "python -m ipykernel install --user"',
     unless  => 'powershell -NoProfile -Command "Test-Path $env:USERPROFILE\.local\share\jupyter\kernels\python3"',
-    path    => ['C:\Python311', 'C:\Python311\Scripts', 'C:\Windows\System32'],
+    path    => ['C:\Python313', 'C:\Python313\Scripts', 'C:\Windows\System32'],
     require => Exec['install jupyter'],
   }
 

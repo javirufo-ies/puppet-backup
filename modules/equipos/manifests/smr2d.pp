@@ -17,24 +17,20 @@ class equipos::smr2d {
 			ensure => present,
 		}
 
+	exec { 'install jupyter':
+		command => 'python -m pip install --upgrade jupyter ipykernel',
+		path    => ['C:\\Windows\\System32','C:\\Windows\\System32\\WindowsPowerShell\\v1.0','C:\\Python\\313','C:\\Python313\\Scripts'],
+		unless  => 'python -m pip show jupyter',
+	}
 
- # --- Instalar Jupyter e ipykernel mediante pip ---
-  exec { 'install jupyter':
-    command => 'c:\Windows\System32\WindowsPowershell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "python -m pip install --upgrade pip jupyter ipykernel"',
-    unless  => 'c:\Windows\System32\WindowsPowershell\v1.0\powershell.exe -NoProfile -Command "(pip show jupyter) -ne $null"',
-    path    => ['C:\Python313', 'C:\Python313\Scripts', 'C:\Windows\System32'],
-    require => Package['python'],
-  }
-
-  # --- Registrar el kernel (para VSCode o JupyterLab) ---
-  exec { 'register ipykernel':
-    command => 'c:\Windows\System32\WindowsPowershell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "python -m ipykernel install --user"',
-    unless  => 'c:\Windows\System32\WindowsPowershell\v1.0\powershell.exe -NoProfile -Command "Test-Path $env:USERPROFILE\.local\share\jupyter\kernels\python3"',
-    path    => ['C:\Python313', 'C:\Python313\Scripts', 'C:\Windows\System32'],
-    require => Exec['install jupyter'],
-  }
+  # egistrar kernel de Jupyter para VS Code
+	exec { 'register jupyter kernel':
+		command => 'python -m ipykernel install --user --name=python --display-name "Python (Jupyter)"',
+		path    => ['C:\\Windows\\System32','C:\\Windows\\System32\\WindowsPowerShell\\v1.0','C:\\Python\\313','C:\\Python313\\Scripts'],
+		unless  => 'if exist "%USERPROFILE%\\.local\\share\\jupyter\\kernels\\python" (exit 0) else (exit 1)',
+	}
 
 
-
+#Fin Windows
          }
 }

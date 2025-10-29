@@ -17,6 +17,14 @@ class equipos::smr2d {
 			ensure => present,
 		}
 
+
+# Eliminar pyreadline e instalar pyreadline3
+	exec { 'replace pyreadline':
+		command => 'c:\\Python313\\python.exe -m pip uninstall -y pyreadline && c:\\Python313\\python.exe -m pip install pyreadline3',
+		path    => ['C:\\Windows\\System32','C:\\Windows\\System32\\WindowsPowerShell\\v1.0','C:\\Python\\313','C:\\Python313\\Scripts'],
+		unless  => 'c:\\Python313\\python.exe -m pip show pyreadline3',
+	}
+
 	exec { 'install jupyter':
 		command => 'c:\\Python313\\python.exe -m pip install --upgrade jupyter ipykernel',
 		path    => ['C:\\Windows\\System32','C:\\Windows\\System32\\WindowsPowerShell\\v1.0','C:\\Python\\313','C:\\Python313\\Scripts'],

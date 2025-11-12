@@ -114,7 +114,7 @@ if $::kernel == 'windows' {
 
 
 	package {'gimp':
-		ensure => present,
+		ensure => latest,
 	}
 
 	package {'openjdk':

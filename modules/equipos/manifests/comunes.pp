@@ -209,7 +209,9 @@ else{
 		require => Package['veyon-service'],
 	}
 
-
+	package {'gimp':
+		ensure => present,
+	}
 
 
 

@@ -1,7 +1,5 @@
 # chocolatey
 
-[![Build Status](https://api.travis-ci.org/puppetlabs/puppetlabs-chocolatey.png?branch=)](https://travis-ci.org/puppetlabs/puppetlabs-chocolatey) [![Build status](https://ci.appveyor.com/api/projects/status/uosorvcyhnayv70m/branch/main?svg=true)](https://ci.appveyor.com/project/puppetlabs/puppetlabs-chocolatey/branch/main)
-
 ### Chocolatey for Business Now Available!
 
 We're excited for you to learn more about what's available in the [Business editions](https://chocolatey.org/compare)!
@@ -21,7 +19,8 @@ We're excited for you to learn more about what's available in the [Business edit
 6. [Limitations - OS compatibility, etc.](#limitations)
     * [Known Issues](#known-issues)
 7. [Development - Guide for contributing to the module](#development)
-8. [Attributions](#attributions)
+8. [License](#license)
+9. [Attributions](#attributions)
 
 ## Overview
 
@@ -598,13 +597,17 @@ For information on classes and types, see [REFERENCE.md](https://github.com/pupp
 * If .NET 4.0 is not installed, it may have trouble installing Chocolatey. Chocolatey version 0.9.9.9+ helps alleviate this issue.
 * If there is an error in the installer (`InstallChocolatey.ps1.erb`), it may not show as an error. This may be an issue with the PowerShell provider and is still under investigation.
 
+## License
+
+This codebase is licensed under the Apache2.0 licensing, however due to the nature of the codebase the open source dependencies may also use a combination of [AGPL](https://opensource.org/license/agpl-v3/), [BSD-2](https://opensource.org/license/bsd-2-clause/), [BSD-3](https://opensource.org/license/bsd-3-clause/), [GPL2.0](https://opensource.org/license/gpl-2-0/), [LGPL](https://opensource.org/license/lgpl-3-0/), [MIT](https://opensource.org/license/mit/) and [MPL](https://opensource.org/license/mpl-2-0/) Licensing.
+
 ## Development
 
 Acceptance tests for this module leverage [puppet_litmus](https://github.com/puppetlabs/puppet_litmus).
 To run the acceptance tests follow the instructions [here](https://github.com/puppetlabs/puppet_litmus/wiki/Tutorial:-use-Litmus-to-execute-acceptance-tests-with-a-sample-module-(MoTD)#install-the-necessary-gems-for-the-module).
 You can also find a tutorial and walkthrough of using Litmus and the PDK on [YouTube](https://www.youtube.com/watch?v=FYfR7ZEGHoE).
 
-If you run into an issue with this module, or if you would like to request a feature, please [file a ticket](https://tickets.puppetlabs.com/browse/MODULES/).
+If you run into an issue with this module, or if you would like to request a feature, please [file a ticket](https://github.com/puppetlabs/puppetlabs-chocolatey/issues).
 Every Monday the Puppet IA Content Team has [office hours](https://puppet.com/community/office-hours) in the [Puppet Community Slack](http://slack.puppet.com/), alternating between an EMEA friendly time (1300 UTC) and an Americas friendly time (0900 Pacific, 1700 UTC).
 
 If you have problems getting this module up and running, please [contact Support](http://puppetlabs.com/services/customer-support).

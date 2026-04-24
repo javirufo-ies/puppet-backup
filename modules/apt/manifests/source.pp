@@ -217,11 +217,11 @@ define apt::source (
           }
 
           $_list_keyring = if $_key['dir'] and $_key['filename'] {
-            "${_key['dir']}${_key['filename']}"
+            "${_key['dir']}/${_key['filename']}"
           } elsif $_key['filename'] {
             "/etc/apt/keyrings/${_key['filename']}"
           } elsif $_key['dir'] {
-            "${_key['dir']}${_key['name']}"
+            "${_key['dir']}/${_key['name']}"
           } else {
             "/etc/apt/keyrings/${_key['name']}"
           }
@@ -310,7 +310,12 @@ define apt::source (
         $_release = $release
       }
 
-      if $repos !~ Array {
+      # The deb822 format requires that if the Suite ($release) is a path (contains a /) that
+      # the Components field be absent.  Check the original
+      $_releasefilter = $_release.any |$item| { $item.index('/') != undef }
+      if $_releasefilter {
+        $_repos = undef
+      } elsif $repos !~ Array {
         warning("For deb822 sources, 'repos' must be specified as an array. Converting to array.")
         $_repos = split($repos, /\s+/)
       } else {

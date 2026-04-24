@@ -5,5 +5,14 @@
 # @example
 #   include equipos::smr1v
 class equipos::smr1v {
- include instalacionapps::packettracer_linux
+	if $::kernel == 'windows' {
+		Package { provider => chocolatey, }
+
+	} else {
+		include instalacionapps::packettracer_linux
+	        package { 'openshot-qt':
+			ensure => present,
+	        }	
+
+         }
 }

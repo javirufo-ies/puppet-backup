@@ -37,7 +37,7 @@ class instalacionapps::netbeans_windows {
 #Creación icono
 	exec { 'crear-icono':
 		command => "powershell -Command \"\$WshShell = New-Object -ComObject WScript.Shell; \$Shortcut = \$WshShell.CreateShortcut('${accesodirecto}'); \$Shortcut.TargetPath = '${path_ejecutable}'; \$Shortcut.Save()\"",
-		creates => $shortcut,
+		creates => $accesodirecto,
 		path => ['C:\Windows\System32\WindowsPowerShell\v1.0', 'C:\Windows\System32'],
 #		require => Exec['instalaNetbeans'],
 	}

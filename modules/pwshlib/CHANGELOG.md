@@ -5,6 +5,73 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v2.0.1](https://github.com/puppetlabs/ruby-pwsh/tree/v2.0.1) - 2026-02-16
+
+[Full Changelog](https://github.com/puppetlabs/ruby-pwsh/compare/v2.0.0...v2.0.1)
+
+### Fixed
+
+- Fixes per-property change event reporting in PE when using DSC resources with custom_insync [#381](https://github.com/puppetlabs/ruby-pwsh/pull/381) ([albatrossflavour](https://github.com/albatrossflavour))
+
+## [v2.0.0](https://github.com/puppetlabs/ruby-pwsh/tree/v2.0.0) - 2025-05-06
+
+[Full Changelog](https://github.com/puppetlabs/ruby-pwsh/compare/v1.2.3...v2.0.0)
+
+### Changed
+
+- (CAT-2281) Remove puppet 7 infrastructure [#375](https://github.com/puppetlabs/ruby-pwsh/pull/375) ([LukasAud](https://github.com/LukasAud))
+
+### Fixed
+
+- Ensure metaparams casing is preserved [#374](https://github.com/puppetlabs/ruby-pwsh/pull/374) ([Clebam](https://github.com/Clebam))
+
+## [v1.2.3](https://github.com/puppetlabs/ruby-pwsh/tree/v1.2.3) - 2025-03-18
+
+[Full Changelog](https://github.com/puppetlabs/ruby-pwsh/compare/v1.2.2...v1.2.3)
+
+### Fixed
+
+- Handle string credentials [#369](https://github.com/puppetlabs/ruby-pwsh/pull/369) ([Clebam](https://github.com/Clebam))
+- (Bug): do not pass dsc_timeout as timeout parameter to DSC resource params [#366](https://github.com/puppetlabs/ruby-pwsh/pull/366) ([jordanbreen28](https://github.com/jordanbreen28))
+- Change [System.Environment]::SetEnvironmentVariable() to Set-ItemProperty [#365](https://github.com/puppetlabs/ruby-pwsh/pull/365) ([pkotov87](https://github.com/pkotov87))
+- double quote when passing env var values [#351](https://github.com/puppetlabs/ruby-pwsh/pull/351) ([garrettrowell](https://github.com/garrettrowell))
+
+## [v1.2.2](https://github.com/puppetlabs/ruby-pwsh/tree/v1.2.2) - 2024-09-25
+
+[Full Changelog](https://github.com/puppetlabs/ruby-pwsh/compare/v1.2.1...v1.2.2)
+
+### Fixed
+
+- (CAT-2061) Fix empty string nullification [#346](https://github.com/puppetlabs/ruby-pwsh/pull/346) ([david22swan](https://github.com/david22swan))
+
+## [v1.2.1](https://github.com/puppetlabs/ruby-pwsh/tree/v1.2.1) - 2024-09-20
+
+[Full Changelog](https://github.com/puppetlabs/ruby-pwsh/compare/v1.2.0...v1.2.1)
+
+### Added
+
+- AlmaLinux 8/9 added to metadata.json [#338](https://github.com/puppetlabs/ruby-pwsh/pull/338) ([alex501212](https://github.com/alex501212))
+
+### Fixed
+
+- Revert "Fix empty string nullification" [#342](https://github.com/puppetlabs/ruby-pwsh/pull/342) ([jordanbreen28](https://github.com/jordanbreen28))
+- (maint) - Fix incorrect test for file_path [#335](https://github.com/puppetlabs/ruby-pwsh/pull/335) ([jordanbreen28](https://github.com/jordanbreen28))
+- (CAT-1991) - Skip missing dirs invalid_dir method [#334](https://github.com/puppetlabs/ruby-pwsh/pull/334) ([jordanbreen28](https://github.com/jordanbreen28))
+
+## [v1.2.0](https://github.com/puppetlabs/ruby-pwsh/tree/v1.2.0) - 2024-08-15
+
+[Full Changelog](https://github.com/puppetlabs/ruby-pwsh/compare/v1.1.1...v1.2.0)
+
+### Added
+
+- (CAT-1869) - Add configurable dsc_timeout [#319](https://github.com/puppetlabs/ruby-pwsh/pull/319) ([jordanbreen28](https://github.com/jordanbreen28))
+- Add support for unit testing via Unix OS [#309](https://github.com/puppetlabs/ruby-pwsh/pull/309) ([chambersmp](https://github.com/chambersmp))
+
+### Fixed
+
+- (bug) - Fix dsc timeout matcher [#331](https://github.com/puppetlabs/ruby-pwsh/pull/331) ([jordanbreen28](https://github.com/jordanbreen28))
+- Fix empty string nullification [#292](https://github.com/puppetlabs/ruby-pwsh/pull/292) ([Clebam](https://github.com/Clebam))
+
 ## [v1.1.1](https://github.com/puppetlabs/ruby-pwsh/tree/v1.1.1) - 2024-02-21
 
 [Full Changelog](https://github.com/puppetlabs/ruby-pwsh/compare/v1.1.0...v1.1.1)
@@ -39,6 +106,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/ruby-pwsh/compare/v0.11.0...v1.0.0)
 
 ### Changed
+
 - (maint) - Drop Support for Debian 8/9 [#227](https://github.com/puppetlabs/ruby-pwsh/pull/227) ([jordanbreen28](https://github.com/jordanbreen28))
 - (maint) -  Drop Support for Ubuntu 16.04 [#226](https://github.com/puppetlabs/ruby-pwsh/pull/226) ([jordanbreen28](https://github.com/jordanbreen28))
 - (maint) - Drop Support for Fedora 30&31 [#225](https://github.com/puppetlabs/ruby-pwsh/pull/225) ([jordanbreen28](https://github.com/jordanbreen28))
@@ -67,6 +135,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/ruby-pwsh/compare/v0.10.3...v0.11.0.rc.1)
 
 ### Changed
+
 - (CONT-867) Ruby 3 / Puppet 8 Support [#208](https://github.com/puppetlabs/ruby-pwsh/pull/208) ([chelnak](https://github.com/chelnak))
 
 ## [v0.10.3](https://github.com/puppetlabs/ruby-pwsh/tree/v0.10.3) - 2022-12-19

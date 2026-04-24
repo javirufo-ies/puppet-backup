@@ -75,8 +75,7 @@
 #   `undef` to not use a proxy
 class chocolatey (
   Stdlib::Windowspath $choco_install_location = $facts['choco_install_path'],
-# choco_install_location => 'D:\secured\choco', 
- Boolean $use_7zip                           = false,
+  Boolean $use_7zip                           = false,
   String[1] $seven_zip_download_url           = 'https://chocolatey.org/7za.exe',
   Integer $choco_install_timeout_seconds      = 1500,
   Stdlib::Filesource $chocolatey_download_url = 'https://chocolatey.org/api/v2/package/chocolatey/',
@@ -84,8 +83,6 @@ class chocolatey (
   Boolean $log_output                         = false,
   String[1] $chocolatey_version               = $facts['chocolateyversion'],
   Optional[String[1]] $install_proxy          = undef,
- # runas => 'puppet',
-  #run_password => 'Primuxtech@21',
 ) {
   class { 'chocolatey::install': }
   -> class { 'chocolatey::config': }

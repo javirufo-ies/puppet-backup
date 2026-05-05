@@ -248,7 +248,7 @@ node /^aula114-\d+\.ciclos\.valledeljerte3/ {
 
         include equipos::comunes
 #	include equipos::comunes_alumnado
-       include equipos::smr2d
+        include equipos::smr2d
 	include equipos::asir2
 
 }

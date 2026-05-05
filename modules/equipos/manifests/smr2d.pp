@@ -40,7 +40,7 @@ class equipos::smr2d {
 		
 	}
 
-
+	include instalacionapps::deshabilitar_copilot
 #Fin Windows
          }
 }

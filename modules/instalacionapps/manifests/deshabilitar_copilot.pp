@@ -20,7 +20,8 @@ class instalacionapps::deshabilitar_copilot {
   // =========================
   "extensions.allowed": [
     "ms-python.python",
-    "ms-vscode.cpptools"
+    "ms-vscode.cpptools",
+	"vscode-live-server-plus-plus",
   ],
 
   // Bloquea instalación automática de extensiones recomendadas

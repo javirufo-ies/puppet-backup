@@ -28,7 +28,7 @@ class equipos::aula114 {
 	package { 'python':
 		ensure => latest,
 	}
-        package { 'jdk8':
+        package { 'openjdk':
                 ensure => present,
         }
 #        package { 'mysql.workbench':

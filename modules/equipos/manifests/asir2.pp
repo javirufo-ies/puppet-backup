@@ -27,9 +27,9 @@ class equipos::asir2 {
 			ensure => present,
 		}
 
-#		package {'netbeans':
-#			ensure => present,
-#		}
+		package {'netbeans':
+			ensure => latest,
+		}
 
          }
 }

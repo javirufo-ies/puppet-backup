@@ -139,7 +139,7 @@ node /^aula114-pro\.ciclos\.valledeljerte3/ {
 	include equipos::asir2
 }
 
-node /^taller1-pro\.ciclos\.valledeljerte3/ {
+node /^taller1-pro/ {
         notify {"Equipo de Taller1":}
         if $::kernel == 'windows' {
                 Package { provider => chocolatey, }

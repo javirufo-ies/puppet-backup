@@ -213,7 +213,17 @@ else{
 		ensure => present,
 	}
 
+	package {'pocl-opencl-icd':
+		ensure => present,
+	}
 
+#	package {'intel-opencl-icd':
+#		ensure => present,
+#	}
+	
+	package {'clinfo':
+		ensure => present,
+	}
 
 }
 

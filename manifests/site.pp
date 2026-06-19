@@ -63,6 +63,7 @@ node /^aula115-pro/ {
         include equipos::comunes
         include equipos::smr1d
 	include equipos::smr1v
+	include equipos::avanza
 	include instalacionapps::veyonmaster
 
 #### CLONAR IMAGEN
@@ -137,6 +138,7 @@ node /^aula114-pro\.ciclos\.valledeljerte3/ {
         include equipos::comunes
         include equipos::smr2d
 	include equipos::asir2
+	include equipos::avanza
 }
 
 node /^taller1-pro/ {
@@ -236,11 +238,12 @@ node /^aula115-\d+/ {
 #	include equipos::comunes_alumnado
         include equipos::smr1d
 	include equipos::smr1v
+	include equipos::avanza
 }
 
 
 
-node /^aula114-\d+\.ciclos\.valledeljerte3/ {
+node /^aula114-\d+/ {
 	notify {"Equipo de Aula 114 alumno":}
         if $::kernel == 'windows' {
                 Package { provider => chocolatey, }
@@ -250,6 +253,7 @@ node /^aula114-\d+\.ciclos\.valledeljerte3/ {
 #	include equipos::comunes_alumnado
         include equipos::smr2d
 	include equipos::asir2
+	include equipos::avanza
 
 }
 

@@ -54,29 +54,28 @@ class instalacionapps::virtualbox_linux {
 
 
 
+  # Instalación del Extension Pack
+  $extpack_version = '7.0.18'
+  $extpack_file = "Oracle_VM_VirtualBox_Extension_Pack-${extpack_version}.vbox-extpack"
+  $extpack_url = "https://download.virtualbox.org/virtualbox/${extpack_version}/${extpack_file}"
 
-
-
-
-# Usamos un script rápido en una sola línea que:
-  # 1. Mira qué versión real de VBoxManage hay instalada (ej: 7.0.26)
-  # 2. Si no coincide con el extpack actual, borra el temporal viejo, descarga el suyo y lo instala aceptando la licencia.
-  exec { 'instalar_extension_pack_sincronizado':
-    user        => 'root',
-    path        => ['/usr/bin', '/bin', '/usr/sbin', '/sbin'],
-    # Sacamos la versión limpia quitando revisiones (ej: de "7.0.26r162000" a "7.0.26")
-    command     => "/bin/bash -c \"
-      VBOX_VER=\$(vboxmanage -v | cut -dr -f1);
-      EXTPACK_FILE=\\\"Oracle_VM_VirtualBox_Extension_Pack-\${VBOX_VER}.vbox-extpack\\\";
-      echo \\\"Detectada versión \${VBOX_VER}. Descargando ExtPack...\\\";
-      wget -q -O /tmp/\${EXTPACK_FILE} https://download.virtualbox.org/virtualbox/\${VBOX_VER}/\${EXTPACK_FILE} && \
-      yes | VBoxManage extpack install --replace /tmp/\${EXTPACK_FILE} && \
-      rm -f /tmp/\${EXTPACK_FILE}
-    \"",
-    # Solo se va a ejecutar si la versión instalada en el sistema NO coincide con la del ExtPack actual
-    unless      => "/bin/bash -c \"VBOX_VER=\$(vboxmanage -v | cut -dr -f1); vboxmanage list extpacks | grep -q \\\"Version: \${VBOX_VER}\\\"\"",
-    require     => Package['virtualbox-7.0'],
+  exec { 'download_virtualbox_extpack':
+    command => "/usr/bin/wget -O /tmp/${extpack_file} ${extpack_url}",
+    creates => "/tmp/${extpack_file}",
+    require => Package['virtualbox-7.0'],
   }
+
+  exec { 'install_virtualbox_extpack':
+    command => "yes | /usr/bin/VBoxManage extpack install --replace /tmp/${extpack_file}",
+    unless  => "/usr/bin/VBoxManage list extpacks | grep -q 'Version: ${extpack_version}'",
+    require => Exec['download_virtualbox_extpack'],
+    path    => ['/usr/bin', '/bin'],
+  }
+
+
+
+
+
 
 # Crear archivo de blacklist solo si no existe
 file { '/etc/modprobe.d/blacklist-kvm-intel.conf':

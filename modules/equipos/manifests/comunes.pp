@@ -133,6 +133,9 @@ else{
                 source => 'puppet:///modules/equipos/puppet.conf',
                 replace => true,
         }
+
+
+
 	package {'nfs-common':
 		ensure => latest,
 	}
@@ -151,7 +154,7 @@ else{
 		ensure => installed,
 	}
 	
-
+	include instalacionapps::actualizaciones_linux
 	include dominio::fondo_linux
 	include dominio::nombre
 	include dominio::ssh

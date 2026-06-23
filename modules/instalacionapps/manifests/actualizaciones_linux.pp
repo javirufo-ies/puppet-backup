@@ -5,6 +5,9 @@
 # @example
 #   include instalacionapps::actualizaciones_linux
 class instalacionapps::actualizaciones_linux {
+
+  $codename = $facts['os']['distro']['codename']
+
   package { [
     'unattended-upgrades',
     'apt-listchanges',
@@ -34,8 +37,10 @@ APT::Periodic::AutocleanInterval "7";
     mode    => '0644',
     content => @("EOF")
 Unattended-Upgrade::Origins-Pattern {
-        "origin=Debian,codename=\${distro_codename},label=Debian";
-        "origin=Debian,codename=\${distro_codename},label=Debian-Security";
+        "origin=Ubuntu,codename=${codename}";
+        "origin=Ubuntu,codename=${codename}-security";
+        "origin=Ubuntu,codename=${codename}-updates";
+        "origin=Ubuntu,codename=${codename}-backports";
 };
 
 Unattended-Upgrade::Remove-Unused-Dependencies "true";
@@ -58,5 +63,16 @@ Unattended-Upgrade::MailReport "only-on-error";
     ensure => running,
     enable => true,
   }
+
+  exec { 'reload-systemd':
+    command     => '/bin/systemctl daemon-reload',
+    refreshonly => true,
+  }
+
+  File['/etc/apt/apt.conf.d/20auto-upgrades']
+    ~> Exec['reload-systemd']
+
+  File['/etc/apt/apt.conf.d/50unattended-upgrades']
+    ~> Exec['reload-systemd']
 
 }

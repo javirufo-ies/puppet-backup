@@ -48,7 +48,7 @@ class instalacionapps::virtualbox_linux {
 
   # Instalación de VirtualBox
   package { 'virtualbox-7.0':
-    ensure  => present,
+    ensure  => latest,
     require => Exec['add_virtualbox_repo'],
   }
 

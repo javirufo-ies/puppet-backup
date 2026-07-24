@@ -1,6 +1,4 @@
 class instalacionapps::virtualbox_linux {
-
-
 #hay que eliminar KVM para poder usar virtualbox
   # Paquetes KVM que queremos eliminar
   $kvm_paquetes = [
@@ -61,22 +59,26 @@ class instalacionapps::virtualbox_linux {
 # Usamos un script rápido en una sola línea que:
   # 1. Mira qué versión real de VBoxManage hay instalada (ej: 7.0.26)
   # 2. Si no coincide con el extpack actual, borra el temporal viejo, descarga el suyo y lo instala aceptando la licencia.
-  exec { 'instalar_extension_pack_sincronizado':
-    user        => 'root',
-    path        => ['/usr/bin', '/bin', '/usr/sbin', '/sbin'],
-    # Sacamos la versión limpia quitando revisiones (ej: de "7.0.26r162000" a "7.0.26")
-    command     => "/bin/bash -c \"
-      VBOX_VER=\$(vboxmanage -v | cut -dr -f1);
-      EXTPACK_FILE=\\\"Oracle_VM_VirtualBox_Extension_Pack-\${VBOX_VER}.vbox-extpack\\\";
-      echo \\\"Detectada versión \${VBOX_VER}. Descargando ExtPack...\\\";
-      wget -q -O /tmp/\${EXTPACK_FILE} https://download.virtualbox.org/virtualbox/\${VBOX_VER}/\${EXTPACK_FILE} && \
-      yes | VBoxManage extpack install --replace /tmp/\${EXTPACK_FILE} && \
-      rm -f /tmp/\${EXTPACK_FILE}
-    \"",
-    # Solo se va a ejecutar si la versión instalada en el sistema NO coincide con la del ExtPack actual
-    unless      => "/bin/bash -c \"VBOX_VER=\$(vboxmanage -v | cut -dr -f1); vboxmanage list extpacks | grep -q \\\"Version: \${VBOX_VER}\\\"\"",
-    require     => Package['virtualbox-7.0'],
-  }
+
+
+file { '/usr/local/bin/install_virtualbox_extpack.sh':
+  ensure  => file,
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0755',
+  source  => 'puppet:///modules/instalacionapps/install_virtualbox_extpack.sh',
+  require => Package['virtualbox-7.0'],
+}
+
+exec { 'instalar_extension_pack_sincronizado':
+  user    => 'root',
+  path    => ['/usr/bin', '/bin', '/usr/sbin', '/sbin'],
+  command => '/usr/local/bin/install_virtualbox_extpack.sh',
+  require => [
+    Package['virtualbox-7.0'],
+    File['/usr/local/bin/install_virtualbox_extpack.sh'],
+  ],
+}
 
 # Crear archivo de blacklist solo si no existe
 file { '/etc/modprobe.d/blacklist-kvm-intel.conf':

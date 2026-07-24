@@ -19,7 +19,7 @@ class equipos::avanza {
 		$ruta_ova     = '/var/tmp/kali.ova'
 		$usuario_vm   = 'examen'
 		$grupo_vm     = 'usuarios del dominio'
-		$nombre_vm    = 'kali-linux-2026.1-virtualbox-amd64'
+		$nombre_vm    = 'Kali 2026'
 
 # 1. Copiar el archivo OVA desde el servidor Puppet al cliente
 		file { $ruta_ova:

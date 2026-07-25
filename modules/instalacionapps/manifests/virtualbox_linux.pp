@@ -45,7 +45,7 @@ class instalacionapps::virtualbox_linux {
   }
 
   # Instalación de VirtualBox
-  package { 'virtualbox-7.0':
+  package { 'virtualbox-7.2':
     ensure  => latest,
     require => Exec['add_virtualbox_repo'],
   }
@@ -67,15 +67,16 @@ file { '/usr/local/bin/install_virtualbox_extpack.sh':
   group   => 'root',
   mode    => '0755',
   source  => 'puppet:///modules/instalacionapps/install_virtualbox_extpack.sh',
-  require => Package['virtualbox-7.0'],
+  require => Package['virtualbox-7.2'],
 }
 
 exec { 'instalar_extension_pack_sincronizado':
   user    => 'root',
   path    => ['/usr/bin', '/bin', '/usr/sbin', '/sbin'],
   command => '/usr/local/bin/install_virtualbox_extpack.sh',
+	logoutput => true,
   require => [
-    Package['virtualbox-7.0'],
+    Package['virtualbox-7.2'],
     File['/usr/local/bin/install_virtualbox_extpack.sh'],
   ],
 }

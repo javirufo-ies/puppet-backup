@@ -2,7 +2,7 @@
 set -e
 
 # 1. Evitar warnings de VirtualBox en TODAS las llamadas
-export LOGNAME=root USER=root
+export LOGNAME=root USER=root HOME=/root
 
 # 2. Obtener versión limpia (ej: 7.2.14)
 VBOX_VER=$(vboxmanage -v 2>/dev/null | grep -oE '^[0-9]+\.[0-9]+\.[0-9]+')
@@ -11,41 +11,49 @@ if [ -z "$VBOX_VER" ]; then
     exit 1
 fi
 
+# CORRECCIÓN CRÍTICA: El nombre oficial de Oracle incluye "_VM_"
 EXT_PACK="Oracle_VirtualBox_Extension_Pack-${VBOX_VER}.vbox-extpack"
 TMP_FILE="/tmp/${EXT_PACK}"
 URL="https://download.virtualbox.org/virtualbox/${VBOX_VER}/${EXT_PACK}"
 
 echo "Detectada versión de VirtualBox: ${VBOX_VER}"
-echo "URL de descarga: ${URL}"
 
-# 3. Comprobar si ya está instalado y es la versión correcta
-if VBoxManage list extpacks | grep -q "Version: ${VBOX_VER}"; then
-    echo "El Extension Pack ${VBOX_VER} ya está instalado. Saliendo."
+# 3. Comprobar si YA está instalado y es la versión correcta
+# Usamos grep -qi para ser insensibles a mayúsculas/minúsculas y posibles variaciones de formato
+if VBoxManage list extpacks 2>/dev/null | grep -qi "${VBOX_VER}"; then
+    echo "El Extension Pack v${VBOX_VER} YA está instalado. No se hace nada."
     exit 0
 fi
 
-# 4. IMPORTANTE: Borrar archivo temporal previo (evita usar uno corrupto de intentos anteriores)
-rm -f "$TMP_FILE"
+echo "El Extension Pack no está instalado o la versión no coincide. Procediendo..."
 
-# 5. Descargar (sin -q para ver errores, y verificando código de retorno)
-echo "Descargando ExtPack..."
-if ! wget --tries=2 -O "$TMP_FILE" "$URL"; then
-    echo "ERROR: Falló la descarga del ExtPack desde ${URL}"
-    exit 1
+# 4. Descargar SOLO si no existe o el archivo es demasiado pequeño (posible descarga fallida previa)
+# Un Extension Pack real pesa más de 10MB (10000000 bytes)
+if [ -f "$TMP_FILE" ] && [ "$(stat -c%s "$TMP_FILE" 2>/dev/null || echo 0)" -gt 10000000 ]; then
+    echo "El archivo temporal ya existe y parece válido (>10MB). Omitiendo descarga."
+else
+    echo "Descargando ExtPack desde: ${URL}"
+    rm -f "$TMP_FILE" # Limpieza previa por seguridad
+    
+    if ! wget --tries=2 -O "$TMP_FILE" "$URL"; then
+        echo "ERROR: Falló la descarga del ExtPack."
+        exit 1
+    fi
+
+    # Verificar que Oracle no haya devuelto un HTML de error 404
+    if file "$TMP_FILE" | grep -qi "HTML"; then
+        echo "ERROR: El archivo descargado no es válido (posible error 404 de Oracle)."
+        echo "Contenido del archivo:"
+        cat "$TMP_FILE"
+        rm -f "$TMP_FILE"
+        exit 1
+    fi
 fi
 
-# 6. Verificar que el archivo descargado no sea un HTML de error (ej: un 404 de Oracle)
-if file "$TMP_FILE" | grep -q "HTML"; then
-    echo "ERROR: El archivo descargado no es válido (posible error 404 de Oracle)."
-    echo "Contenido del archivo descargado:"
-    cat "$TMP_FILE"
-    exit 1
-fi
-
-# 7. Instalar aceptando la licencia
+# 5. Instalar aceptando la licencia
 echo "Instalando Extension Pack..."
 yes | VBoxManage extpack install --replace "$TMP_FILE"
 
-# 8. Limpieza
+# 6. Limpieza final
 rm -f "$TMP_FILE"
 echo "Instalación completada con éxito."

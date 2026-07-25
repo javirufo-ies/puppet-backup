@@ -51,9 +51,8 @@ class equipos::avanza {
 # Ejecutamos el script maestro que limpia y luego importa ordenadamente
 exec { 'gestion_maquina_examen_vbox':
     user        => 'root',
-    command     => '/usr/local/bin/limpiar_vbox_examen.sh',    
+    command     => '/usr/local/bin/limpiar_vbox.sh',    
     # Se ejecuta a menos que exista la carpeta limpia Y NO exista ningún clon (" 1")
-    unless      => "/usr/bin/test -d \"/home/${usuario_vm}/VirtualBox VMs/kali-linux-2026.1-virtualbox-amd64\" && /usr/bin/test ! -d \"/home/${usuario_vm}/VirtualBox VMs/kali-linux-2026.1-virtualbox-amd64 1\"",    
     timeout     => 2400,
     logoutput   => true,
     require     => [ File['/var/tmp/kali.ova'], File['/usr/local/bin/limpiar_vbox.sh'] ],
@@ -65,7 +64,7 @@ exec { 'gestion_maquina_examen_vbox':
   exec { 'importar_vbox_examen':
     user        => 'root', # Ejecutamos como root para controlar el entorno con sudo
     # Usamos sudo -H e inyectamos USER y LOGNAME para que VirtualBox no se queje
-    command     => "/usr/bin/sudo -H -u ${usuario_vm} USER=${usuario_vm} LOGNAME=${usuario_vm} /usr/bin/VBoxManage import ${ruta_ova} --vsys 0 --vmname ${nombre_vm} --eula accept",
+    command     => "/usr/bin/sudo -H -u ${usuario_vm} USER=${usuario_vm} LOGNAME=${usuario_vm} /usr/bin/VBoxManage import ${ruta_ova} --vsys 0 --vmname \"${nombre_vm}\" --eula accept",
     # Condición de parada: Si la carpeta con la nueva versión existe, pasa de largo
     unless      => "/usr/bin/test -d \"/home/${usuario_vm}/VirtualBox VMs/${nombre_vm}\"",
     

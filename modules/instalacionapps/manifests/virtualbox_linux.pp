@@ -18,14 +18,25 @@ class instalacionapps::virtualbox_linux {
   }
 
   # Eliminar módulos del kernel KVM si están cargados
-  exec { 'eliminar_modulos_kvm':
-    command => '/sbin/rmmod kvm_intel kvm_amd kvm || true',
-    path    => ['/sbin','/bin','/usr/sbin','/usr/bin'],
-    onlyif  => 'lsmod | grep -E "kvm(_intel|_amd)?"',
-    require => Package[$kvm_paquetes],
-  }
+#  exec { 'eliminar_modulos_kvm':
+#    command => '/sbin/rmmod kvm_intel kvm_amd kvm || true',
+#    path    => ['/sbin','/bin','/usr/sbin','/usr/bin'],
+#    onlyif  => 'lsmod | grep -E "kvm(_intel|_amd)?"',
+#    require => Package[$kvm_paquetes],
+#  }
 
-
+# Eliminar módulos del kernel KVM si están cargados
+exec { 'eliminar_modulos_kvm':
+  command => @(END),
+    /bin/bash -c '
+      /sbin/lsmod | grep -q kvm_intel && /sbin/rmmod kvm_intel
+      /sbin/lsmod | grep -q kvm_amd   && /sbin/rmmod kvm_amd
+      /sbin/lsmod | grep -q kvm       && /sbin/rmmod kvm
+    '
+    | END
+  path   => ['/sbin', '/bin', '/usr/sbin', '/usr/bin'],
+  onlyif => '/sbin/lsmod | grep -qE "kvm(_intel|_amd)?"',
+}
 
 
 

@@ -5,41 +5,41 @@
 # @example
 #   include instalacionapps::vmware_linux
 class instalacionapps::vmware_linux {
- # 1. Paquetes necesarios para compilar
-package { ["build-essential", "linux-headers-${facts['kernelrelease']}", "dkms"]:
-  ensure => installed,
-}
+  
+  # 1. Paquetes necesarios para compilar
+  package { ["build-essential", "linux-headers-${facts['kernelrelease']}", "dkms"]:
+    ensure => installed,
+  }
 
+  # 2. Copiar instalador
+  exec { 'copiar_vmware':
+    command => "smbclient //10.0.0.33/Repositorio -N -c 'cd Instaladores; get VMware-Workstation-Full-17.6.3-24583834.x86_64.bundle /tmp/VMware.bundle'",
+    creates => '/tmp/VMware.bundle',
+    path    => ['/usr/bin', '/bin', '/usr/sbin'],
+  }
 
-exec { 'copiar_vmware':
-	command => "smbclient //10.0.0.21/Repositorio -N -c 'cd Instaladores; get VMware-Workstation-Full-17.6.3-24583834.x86_64.bundle /tmp/VMware.bundle'",
-	creates => '/tmp/VMware.bundle',
-	path =>	['/usr/bin', '/bin'],
-}
+  # 3. Instalar VMware
+  exec { 'instalar_vmware':
+    command => 'sh /tmp/VMware.bundle --eulas-agreed --console --required && rm -f /tmp/VMware.bundle',
+    creates => '/usr/bin/vmware',
+    path    => ['/bin', '/usr/bin'],
+    require => Exec['copiar_vmware'],
+  }
 
-
-exec { 'instalar_vmware':
-  command => 'sh /tmp/VMware.bundle --eulas-agreed --console --required && rm /tmp/VMware.bundle',
-  creates => '/usr/bin/vmware',
-  path    => ['/bin', '/usr/bin'],
-  require => Exec['copiar_vmware'],
-}
-
-# 3. Compilar los módulos
+  # 4. Compilar los módulos
   exec { 'compilar_modulos':
     command => '/usr/bin/vmware-modconfig --console --install-all',
-    refreshonly => true,
-  unless  => '/usr/bin/test -f /lib/modules/$(uname -r)/misc/vmmon.ko',
-
+    # ELIMINADO: refreshonly => true (si no, nunca se ejecuta por sí solo)
+    # MEJORA: Usar el fact de Puppet en lugar de $(uname -r) para evitar problemas de shell
+    unless  => "/usr/bin/test -f /lib/modules/${facts['kernelrelease']}/misc/vmmon.ko",
+    require => Exec['instalar_vmware'],
   }
 
-  # 4. Verificar que el módulo vmmon está cargado
-  exec { 'comprueba_vmmon':
-    command => '/usr/sbin/lsmod | grep -q vmmon',
-    unless  => '/usr/sbin/lsmod | grep -q vmmon',
+  # 5. Cargar el módulo vmmon (CORREGIDO)
+  exec { 'cargar_vmmon':
+    command => '/sbin/modprobe vmmon',
+    unless  => '/sbin/lsmod | grep -q vmmon',
     require => Exec['compilar_modulos'],
   }
-
-
 
 }

@@ -58,13 +58,35 @@ exec { 'borrarunion_ad':
     match => '^session\s+required\s+pam_mkhomedir\.so',
   }
 
- $ad_password_real = $ad_password.unwrap
-  exec { 'join-domain':
-    command => "/usr/bin/echo '${ad_password}' | /usr/sbin/realm join --user=${ad_user}@${realm} ${dominio} --verbose",
-    unless  => "/usr/sbin/realm list | grep -i '${dominio}'",
-    path    => ['/usr/bin', '/usr/sbin'],
-    require => Package['realmd'],
-  }
+# $ad_password_real = $ad_password.unwrap
+#  exec { 'join-domain':
+#    command => "/usr/bin/echo '${ad_password}' | /usr/sbin/realm join --user=${ad_user}@${realm} ${dominio} --verbose",
+#    unless  => "/usr/sbin/realm list | grep -i '${dominio}'",
+#    path    => ['/usr/bin', '/usr/sbin'],
+#    require => Package['realmd'],
+#  }
+
+
+$ad_password_real = $ad_password.unwrap
+
+# Unir al dominio solo si no está unido O si la unión está rota
+exec { 'join-domain':
+  command => "/usr/bin/echo '${ad_password_real}' | /usr/sbin/realm join --user=${ad_user}@${realm} ${dominio} --verbose",
+  onlyif  => "/bin/bash -c '! /usr/sbin/realm list | grep -qi \"${dominio}\" || ! /usr/bin/id testuser@${realm} >/dev/null 2>&1'",
+  path    => ['/usr/bin', '/usr/sbin', '/bin'],
+  require => Package['realmd'],
+}
+
+# Si el join falla (porque ya estaba unido pero roto), hacer leave primero
+exec { 'leave-domain-if-broken':
+  command => '/usr/sbin/realm leave',
+  onlyif  => "/bin/bash -c '/usr/sbin/realm list | grep -qi \"${dominio}\" && ! /usr/bin/id testuser@${realm} >/dev/null 2>&1'",
+  path    => ['/usr/bin', '/usr/sbin', '/bin'],
+  before  => Exec['join-domain'],
+  require => Package['realmd'],
+}
+
+
 
   exec { 'generate-keytab':
     command => "/usr/sbin/adcli keytab --domain=${dominio} --computer-name=$(hostname -s) --login-user=${ad_user}@${realm} --login-password=${ad_password} /etc/krb5.keytab",

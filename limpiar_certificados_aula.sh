@@ -7,7 +7,7 @@ if [ $# -ne 2 ]; then
     exit 1
 fi
 
-AULA=$1
+AULA=$(echo "$1" | tr '[:upper:]' '[:lower:]')
 MAX_EQUIPOS=$2
 DOMINIO="ciclos.valledeljerte3"
 
@@ -21,7 +21,7 @@ limpiar_certificado() {
     echo "Procesando: $cert"
     
     # 1. Revocar el certificado
-    puppetserver ca revoke --certname "$cert" 
+#    puppetserver ca revoke --certname "$cert" 
     
     # 2. Limpiar los archivos del certificado
     puppetserver ca clean --certname "$cert" 

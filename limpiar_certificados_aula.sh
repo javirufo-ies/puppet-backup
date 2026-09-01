@@ -21,10 +21,10 @@ limpiar_certificado() {
     echo "Procesando: $cert"
     
     # 1. Revocar el certificado
-    /opt/puppetlabs/bin/puppetserver ca revoke --certname "$cert" 2>/dev/null
+    puppetserver ca revoke --certname "$cert" 
     
     # 2. Limpiar los archivos del certificado
-    /opt/puppetlabs/bin/puppetserver ca clean --certname "$cert" 2>/dev/null
+    puppetserver ca clean --certname "$cert" 
 }
 
 # 1. BUCLE PARA LOS EQUIPOS NUMÉRICOS

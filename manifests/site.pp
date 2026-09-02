@@ -379,11 +379,11 @@ node /^vjyrv-\d+\.ciclos\.valledeljerte3/ {
 
 }
 
-#node default {
-#	notify {"Equipo por defecto":}
+node default {
+	notify {"Equipo por defecto":}
 #       if $::kernel == 'windows' {
 #                Package { provider => chocolatey, }
 #        }
 #	include equipos::comunes
 #	include equipos::aula114
-#}
+}

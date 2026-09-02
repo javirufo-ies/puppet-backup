@@ -15,16 +15,29 @@ class equipos::avanza {
 		}
 	} else {
 
+
+exec { 'delete-kali-2026':
+  command => '/usr/bin/VBoxManage unregistervm "Kali 2026" --delete',
+  onlyif  => '/usr/bin/VBoxManage list vms | grep -q "\"Kali 2026\""',
+}
+
+exec { 'delete-he-extra-2526':
+  command => '/usr/bin/VBoxManage unregistervm "HE Extra 2526" --delete',
+  onlyif  => '/usr/bin/VBoxManage list vms | grep -q "\"HE Extra 2526\""',
+}
+
+
+
 # Definimos rutas para mantener el código limpio
-		$ruta_ova     = '/var/tmp/kaliext2526.ova'
+		$ruta_ova     = '/var/tmp/kaliextra2526.ova'
 		$usuario_vm   = 'examen'
 		$grupo_vm     = 'usuarios del dominio'
-		$nombre_vm    = 'HE Extra 2526'
+		$nombre_vm    = 'HE - Extra - 2526'
 
 # 1. Copiar el archivo OVA desde el servidor Puppet al cliente
 		file { $ruta_ova:
 			ensure => present,
-			source => "puppet:///modules/equipos/kali.ova",
+			source => "puppet:///modules/equipos/kaliextra2526.ova",
 			owner  => $usuario_vm,
 			group  => $grupo_vm,
 			mode   => '0644',
@@ -55,7 +68,7 @@ exec { 'gestion_maquina_examen_vbox':
     # Se ejecuta a menos que exista la carpeta limpia Y NO exista ningún clon (" 1")
     timeout     => 2400,
     logoutput   => true,
-    require     => [ File['/var/tmp/kaliext2526.ova'], File['/usr/local/bin/limpiar_vbox.sh'] ],
+    require     => [ File['/var/tmp/kaliextra2526.ova'], File['/usr/local/bin/limpiar_vbox.sh'] ],
   }
 
 
@@ -101,6 +114,10 @@ exec { 'gestion_maquina_examen_vbox':
 			require => Exec['descargar_kvm_amd'],
 			before  => Exec['importar_vbox_examen'],
 		}
+
+
+
+
 
 
 

@@ -42,8 +42,8 @@ class equipos::avanza {
                 }
 
                 exec { 'delete-he-extra-2526':
-                        command => '/usr/bin/VBoxManage unregistervm "HE Extra 2526" --delete',
-                        onlyif  => '/usr/bin/VBoxManage list vms | grep -q "\"HE Extra 2526\""',
+                        command => '/usr/bin/sudo -H -u ${usuario_vm} USER=${usuario_vm} LOGNAME=${usuario_vm} /usr/bin/VBoxManage unregistervm "HE Extra 2526" --delete',
+                        onlyif  => '/usr/bin/sudo -H -u ${usuario_vm} USER=${usuario_vm} LOGNAME=${usuario_vm} /usr/bin/VBoxManage list vms | grep -q "\"HE Extra 2526\""',
                 }
 
 

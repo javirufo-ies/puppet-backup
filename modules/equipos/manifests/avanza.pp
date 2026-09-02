@@ -16,15 +16,15 @@ class equipos::avanza {
 	} else {
 
 
-exec { 'delete-kali-2026':
-  command => '/usr/bin/VBoxManage unregistervm "Kali 2026" --delete',
-  onlyif  => '/usr/bin/VBoxManage list vms | grep -q "\"Kali 2026\""',
-}
+		exec { 'delete-kali-2026':
+			command => '/usr/bin/sudo -H -u ${usuario_vm} USER=${usuario_vm} LOGNAME=${usuario_vm} /usr/bin/VBoxManage unregistervm "Kali 2026" --delete',
+			onlyif  => '/usr/bin/sudo -H -u ${usuario_vm} USER=${usuario_vm} LOGNAME=${usuario_vm} /usr/bin/VBoxManage list vms | grep -q "\"Kali 2026\""',
+		}
 
-exec { 'delete-he-extra-2526':
-  command => '/usr/bin/VBoxManage unregistervm "HE Extra 2526" --delete',
-  onlyif  => '/usr/bin/VBoxManage list vms | grep -q "\"HE Extra 2526\""',
-}
+		exec { 'delete-he-extra-2526':
+			command => '/usr/bin/VBoxManage unregistervm "HE Extra 2526" --delete',
+			onlyif  => '/usr/bin/VBoxManage list vms | grep -q "\"HE Extra 2526\""',
+		}
 
 
 

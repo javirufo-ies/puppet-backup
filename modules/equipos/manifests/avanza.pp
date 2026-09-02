@@ -16,10 +16,10 @@ class equipos::avanza {
 	} else {
 
 # Definimos rutas para mantener el código limpio
-		$ruta_ova     = '/var/tmp/kali.ova'
+		$ruta_ova     = '/var/tmp/kaliext2526.ova'
 		$usuario_vm   = 'examen'
 		$grupo_vm     = 'usuarios del dominio'
-		$nombre_vm    = 'Kali 2026'
+		$nombre_vm    = 'HE Extra 2526'
 
 # 1. Copiar el archivo OVA desde el servidor Puppet al cliente
 		file { $ruta_ova:
@@ -55,7 +55,7 @@ exec { 'gestion_maquina_examen_vbox':
     # Se ejecuta a menos que exista la carpeta limpia Y NO exista ningún clon (" 1")
     timeout     => 2400,
     logoutput   => true,
-    require     => [ File['/var/tmp/kali.ova'], File['/usr/local/bin/limpiar_vbox.sh'] ],
+    require     => [ File['/var/tmp/kaliext2526.ova'], File['/usr/local/bin/limpiar_vbox.sh'] ],
   }
 
 

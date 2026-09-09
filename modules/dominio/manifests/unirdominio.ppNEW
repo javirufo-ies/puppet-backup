@@ -1,0 +1,158 @@
+class dominio::unirdominio (
+  String $dominio     = 'ciclos.valledeljerte3',
+  String $realm       = 'CICLOS.VALLEDELJERTE3',
+  String $ad_user     = lookup('dominio::usuario'),
+  String $ad_password = lookup('dominio::password'),
+) {
+
+  $ad_password_real = $ad_password.unwrap
+
+  package {
+    [
+      'realmd',
+      'sssd',
+      'sssd-tools',
+      'libnss-sss',
+      'libpam-sss',
+      'adcli',
+      'oddjob',
+      'oddjob-mkhomedir',
+      'krb5-user',
+      'samba-common-bin',
+      'packagekit',
+    ]:
+      ensure => installed,
+  }
+
+  service { 'oddjobd':
+    ensure => running,
+    enable => true,
+  }
+
+  file_line { 'pam_mkhomedir':
+    path  => '/etc/pam.d/common-session',
+    line  => 'session required pam_mkhomedir.so skel=/etc/skel/ umask=0022',
+    match => '^session\s+required\s+pam_mkhomedir\.so',
+  }
+
+  exec { 'leave-domain-if-broken':
+    command => '/usr/sbin/realm leave --remove --verbose || true',
+    onlyif  => '/bin/bash -c "realm list >/dev/null 2>&1 && ! adcli testjoin >/dev/null 2>&1"',
+    path    => ['/usr/bin','/usr/sbin','/bin'],
+    require => Package['realmd'],
+  }
+
+  exec { 'remove-old-keytab':
+    command => '/bin/rm -f /etc/krb5.keytab',
+    onlyif  => '/bin/bash -c "! adcli testjoin >/dev/null 2>&1"',
+    path    => ['/bin','/usr/bin'],
+    require => Exec['leave-domain-if-broken'],
+  }
+
+  exec { 'join-domain':
+    command => "/bin/bash -c \"echo '${ad_password_real}' | realm join --user=${ad_user}@${realm} ${dominio}\"",
+    unless  => '/usr/bin/adcli testjoin >/dev/null 2>&1',
+    path    => ['/usr/bin','/usr/sbin','/bin'],
+    require => [
+      Package['realmd'],
+      Exec['remove-old-keytab'],
+    ],
+  }
+
+  file { '/etc/sssd/sssd.conf':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+    content => @(SSSD)
+[sssd]
+services = nss, pam
+config_file_version = 2
+domains = ${dominio}
+
+[domain/${dominio}]
+id_provider = ad
+ad_domain = ${dominio}
+krb5_realm = ${realm}
+
+cache_credentials = True
+krb5_store_password_if_offline = True
+
+use_fully_qualified_names = False
+fallback_homedir = /home/%u
+default_shell = /bin/bash
+
+ldap_id_mapping = True
+
+# No procesar GPO de Windows
+access_provider = permit
+ad_gpo_access_control = disabled
+
+dyndns_update = True
+dyndns_refresh_interval = 43200
+dyndns_update_ptr = True
+| SSSD
+    require => Exec['join-domain'],
+  }
+
+  service { 'sssd':
+    ensure    => running,
+    enable    => true,
+    subscribe => File['/etc/sssd/sssd.conf'],
+  }
+
+  exec { 'clear-sssd-cache':
+    command     => '/usr/bin/sss_cache -E',
+    refreshonly => true,
+    subscribe   => File['/etc/sssd/sssd.conf'],
+    require     => Service['sssd'],
+  }
+
+  $fqdn = $facts['networking']['fqdn']
+  $ip   = $facts['networking']['ip']
+
+  file { '/etc/nsupdate.txt':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+    content => "update delete ${fqdn} A\nupdate add ${fqdn} 3600 A ${ip}\nsend\n",
+  }
+
+  exec { 'actualizar_dns':
+    command => "/usr/bin/kinit -k HOST/${fqdn}@${realm} && /usr/bin/nsupdate -g /etc/nsupdate.txt",
+    path    => ['/usr/bin','/usr/sbin'],
+    unless  => "/usr/bin/nslookup ${fqdn} 2>/dev/null | grep -q ${ip}",
+    require => [
+      File['/etc/nsupdate.txt'],
+      Exec['join-domain'],
+    ],
+  }
+
+  group { 'vboxusers':
+    ensure => present,
+  }
+
+  file { '/usr/local/bin/anade_vboxusers.sh':
+    ensure => file,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    source => 'puppet:///modules/dominio/anade_vboxusers.sh',
+  }
+
+  exec { 'anadir_pam_hook_common_session':
+    command => "echo 'session optional pam_exec.so /usr/local/bin/anade_vboxusers.sh' >> /etc/pam.d/common-session",
+    unless  => "grep -q 'anade_vboxusers.sh' /etc/pam.d/common-session",
+    path    => ['/bin','/usr/bin'],
+    require => File['/usr/local/bin/anade_vboxusers.sh'],
+  }
+
+  exec { 'anadir_pam_hook_lightdm':
+    command => "echo 'session optional pam_exec.so /usr/local/bin/anade_vboxusers.sh' >> /etc/pam.d/lightdm",
+    unless  => "grep -q 'anade_vboxusers.sh' /etc/pam.d/lightdm",
+    path    => ['/bin','/usr/bin'],
+    require => File['/usr/local/bin/anade_vboxusers.sh'],
+  }
+
+}

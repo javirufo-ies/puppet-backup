@@ -31,5 +31,9 @@ class equipos::asir2 {
 			ensure => latest,
 		}
 
-         }
+#Fin Windows
+         } 
+	else {
+		include instalacionapps::netbeans_linux
+	}
 }

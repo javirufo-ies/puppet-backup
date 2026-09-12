@@ -43,4 +43,9 @@ class equipos::smr2d {
 	include instalacionapps::deshabilitar_copilot
 #Fin Windows
          }
+	else {
+		include instalacionapps::pseint_linux
+		include instalacionapps::vscode_linux
+		include instalacionapps::deshabilitar_copilot_linux
+	}
 }

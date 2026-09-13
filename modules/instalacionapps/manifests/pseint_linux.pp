@@ -15,7 +15,7 @@ class instalacionapps::pseint_linux {
   }
 
   exec { 'descargar_pseint':
-    command => "/usr/bin/wget -O /tmp/pseint.tgz https://downloads.sourceforge.net/project/pseint/PSeInt/${version}/pseint-l64-${version}.tgz",
+    command => "wget -O /tmp/pseint.tgz https://sourceforge.net/projects/pseint/files/20250314/pseint-l64-20250314.tgz/download",
     creates => '/tmp/pseint.tgz',
     require => Package['wget'],
 	path    => ['/usr/bin', '/bin'],

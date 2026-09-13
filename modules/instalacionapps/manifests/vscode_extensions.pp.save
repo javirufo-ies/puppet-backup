@@ -1,0 +1,124 @@
+# @summary A short summary of the purpose of this class
+#
+# A description of what this class does
+#
+# @example
+#   include instalacionapps::vscode_extensions
+# @summary Gestiona las extensiones de VS Code: instala solo las permitidas,
+#   elimina las no autorizadas y bloquea la instalación manual.
+#
+# @param allowed_extensions
+#   Lista de extensiones permitidas (formato: editor.nombre).
+# @param vscode_user
+#   Usuario para el que se gestionan las extensiones.
+#
+class instalacionapps::vscode_extensions (
+  Array[String] $allowed_extensions,
+  String        $vscode_user = 'alumno',
+) {
+
+  $user_home      = "/home/${vscode_user}"
+  $extensions_dir = "${user_home}/.vscode/extensions"
+  $settings_dir   = "${user_home}/.config/Code/User"
+  $settings_file  = "${settings_dir}/settings.json"
+
+  # ---------------------------------------------------------------
+  # 1. Directorio de extensiones propiedad de root (bloquea escritura)
+  # ---------------------------------------------------------------
+  file { $extensions_dir:
+    ensure => directory,
+    owner  => 'root',
+    group  => $vscode_user,
+    mode   => '0755',
+  }
+
+  # ---------------------------------------------------------------
+  # 2. Instalar SOLO las extensiones permitidas
+  # ---------------------------------------------------------------
+  $allowed_extensions.each |String $ext| {
+    exec { "vscode_install_${ext}":
+      command     => "/usr/bin/code --install-extension ${ext} --force",
+      unless      => "/usr/bin/code --list-extensions | /bin/grep -qi '^${ext}$'",
+      environment => ["HOME=${user_home}"],
+      require     => File[$extensions_dir],
+    }
+  }
+
+  # ---------------------------------------------------------------
+  # 3. Eliminar extensiones NO autorizadas
+  # ---------------------------------------------------------------
+  file { '/usr/local/bin/vscode_cleanup_extensions.sh':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0700',
+    content => epp('instalacionapps/vscode_cleanup.sh.epp', {
+        extensions_dir      => $extensions_dir,
+        allowed_extensions  => $allowed_extensions,
+    }),
+  }
+
+  exec { 'vscode_remove_unauthorized':
+    command     => '/usr/local/bin/vscode_cleanup_extensions.sh',
+    environment => ["HOME=${user_home}"],
+    require     => [
+      File[$extensions_dir],
+      File['/usr/local/bin/vscode_cleanup_extensions.sh'],
+    ],
+  }
+
+  # ---------------------------------------------------------------
+  # 4. Settings: desactivar recomendaciones y auto-actualización
+  # ---------------------------------------------------------------
+  file { $settings_dir:
+    ensure => directory,
+    owner  => $vscode_user,
+    group  => $vscode_user,
+    mode   => '0755',
+  }
+
+  file { $settings_file:
+    ensure  => file,
+    owner   => $vscode_user,
+    group   => $vscode_user,
+    mode    => '0644',
+    content => epp('instalacionapps/vscode_settings.json.epp'),
+    require => File[$settings_dir],
+  }
+
+  # ---------------------------------------------------------------
+  # 5. Wrapper del binario: bloquear --install-extension al usuario
+  # ---------------------------------------------------------------
+  exec { 'vscode_backup_binary':
+    command => '/bin/cp /usr/bin/code /usr/bin/code-original',
+    creates => '/usr/bin/code-original',
+  }
+
+  file { '/usr/bin/code':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    content => @("WRAPPER"/L),
+      #!/bin/bash
+      for arg in "$@"; do
+        if [[ "$arg" == "--install-extension" || "$arg" == "--uninstall-extension" ]]; then
+          echo "ACCESO DENEGADO: La gestión de extensiones está controlada por el administrador."
+          exit 1
+        fi
+      done
+      exec /usr/bin/code-original "$@"
+      | WRAPPER
+    require => Exec['vscode_backup_binary'],
+  }
+
+  # ---------------------------------------------------------------
+  # 6. Cron: limpieza periódica de extensiones no autorizadas
+  # ---------------------------------------------------------------
+  cron { 'vscode_cleanup_extensions':
+    command => '/usr/local/bin/vscode_cleanup_extensions.sh',
+    user    => 'root',
+    minute  => '*/30',
+    require => File['/usr/local/bin/vscode_cleanup_extensions.sh'],
+  }
+}

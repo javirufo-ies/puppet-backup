@@ -44,6 +44,9 @@ class equipos::smr2d {
 #Fin Windows
          }
 	else {
+		package {'python3':
+			ensure => latest,
+		}
 		include instalacionapps::pseint_linux
 		include instalacionapps::vscode_linux
 		include instalacionapps::deshabilitar_copilot_linux

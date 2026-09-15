@@ -134,7 +134,7 @@ node /^aula114-pro\.ciclos\.valledeljerte3/ {
 		include instalacionapps::veyonmaster        
 
         }
-
+	include instalacionapps::veyonmaster
         include equipos::comunes
         include equipos::smr2d
 	include equipos::asir2

@@ -24,7 +24,7 @@ limpiar_certificado() {
 #    puppetserver ca revoke --certname "$cert" 
     
     # 2. Limpiar los archivos del certificado
-    puppetserver ca clean --certname "$cert" 
+    puppetserver ca clean --certname "$cert" &
 }
 
 # 1. BUCLE PARA LOS EQUIPOS NUMÉRICOS

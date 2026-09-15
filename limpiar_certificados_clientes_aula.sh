@@ -19,12 +19,7 @@ echo "--------------------------------------------------------"
 limpiar_certificado() {
     local cert=$1
     echo "Procesando: $cert"
-    
-    # 1. Revocar el certificado
-#    puppetserver ca revoke --certname "$cert" 
-    
-    # 2. Limpiar los archivos del certificado
-#    puppetserver ca clean --certname "$cert" 
+	puppetserver ca clean --certname "$cert"
 	sshpass -p 'primuxtech' ssh -o StrictHostKeyChecking=no root@$cert "rm -rf /var/lib/puppet/ssl/" 2> /dev/null
 	if [ $? -eq 0 ]; then
 		echo "Certificado eliminado en cliente $cert"
@@ -39,10 +34,6 @@ for ((i=1; i<=MAX_EQUIPOS; i++)); do
     # Formatear el número para que siempre tenga dos dígitos (ej: 1 -> 01, 10 -> 10)
     NUMERO=$(printf "%02d" $i)
     BASE_NAME="${AULA}-${NUMERO}"
-    
-    # Limpiar formato corto: aula115-01
-    limpiar_certificado "$BASE_NAME"
-    
     # Limpiar formato largo: aula115-01.ciclos.valledeljerte3
     limpiar_certificado "${BASE_NAME}.${DOMINIO}"
 done

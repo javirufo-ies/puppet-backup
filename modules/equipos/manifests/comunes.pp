@@ -136,6 +136,9 @@ else{
 
 
 	include instalacionapps::mantenimiento
+	package {'snapd':
+	    ensure => latest,
+	  }
 	package {'nfs-common':
 		ensure => latest,
 	}

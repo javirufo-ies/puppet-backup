@@ -7,7 +7,6 @@
 class instalacionapps::netbeans_linux {
 
 package { [
-    'snapd',
     'openjdk-21-jdk',
   ]:
     ensure => installed,

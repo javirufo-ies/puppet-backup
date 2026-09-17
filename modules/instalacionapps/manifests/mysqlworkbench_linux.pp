@@ -14,10 +14,6 @@ class instalacionapps::mysqlworkbench_linux {
   }
 
 
-package { 'snapd':
-  ensure => installed,
-}
-
 exec { 'instalar_mysql_workbench':
   command => '/usr/bin/snap install mysql-workbench-community',
   unless  => '/usr/bin/snap list mysql-workbench-community',

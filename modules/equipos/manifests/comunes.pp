@@ -154,7 +154,7 @@ else{
 		ensure => installed,
 	}
 	
-	include instalacionapps::actualizaciones_linux
+#	include instalacionapps::actualizaciones_linux
 	include dominio::fondo_linux
 	include dominio::nombre
 	include dominio::ssh

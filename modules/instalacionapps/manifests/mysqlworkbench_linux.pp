@@ -14,9 +14,14 @@ class instalacionapps::mysqlworkbench_linux {
 	#Quitar clave root
 mysql_user { 'root@localhost':
   ensure        => present,
-  plugin        => 'mysql_native_password',
-  password_hash => mysql_password('12345678'),
+  password_hash => mysql::password('12345678'),
 }
+
+mysql_user { 'root@127.0.0.1':
+  ensure        => present,
+  password_hash => mysql::password('12345678'),
+}
+
 
 }
 

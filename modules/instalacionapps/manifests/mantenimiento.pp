@@ -101,4 +101,31 @@ Unattended-Upgrade::Automatic-Reboot-Time "03:00";
     require => File['/etc/modprobe.d/disable-algif-aead.conf'],
   }
 
+
+#Mitigación dirtyfrag CVE-2026-42384/CVE-2026-43500
+	file { '/etc/modprobe.d/dirtyfrag.conf':
+		ensure  => file,
+		owner   => 'root',
+		group   => 'root',
+		mode    => '0644',
+content => @("EOF")
+install esp4 /bin/false
+install esp6 /bin/false
+install rxrpc /bin/false
+| EOF
+}
+
+	exec { 'unload_dirtyfrag_modules':
+		command     => '/bin/sh -c "rmmod esp4 esp6 rxrpc 2>/dev/null || true"',
+		path        => ['/usr/bin', '/usr/sbin', '/bin', '/sbin'],
+		refreshonly => true,
+		subscribe   => File['/etc/modprobe.d/dirtyfrag.conf'],
+	}
+
+	exec { 'drop_page_cache':
+		command     => '/bin/sh -c "echo 3 > /proc/sys/vm/drop_caches"',
+		path        => ['/usr/bin', '/usr/sbin', '/bin', '/sbin'],
+		refreshonly => true,
+		subscribe   => File['/etc/modprobe.d/dirtyfrag.conf'],
+	}
 }

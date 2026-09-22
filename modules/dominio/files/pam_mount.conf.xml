@@ -1,0 +1,7 @@
+<volume
+    fstype="cifs"
+    server="nas.ciclos.valledeljerte3"
+    path="Repositorio"
+    mountpoint="~/Repositorio"
+    options="sec=krb5,cruid=%(USERUID),vers=3.0"
+/>

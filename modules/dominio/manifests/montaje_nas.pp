@@ -40,49 +40,75 @@ if $::kernel == 'windows' {
 
 }
 else {
-  # Paquete necesario para montar recursos SMB/CIFS
-	package { 'cifs-utils':
-		ensure => latest,
-	}
 
 	package {'pam-mount':
 		ensure => latest,
 	}
+	package {'cifs-utils':
+		ensure => latest,
+	}
+	package {'keyutils':
+		ensure => latest,
+	}
 
-  # Carpeta destino donde se montará el recurso
-  file { '/mnt/isos':
-    ensure => directory,
-    owner  => 'root',
-    group  => 'root',
-#    mode   => '0755',
-  }
+	file {'/etc/profile.d/enlace_nas.sh':
+		ensure => absent,
+	}
 
-  # Definición del montaje
-  mount { '/mnt/isos':
-    ensure  => mounted,  # asegura que está montado
-    atboot  => true,     # añade entrada a /etc/fstab
-    device  => '//10.0.0.33/Repositorio/ISOS',
-    fstype  => 'cifs',
-    options => 'username=invitado,password=Invit@do2025,ro,iocharset=utf8,file_mode=0444,dir_mode=0555',
-    require => [ Package['cifs-utils'], File['/mnt/isos'] ],
-  }
 
- # Copiar el script al cliente
-  file { '/etc/profile.d/enlace_nas.sh':
+
+  file { '/etc/security/pam_mount.conf.xml':
     ensure  => file,
     owner   => 'root',
     group   => 'root',
-    mode    => '0755',
-    source  => 'puppet:///modules/dominio/enlace_nas.sh',
-#    require => Mount['/mnt/isos'],
+    mode    => '0644',
+    content => @("EOF")
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE pam_mount SYSTEM "pam_mount.conf.xml.dtd">
+
+<pam_mount>
+
+  <debug enable="0" />
+
+  <mntoptions allow="nosuid,nodev,loop,encryption,fsck,nonempty,allow_root,allow_other" />
+  <mntoptions require="nosuid,nodev" />
+
+  <logout wait="0" hup="no" term="no" kill="no" />
+
+  <mkmountpoint enable="1" remove="true" />
+
+  <volume
+      user="*"
+      fstype="cifs"
+      server="10.0.0.33"
+      path="Repositorio"
+      mountpoint="/home/%(USER)/Repositorio"
+      options="sec=krb5,cruid=%(USERUID),vers=3.1.1,nosuid,nodev,iocharset=utf8"
+  />
+
+</pam_mount>
+      | EOF
+    require => Package['pam-mount'],
   }
 
-  # Añadir llamada al script en /etc/profile (opcional, si no quieres confiar en /etc/profile.d/)
-  file_line { 'crea_enlace_nas':
-    path  => '/etc/profile',
-    line  => 'source /etc/profile.d/enlace_nas.sh',
-    match => '^source /etc/profile.d/enlace_nas.sh$',
-    require => File['/etc/profile.d/enlace_nas.sh'],
+  file_line { 'pam_mount_common_auth':
+    path  => '/etc/pam.d/common-auth',
+    line  => 'auth optional pam_mount.so',
+    match => '^auth.*pam_mount\.so',
+    require => Package['pam-mount'],
   }
+
+  file_line { 'pam_mount_common_session':
+    path  => '/etc/pam.d/common-session',
+    line  => 'session optional pam_mount.so',
+    match => '^session.*pam_mount\.so',
+    require => Package['pam-mount'],
+  }
+
+
+
+
+#Fin else
 }
+#Fin clase
 }

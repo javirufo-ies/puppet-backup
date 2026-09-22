@@ -41,9 +41,13 @@ if $::kernel == 'windows' {
 }
 else {
   # Paquete necesario para montar recursos SMB/CIFS
-  package { 'cifs-utils':
-    ensure => installed,
-  }
+	package { 'cifs-utils':
+		ensure => latest,
+	}
+
+	package {'pam-mount':
+		ensure => latest,
+	}
 
   # Carpeta destino donde se montará el recurso
   file { '/mnt/isos':

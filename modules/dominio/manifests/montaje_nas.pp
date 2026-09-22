@@ -87,7 +87,7 @@ else {
   />
 
 </pam_mount>
-      | EOF
+EOF
     require => Package['pam-mount'],
   }
 

@@ -5,8 +5,8 @@
 # @example
 #   include equipos::smr1d
 class equipos::smr1d {
-	include instalacionapps::packettracer_linux
 
+	include instalacionapps::packettracer_linux
 	package {'hashcat':	
 		ensure => present,
 	}

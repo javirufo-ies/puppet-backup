@@ -26,10 +26,6 @@ class equipos::aula115 {
 	package {'openshot':
 		ensure => present,
 	}
-        exec {'PacketTracer8':
-                command => 'T:/PacketTracer80.bat',
-                provider => windows,
-        }
 	} else {
 #		include instalacionapps::packettracer_linux
 	}

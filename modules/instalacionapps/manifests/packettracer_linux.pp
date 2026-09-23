@@ -41,8 +41,10 @@ class instalacionapps::packettracer_linux {
     require => Exec['copiar_packet'],
   }
 
+
+
   exec { 'instalar_packet':
-    command => 'apt-get install -y /tmp/libegl1-mesa_23.0.4-0ubuntu1.22.04.1_amd64.deb /tmp/libgl1-mesa-glx_23.0.4-0ubuntu1.22.04.1_amd64.deb /tmp/packet.deb',
+    command => '/usr/bin/dpkg --remove --force-remove-reinstreq packettracer; /usr/bin/dpkg --remove --force-remove-reinstreq packettracer; apt-get install -y /tmp/libegl1-mesa_23.0.4-0ubuntu1.22.04.1_amd64.deb /tmp/libgl1-mesa-glx_23.0.4-0ubuntu1.22.04.1_amd64.deb /tmp/packet.deb',
     environment => [
       'DEBIAN_FRONTEND=noninteractive',
       'APT_LISTCHANGES_FRONTEND=none',

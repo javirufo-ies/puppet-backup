@@ -18,6 +18,7 @@ if $::kernel == 'windows' {
 
         Package { provider => chocolatey,}
 
+	include dominio::quita_ipv6_dns
 	include dominio::ssh
 	include dominio::unirdominio
 	include dominio::montaje_nas

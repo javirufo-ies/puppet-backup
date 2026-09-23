@@ -18,10 +18,8 @@ if $::kernel == 'windows' {
 
         Package { provider => chocolatey,}
 
-	include dominio::quita_ipv6_dns
 	include dominio::ssh
 	include dominio::unirdominio
-	include dominio::montaje_nas
         
 
 
@@ -134,8 +132,7 @@ else{
                 source => 'puppet:///modules/equipos/puppet.conf',
                 replace => true,
         }
-
-
+	include dominio::quita_ipv6_dns
 	include instalacionapps::mantenimiento
 	package {'snapd':
 	    ensure => latest,
@@ -164,10 +161,12 @@ else{
 	include dominio::ssh
 	include dominio::unirdominio
 #	include dominio::montaje_nas
+
 	include instalacionapps::virtualbox_linux
 	include instalacionapps::chrome_linux
 	include instalacionapps::vmware_linux
 	include instalacionapps::mysqlworkbench_linux
+
 	package {'filezilla':
 		ensure => installed,
 	}

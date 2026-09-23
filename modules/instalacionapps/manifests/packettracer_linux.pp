@@ -65,13 +65,13 @@ exec { 'remove_broken_packettracer':
 }
 
 exec { 'instalar_packet':
-  command => '/usr/bin/apt-get install -y /tmp/libegl1-mesa_23.0.4-0ubuntu1.22.04.1_amd64.deb && /usr/bin/apt-get install -y /tmp/Packet_Tracer822_amd64_signed.deb',
+  command => '/usr/bin/apt-get install -y /tmp/libegl1-mesa.deb && /usr/bin/apt-get install /tmp/libgl1-mesa-glx.deb && /usr/bin/apt-get install -y /tmp/Packet_Tracer822_amd64_signed.deb',
   environment => [
     'DEBIAN_FRONTEND=noninteractive',
     'APT_LISTCHANGES_FRONTEND=none',
   ],
   path    => ['/usr/bin', '/bin', '/usr/sbin'],
-  unless  => '/usr/bin/dpkg -s packettracer >/dev/null 2>&1',
+#  unless  => '/usr/bin/dpkg -s packettracer >/dev/null 2>&1',
   require => [
     Exec['packettracer_eula'],
     Exec['remove_broken_packettracer'],
